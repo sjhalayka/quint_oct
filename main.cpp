@@ -484,7 +484,7 @@ int main(void)
 
 
 
-	// Test 3) Test for subalgebra	
+	// Test for subalgebra	
 	//
 	//srand(time(0));
 
