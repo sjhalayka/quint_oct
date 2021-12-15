@@ -269,10 +269,63 @@ public:
 		vertex_data[6] = src_j1;
 		vertex_data[7] = src_k1;
 	}
+	
+	void normalize(void)
+	{
+		float mag = magnitude();
+
+		if (mag != 0)
+		{
+			for (size_t i = 0; i < vertex_length; i++)
+				vertex_data[i] = vertex_data[i] / mag;
+		}
+	}
+
 
 	size_t vertex_length = 8;
 	vector<float> vertex_data;
 };
+
+
+
+octonion pow_number_type(octonion& in, float exponent)
+{
+	const float beta = exponent;
+
+	float all_self_dot = 0;
+	float imag_self_dot = 0;
+	octonion out;
+
+	for (size_t i = 0; i < in.vertex_length; i++)
+		all_self_dot += (in.vertex_data[i] * in.vertex_data[i]);
+
+	for (size_t i = 1; i < in.vertex_length; i++)
+		imag_self_dot += (in.vertex_data[i] * in.vertex_data[i]);
+
+	if (all_self_dot == 0)
+	{
+		for (size_t i = 0; i < out.vertex_length; i++)
+			out.vertex_data[i] = 0;
+
+		return out;
+	}
+
+	const float all_len = sqrtf(all_self_dot);
+	const float imag_len = sqrtf(imag_self_dot);
+	const float self_dot_beta = powf(all_self_dot, beta / 2.0f);
+
+	out.vertex_data[0] = self_dot_beta * std::cos(beta * std::acos(in.vertex_data[0] / all_len));
+
+	if (imag_len != 0)
+	{
+		for (size_t i = 1; i < out.vertex_length; i++)
+			out.vertex_data[i] = in.vertex_data[i] * self_dot_beta * sin(beta * acos(in.vertex_data[0] / all_len)) / imag_len;
+	}
+
+	return out;
+}
+
+
 
 octonion traditional_mul(const octonion& qA, const octonion& qB)
 {
@@ -368,6 +421,17 @@ octonion mul(const octonion& in_a, const octonion& in_b)
 	return exp(ln(in_a) + ln(in_b));
 }
 
+float dot(const octonion& in_a, const octonion& in_b)
+{
+	float all_dot = 0;
+
+	for (size_t i = 0; i < in_a.vertex_length; i++)
+		all_dot += (in_a.vertex_data[i] * in_b.vertex_data[i]);
+
+	return all_dot;
+}
+
+
 int main(void)
 {
 	// Compare pow to mul
@@ -397,59 +461,117 @@ int main(void)
 
 	// Test for various attributes
 
-	//quintonion a;
+	quintonion a;
+	a.vertex_data[0] = 0.1f;
+	a.vertex_data[1] = 0.2f;
+	a.vertex_data[2] = 0.3f;
+	a.vertex_data[3] = 0.4f;
+	a.vertex_data[4] = 0.5f;
+
+	quintonion b;
+	b.vertex_data[0] = 1.0f;
+	b.vertex_data[1] = 0.9f;
+	b.vertex_data[2] = 0.8f;
+	b.vertex_data[3] = 0.7f;
+	b.vertex_data[4] = 0.6f;
+
+	quintonion c;
+	c.vertex_data[0] = 10.0f;
+	c.vertex_data[1] = 9.0f;
+	c.vertex_data[2] = 8.0f;
+	c.vertex_data[3] = 7.0f;
+	c.vertex_data[4] = 6.0f;
+
+	quintonion x = mul(a, b);
+	quintonion y = mul(b, a);
+
+	if (x != y)
+	{		
+		cout << "commutativity failure" << endl;
+
+		cout << x.vertex_data[0] << " " << x.vertex_data[1] << " " << x.vertex_data[2] << " " << x.vertex_data[3] << " " << x.vertex_data[4] << endl;
+		cout << y.vertex_data[0] << " " << y.vertex_data[1] << " " << y.vertex_data[2] << " " << y.vertex_data[3] << " " << y.vertex_data[4] << endl;
+	}
+
+	x = mul(mul(a, b), c);
+	y = mul(a, mul(b, c));
+
+	if (x != y)
+	{
+		cout << "associativity failure" << endl;
+
+		cout << x.vertex_data[0] << " " << x.vertex_data[1] << " " << x.vertex_data[2] << " " << x.vertex_data[3] << " " << x.vertex_data[4] << endl;
+		cout << y.vertex_data[0] << " " << y.vertex_data[1] << " " << y.vertex_data[2] << " " << y.vertex_data[3] << " " << y.vertex_data[4] << endl;
+	}
+
+	x = mul(a, b + c);
+	y = mul(a, b) + mul(a, c);
+
+	if (x != y)
+	{
+		cout << "distributive failure" << endl;
+
+		cout << x.vertex_data[0] << " " << x.vertex_data[1] << " " << x.vertex_data[2] << " " << x.vertex_data[3] << " " << x.vertex_data[4] << endl;
+		cout << y.vertex_data[0] << " " << y.vertex_data[1] << " " << y.vertex_data[2] << " " << y.vertex_data[3] << " " << y.vertex_data[4] << endl;
+	}
+
+	return 0;
+
+	
+
+
+
+
+
+	// Test octonion for various attributes
+
+	//octonion a;
 	//a.vertex_data[0] = 0.1f;
 	//a.vertex_data[1] = 0.2f;
 	//a.vertex_data[2] = 0.3f;
 	//a.vertex_data[3] = 0.4f;
 	//a.vertex_data[4] = 0.5f;
+	//a.vertex_data[5] = 0.6f;
+	//a.vertex_data[6] = 0.7f;
+	//a.vertex_data[7] = 0.8f;
 
-	//quintonion b;
+	//octonion b;
 	//b.vertex_data[0] = 1.0f;
 	//b.vertex_data[1] = 0.9f;
 	//b.vertex_data[2] = 0.8f;
 	//b.vertex_data[3] = 0.7f;
 	//b.vertex_data[4] = 0.6f;
+	//b.vertex_data[5] = 0.5f;
+	//b.vertex_data[6] = 0.4f;
+	//b.vertex_data[7] = 0.3f;
 
-	//quintonion c;
-	//b.vertex_data[0] = 10.0f;
-	//b.vertex_data[1] = 9.0f;
-	//b.vertex_data[2] = 8.0f;
-	//b.vertex_data[3] = 7.0f;
-	//b.vertex_data[4] = 6.0f;
+	//octonion c;
+	//c.vertex_data[0] = 10.0f;
+	//c.vertex_data[1] = 9.0f;
+	//c.vertex_data[2] = 8.0f;
+	//c.vertex_data[3] = 7.0f;
+	//c.vertex_data[4] = 6.0f;
+	//c.vertex_data[5] = 5.0f;
+	//c.vertex_data[6] = 4.0f;
+	//c.vertex_data[7] = 3.0f;
 
-	//quintonion x = mul(a, b);
-	//quintonion y = mul(b, a);
+	//octonion x = mul(a, b);
+	//octonion y = mul(b, a);
 
 	//if (x != y)
-	//{
 	//	cout << "commutativity failure" << endl;
-
-	//	cout << x.vertex_data[0] << " " << x.vertex_data[1] << " " << x.vertex_data[2] << " " << x.vertex_data[3] << " " << x.vertex_data[4] << endl;
-	//	cout << y.vertex_data[0] << " " << y.vertex_data[1] << " " << y.vertex_data[2] << " " << y.vertex_data[3] << " " << y.vertex_data[4] << endl;
-	//}
 
 	//x = mul(mul(a, b), c);
 	//y = mul(a, mul(b, c));
 
 	//if (x != y)
-	//{
 	//	cout << "associativity failure" << endl;
-
-	//	cout << x.vertex_data[0] << " " << x.vertex_data[1] << " " << x.vertex_data[2] << " " << x.vertex_data[3] << " " << x.vertex_data[4] << endl;
-	//	cout << y.vertex_data[0] << " " << y.vertex_data[1] << " " << y.vertex_data[2] << " " << y.vertex_data[3] << " " << y.vertex_data[4] << endl;
-	//}
 
 	//x = mul(a, b + c);
 	//y = mul(a, b) + mul(a, c);
 
 	//if (x != y)
-	//{
 	//	cout << "distributive failure" << endl;
-
-	//	cout << x.vertex_data[0] << " " << x.vertex_data[1] << " " << x.vertex_data[2] << " " << x.vertex_data[3] << " " << x.vertex_data[4] << endl;
-	//	cout << y.vertex_data[0] << " " << y.vertex_data[1] << " " << y.vertex_data[2] << " " << y.vertex_data[3] << " " << y.vertex_data[4] << endl;
-	//}
 
 	//return 0;
 
@@ -457,27 +579,26 @@ int main(void)
 
 
 
-
 	// Test octonion multiplication where A != B
-	octonion A(0.1f, 0.2f, 0.3f, 0.4f, 0.5f, 0.6f, 0.7f, 0.8f);
-	octonion B(10.0f, 9.0f, 8.0f, 7.0f, 6.0f, 0.5f, 0.4f, 0.3f);
+	//octonion A(0.1f, 0.2f, 0.3f, 0.4f, 0.5f, 0.6f, 0.7f, 0.8f);
+	//octonion B(10.0f, 9.0f, 8.0f, 7.0f, 6.0f, 0.5f, 0.4f, 0.3f);
 
-	octonion P = traditional_mul(A, B);
-	octonion P2 = mul(A, B);
+	//octonion P = traditional_mul(A, B);
+	//octonion P2 = mul(A, B);
 
-	for (size_t i = 0; i < P.vertex_length; i++)
-		cout << P.vertex_data[i] << " ";
+	//for (size_t i = 0; i < P.vertex_length; i++)
+	//	cout << P.vertex_data[i] << " ";
 
-	cout << endl;
+	//cout << endl;
 
-	for (size_t i = 0; i < P2.vertex_length; i++)
-		cout << P2.vertex_data[i] << " ";
+	//for (size_t i = 0; i < P2.vertex_length; i++)
+	//	cout << P2.vertex_data[i] << " ";
 
-	cout << endl;
+	//cout << endl;
 
-	cout << P.magnitude() << " " << P2.magnitude() << endl;
+	//cout << P.magnitude() << " " << P2.magnitude() << endl;
 
-	return 0;
+	//return 0;
 	
 
 
