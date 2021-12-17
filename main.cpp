@@ -115,8 +115,6 @@ vertex<T, N> traditional_mul(const vertex<T, N>& qA, const vertex<T, N>& qB)
 {
 	vertex<T, N> out;
 
-	cout << N << endl;
-
 	out.vertex_data[0] = qA.vertex_data[0] * qB.vertex_data[0] - qA.vertex_data[1] * qB.vertex_data[1] - qA.vertex_data[2] * qB.vertex_data[2] - qA.vertex_data[3] * qB.vertex_data[3] - qA.vertex_data[4] * qB.vertex_data[4] - qA.vertex_data[5] * qB.vertex_data[5] - qA.vertex_data[6] * qB.vertex_data[6] - qA.vertex_data[7] * qB.vertex_data[7];
 	out.vertex_data[1] = qA.vertex_data[0] * qB.vertex_data[1] + qA.vertex_data[1] * qB.vertex_data[0] + qA.vertex_data[2] * qB.vertex_data[3] - qA.vertex_data[3] * qB.vertex_data[2] + qA.vertex_data[4] * qB.vertex_data[5] - qA.vertex_data[5] * qB.vertex_data[4] - qA.vertex_data[6] * qB.vertex_data[7] + qA.vertex_data[7] * qB.vertex_data[6];
 	out.vertex_data[2] = qA.vertex_data[0] * qB.vertex_data[2] - qA.vertex_data[1] * qB.vertex_data[3] + qA.vertex_data[2] * qB.vertex_data[0] + qA.vertex_data[3] * qB.vertex_data[1] + qA.vertex_data[4] * qB.vertex_data[6] + qA.vertex_data[5] * qB.vertex_data[7] - qA.vertex_data[6] * qB.vertex_data[4] - qA.vertex_data[7] * qB.vertex_data[5];
@@ -212,7 +210,7 @@ vertex<T, N> mul(const vertex<T, N>& in_a, const vertex<T, N>& in_b)
 
 int main(void)
 {
-	// Compare pow to mul
+	// Compare quintonion pow to mul
 
 	//vertex<float, 5> a;
 
@@ -232,7 +230,8 @@ int main(void)
 	//return 0;
 
 
-	// Test for various attributes
+
+	// Test quintonions for various attributes
 
 	//vertex<float, 5> a;
 	//a.vertex_data[0] = 0.1f;
@@ -348,81 +347,90 @@ int main(void)
 
 	// Test octonion multiplication where A != B
 
-	vertex<float, 8> a;
+	//vertex<float, 8> a;
 
-	a.vertex_data[0] = 0.1f;
-	a.vertex_data[1] = 0.2f;
-	a.vertex_data[2] = 0.3f;
-	a.vertex_data[3] = 0.4f;
-	a.vertex_data[4] = 0.5f;
-	a.vertex_data[5] = 0.6f;
-	a.vertex_data[6] = 0.7f;
-	a.vertex_data[7] = 0.8f;
+	//a.vertex_data[0] = 0.1f;
+	//a.vertex_data[1] = 0.2f;
+	//a.vertex_data[2] = 0.3f;
+	//a.vertex_data[3] = 0.4f;
+	//a.vertex_data[4] = 0.5f;
+	//a.vertex_data[5] = 0.6f;
+	//a.vertex_data[6] = 0.7f;
+	//a.vertex_data[7] = 0.8f;
 
-	vertex<float, 8> b;
-	b.vertex_data[0] = 10.0f;
-	b.vertex_data[1] = 9.0f;
-	b.vertex_data[2] = 8.0f;
-	b.vertex_data[3] = 7.0f;
-	b.vertex_data[4] = 6.0f;
-	b.vertex_data[5] = 5.0f;
-	b.vertex_data[6] = 4.0f;
-	b.vertex_data[7] = 3.0f;
+	//vertex<float, 8> b;
+	//b.vertex_data[0] = 10.0f;
+	//b.vertex_data[1] = 9.0f;
+	//b.vertex_data[2] = 8.0f;
+	//b.vertex_data[3] = 7.0f;
+	//b.vertex_data[4] = 6.0f;
+	//b.vertex_data[5] = 5.0f;
+	//b.vertex_data[6] = 4.0f;
+	//b.vertex_data[7] = 3.0f;
 
-	vertex<float, 8> P = traditional_mul(a, b);
-	vertex<float, 8> P2 = mul(a, b);
+	//vertex<float, 8> P = traditional_mul(a, b);
+	//vertex<float, 8> P2 = mul(a, b);
 
-	for (size_t i = 0; i < 8; i++)
-		cout << P.vertex_data[i] << " ";
+	//for (size_t i = 0; i < 8; i++)
+	//	cout << P.vertex_data[i] << " ";
 
-	cout << endl;
+	//cout << endl;
 
-	for (size_t i = 0; i < 8; i++)
-		cout << P2.vertex_data[i] << " ";
+	//for (size_t i = 0; i < 8; i++)
+	//	cout << P2.vertex_data[i] << " ";
 
-	cout << endl;
+	//cout << endl;
 
-	cout << P.magnitude() << " " << P2.magnitude() << endl;
+	//cout << P.magnitude() << " " << P2.magnitude() << endl;
 
-	return 0;
+	//return 0;
 
 
 
 	// Test for subalgebra	
-	//
+
 	//srand(time(0));
 
 	//for (size_t num_tries = 0; num_tries < 10000; num_tries++)
 	//{
-	//	float a0 = (rand() % RAND_MAX);
+	//	float a0 = (rand() % RAND_MAX) / static_cast<float>(RAND_MAX - 1);
 
 	//	if (rand() % 2)
 	//		a0 = -a0;
 
-	//	float a1 = (rand() % RAND_MAX);
+	//	float a1 = (rand() % RAND_MAX) / static_cast<float>(RAND_MAX - 1);
 
 	//	if (rand() % 2)
 	//		a1 = -a1;
 
-	//	float a2 = (rand() % RAND_MAX);
+	//	float a2 = (rand() % RAND_MAX) / static_cast<float>(RAND_MAX - 1);
 
 	//	if (rand() % 2)
 	//		a2 = -a2;
 
-	//	float a3 = (rand() % RAND_MAX);
+	//	float a3 = (rand() % RAND_MAX) / static_cast<float>(RAND_MAX - 1);
 
 	//	if (rand() % 2)
 	//		a3 = -a3;
 
-	//	float a4 = (rand() % RAND_MAX);
+	//	float a4 = (rand() % RAND_MAX) / static_cast<float>(RAND_MAX - 1);
 
 	//	if (rand() % 2)
 	//		a4 = -a4;
 
-	//	octonion A(a0, a1, a2, a3, a4, 0, 0, 0);
-	//	octonion B = A;
+	//	vertex<float, 8> a;
+	//	a.vertex_data[0] = a0;
+	//	a.vertex_data[1] = a1;
+	//	a.vertex_data[2] = a2;
+	//	a.vertex_data[3] = a3;
+	//	a.vertex_data[4] = a4;
+	//	a.vertex_data[5] = 0;
+	//	a.vertex_data[6] = 0;
+	//	a.vertex_data[7] = 0;
 
-	//	octonion P = traditional_mul(A, B);
+	//	vertex<float, 8> b = a;
+
+	//	vertex<float, 8> P = traditional_mul(a, b);
 
 	//	if (P.vertex_data[5] || P.vertex_data[6] || P.vertex_data[7])
 	//	{
