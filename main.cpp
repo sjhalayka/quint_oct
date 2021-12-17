@@ -19,7 +19,7 @@ public:
 
 		for (size_t i = 0; i < N; i++)
 		{
-			T f = fabsf(vertex_data[i] - rhs.vertex_data[i]);
+			T f = fabs(vertex_data[i] - rhs.vertex_data[i]);
 
 			if (f > 0.0001)
 			{
@@ -43,7 +43,7 @@ public:
 		for (size_t i = 0; i < N; i++)
 			all_self_dot += (vertex_data[i] * vertex_data[i]);
 
-		return sqrtf(all_self_dot);
+		return sqrt(all_self_dot);
 	}
 
 	vertex operator+(const vertex& right) const
