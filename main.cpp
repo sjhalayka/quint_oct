@@ -11,6 +11,9 @@ public:
 	vertex(void)
 	{
 		vertex_data.resize(N);
+		
+		for (size_t i = 0; i < N; i++)
+			vertex_data[i] = 0;
 	}
 
 	bool operator==(const vertex& rhs)
