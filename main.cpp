@@ -8,6 +8,7 @@ template<class T, size_t N>
 class vertex
 {
 public:
+
 	vertex(void)
 	{
 		vertex_data.resize(N);
@@ -211,6 +212,7 @@ vertex<T, N> mul(const vertex<T, N>& in_a, const vertex<T, N>& in_b)
 
 int main(void)
 {
+
 	// Compare quintonion pow to mul
 
 	//vertex<float, 5> a;
@@ -294,60 +296,6 @@ int main(void)
 
 	// Test octonion for various attributes
 
-	//vertex<float, 8> a;
-	//a.vertex_data[0] = 0.1f;
-	//a.vertex_data[1] = 0.2f;
-	//a.vertex_data[2] = 0.3f;
-	//a.vertex_data[3] = 0.4f;
-	//a.vertex_data[4] = 0.5f;
-	//a.vertex_data[5] = 0.6f;
-	//a.vertex_data[6] = 0.7f;
-	//a.vertex_data[7] = 0.8f;
-
-	//vertex<float, 8> b;
-	//b.vertex_data[0] = 1.0f;
-	//b.vertex_data[1] = 0.9f;
-	//b.vertex_data[2] = 0.8f;
-	//b.vertex_data[3] = 0.7f;
-	//b.vertex_data[4] = 0.6f;
-	//b.vertex_data[5] = 0.5f;
-	//b.vertex_data[6] = 0.4f;
-	//b.vertex_data[7] = 0.3f;
-
-	//vertex<float, 8> c;
-	//c.vertex_data[0] = 10.0f;
-	//c.vertex_data[1] = 9.0f;
-	//c.vertex_data[2] = 8.0f;
-	//c.vertex_data[3] = 7.0f;
-	//c.vertex_data[4] = 6.0f;
-	//c.vertex_data[5] = 5.0f;
-	//c.vertex_data[6] = 4.0f;
-	//c.vertex_data[7] = 3.0f;
-
-	//vertex<float, 8> x = mul(a, b);
-	//vertex<float, 8> y = mul(b, a);
-
-	//if (x != y)
-	//	cout << "commutativity failure" << endl;
-
-	//x = mul(mul(a, b), c);
-	//y = mul(a, mul(b, c));
-
-	//if (x != y)
-	//	cout << "associativity failure" << endl;
-
-	//x = mul(a, b + c);
-	//y = mul(a, b) + mul(a, c);
-
-	//if (x != y)
-	//	cout << "distributive failure" << endl;
-
-	//return 0;
-
-
-
-	// Test octonion multiplication where A != B
-
 	vertex<float, 8> a;
 	a.vertex_data[0] = 0.1f;
 	a.vertex_data[1] = 0.2f;
@@ -359,31 +307,85 @@ int main(void)
 	a.vertex_data[7] = 0.8f;
 
 	vertex<float, 8> b;
-	b.vertex_data[0] = 10.0f;
-	b.vertex_data[1] = 9.0f;
-	b.vertex_data[2] = 8.0f;
-	b.vertex_data[3] = 7.0f;
-	b.vertex_data[4] = 6.0f;
-	b.vertex_data[5] = 5.0f;
-	b.vertex_data[6] = 4.0f;
-	b.vertex_data[7] = 3.0f;
+	b.vertex_data[0] = 1.0f;
+	b.vertex_data[1] = 0.9f;
+	b.vertex_data[2] = 0.8f;
+	b.vertex_data[3] = 0.7f;
+	b.vertex_data[4] = 0.6f;
+	b.vertex_data[5] = 0.5f;
+	b.vertex_data[6] = 0.4f;
+	b.vertex_data[7] = 0.3f;
 
-	vertex<float, 8> P = traditional_mul(a, b);
-	vertex<float, 8> P2 = mul(a, b);
+	vertex<float, 8> c;
+	c.vertex_data[0] = 10.0f;
+	c.vertex_data[1] = 9.0f;
+	c.vertex_data[2] = 8.0f;
+	c.vertex_data[3] = 7.0f;
+	c.vertex_data[4] = 6.0f;
+	c.vertex_data[5] = 5.0f;
+	c.vertex_data[6] = 4.0f;
+	c.vertex_data[7] = 3.0f;
 
-	for (size_t i = 0; i < 8; i++)
-		cout << P.vertex_data[i] << " ";
+	vertex<float, 8> x = mul(a, b);
+	vertex<float, 8> y = mul(b, a);
 
-	cout << endl;
+	if (x != y)
+		cout << "commutativity failure" << endl;
 
-	for (size_t i = 0; i < 8; i++)
-		cout << P2.vertex_data[i] << " ";
+	x = mul(mul(a, b), c);
+	y = mul(a, mul(b, c));
 
-	cout << endl;
+	if (x != y)
+		cout << "associativity failure" << endl;
 
-	cout << P.magnitude() << " " << P2.magnitude() << endl;
+	x = mul(a, b + c);
+	y = mul(a, b) + mul(a, c);
+
+	if (x != y)
+		cout << "distributive failure" << endl;
 
 	return 0;
+
+
+
+	// Test octonion multiplication where A != B
+
+	//vertex<float, 8> a;
+	//a.vertex_data[0] = 0.1f;
+	//a.vertex_data[1] = 0.2f;
+	//a.vertex_data[2] = 0.3f;
+	//a.vertex_data[3] = 0.4f;
+	//a.vertex_data[4] = 0.5f;
+	//a.vertex_data[5] = 0.6f;
+	//a.vertex_data[6] = 0.7f;
+	//a.vertex_data[7] = 0.8f;
+
+	//vertex<float, 8> b;
+	//b.vertex_data[0] = 10.0f;
+	//b.vertex_data[1] = 9.0f;
+	//b.vertex_data[2] = 8.0f;
+	//b.vertex_data[3] = 7.0f;
+	//b.vertex_data[4] = 6.0f;
+	//b.vertex_data[5] = 5.0f;
+	//b.vertex_data[6] = 4.0f;
+	//b.vertex_data[7] = 3.0f;
+
+	//vertex<float, 8> P = traditional_mul(a, b);
+	//vertex<float, 8> P2 = mul(a, b);
+
+	//for (size_t i = 0; i < 8; i++)
+	//	cout << P.vertex_data[i] << " ";
+
+	//cout << endl;
+
+	//for (size_t i = 0; i < 8; i++)
+	//	cout << P2.vertex_data[i] << " ";
+
+	//cout << endl;
+
+	//cout << P.magnitude() << " " << P2.magnitude() << endl;
+
+	//return 0;
 
 
 
