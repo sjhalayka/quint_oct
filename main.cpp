@@ -72,10 +72,8 @@ public:
 
 
 template<class T, size_t N>
-vertex<T, N> pow(const vertex<T, N>& in, T exponent)
+vertex<T, N> pow(const vertex<T, N>& in, T beta)
 {
-	const T beta = exponent;
-
 	T all_self_dot = 0;
 	T imag_self_dot = 0;
 	vertex<T, N> out;
@@ -111,18 +109,18 @@ vertex<T, N> pow(const vertex<T, N>& in, T exponent)
 
 
 template<class T, size_t N = 8>
-vertex<T, N> traditional_mul(const vertex<T, N>& qA, const vertex<T, N>& qB)
+vertex<T, 8> traditional_mul(const vertex<T, 8>& in_a, const vertex<T, 8>& in_b)
 {
-	vertex<T, N> out;
+	vertex<T, 8> out;
 
-	out.vertex_data[0] = qA.vertex_data[0] * qB.vertex_data[0] - qA.vertex_data[1] * qB.vertex_data[1] - qA.vertex_data[2] * qB.vertex_data[2] - qA.vertex_data[3] * qB.vertex_data[3] - qA.vertex_data[4] * qB.vertex_data[4] - qA.vertex_data[5] * qB.vertex_data[5] - qA.vertex_data[6] * qB.vertex_data[6] - qA.vertex_data[7] * qB.vertex_data[7];
-	out.vertex_data[1] = qA.vertex_data[0] * qB.vertex_data[1] + qA.vertex_data[1] * qB.vertex_data[0] + qA.vertex_data[2] * qB.vertex_data[3] - qA.vertex_data[3] * qB.vertex_data[2] + qA.vertex_data[4] * qB.vertex_data[5] - qA.vertex_data[5] * qB.vertex_data[4] - qA.vertex_data[6] * qB.vertex_data[7] + qA.vertex_data[7] * qB.vertex_data[6];
-	out.vertex_data[2] = qA.vertex_data[0] * qB.vertex_data[2] - qA.vertex_data[1] * qB.vertex_data[3] + qA.vertex_data[2] * qB.vertex_data[0] + qA.vertex_data[3] * qB.vertex_data[1] + qA.vertex_data[4] * qB.vertex_data[6] + qA.vertex_data[5] * qB.vertex_data[7] - qA.vertex_data[6] * qB.vertex_data[4] - qA.vertex_data[7] * qB.vertex_data[5];
-	out.vertex_data[3] = qA.vertex_data[0] * qB.vertex_data[3] + qA.vertex_data[1] * qB.vertex_data[2] - qA.vertex_data[2] * qB.vertex_data[1] + qA.vertex_data[3] * qB.vertex_data[0] + qA.vertex_data[4] * qB.vertex_data[7] - qA.vertex_data[5] * qB.vertex_data[6] + qA.vertex_data[6] * qB.vertex_data[5] - qA.vertex_data[7] * qB.vertex_data[4];
-	out.vertex_data[4] = qA.vertex_data[0] * qB.vertex_data[4] - qA.vertex_data[1] * qB.vertex_data[5] - qA.vertex_data[2] * qB.vertex_data[6] - qA.vertex_data[3] * qB.vertex_data[7] + qA.vertex_data[4] * qB.vertex_data[0] + qA.vertex_data[5] * qB.vertex_data[1] + qA.vertex_data[6] * qB.vertex_data[2] + qA.vertex_data[7] * qB.vertex_data[3];
-	out.vertex_data[5] = qA.vertex_data[0] * qB.vertex_data[5] + qA.vertex_data[1] * qB.vertex_data[4] - qA.vertex_data[2] * qB.vertex_data[7] + qA.vertex_data[3] * qB.vertex_data[6] - qA.vertex_data[4] * qB.vertex_data[1] + qA.vertex_data[5] * qB.vertex_data[0] - qA.vertex_data[6] * qB.vertex_data[3] + qA.vertex_data[7] * qB.vertex_data[2];
-	out.vertex_data[6] = qA.vertex_data[0] * qB.vertex_data[6] + qA.vertex_data[1] * qB.vertex_data[7] + qA.vertex_data[2] * qB.vertex_data[4] - qA.vertex_data[3] * qB.vertex_data[5] - qA.vertex_data[4] * qB.vertex_data[2] + qA.vertex_data[5] * qB.vertex_data[3] + qA.vertex_data[6] * qB.vertex_data[0] - qA.vertex_data[7] * qB.vertex_data[1];
-	out.vertex_data[7] = qA.vertex_data[0] * qB.vertex_data[7] - qA.vertex_data[1] * qB.vertex_data[6] + qA.vertex_data[2] * qB.vertex_data[5] + qA.vertex_data[3] * qB.vertex_data[4] - qA.vertex_data[4] * qB.vertex_data[3] - qA.vertex_data[5] * qB.vertex_data[2] + qA.vertex_data[6] * qB.vertex_data[1] + qA.vertex_data[7] * qB.vertex_data[0];
+	out.vertex_data[0] = in_a.vertex_data[0] * in_b.vertex_data[0] - in_a.vertex_data[1] * in_b.vertex_data[1] - in_a.vertex_data[2] * in_b.vertex_data[2] - in_a.vertex_data[3] * in_b.vertex_data[3] - in_a.vertex_data[4] * in_b.vertex_data[4] - in_a.vertex_data[5] * in_b.vertex_data[5] - in_a.vertex_data[6] * in_b.vertex_data[6] - in_a.vertex_data[7] * in_b.vertex_data[7];
+	out.vertex_data[1] = in_a.vertex_data[0] * in_b.vertex_data[1] + in_a.vertex_data[1] * in_b.vertex_data[0] + in_a.vertex_data[2] * in_b.vertex_data[3] - in_a.vertex_data[3] * in_b.vertex_data[2] + in_a.vertex_data[4] * in_b.vertex_data[5] - in_a.vertex_data[5] * in_b.vertex_data[4] - in_a.vertex_data[6] * in_b.vertex_data[7] + in_a.vertex_data[7] * in_b.vertex_data[6];
+	out.vertex_data[2] = in_a.vertex_data[0] * in_b.vertex_data[2] - in_a.vertex_data[1] * in_b.vertex_data[3] + in_a.vertex_data[2] * in_b.vertex_data[0] + in_a.vertex_data[3] * in_b.vertex_data[1] + in_a.vertex_data[4] * in_b.vertex_data[6] + in_a.vertex_data[5] * in_b.vertex_data[7] - in_a.vertex_data[6] * in_b.vertex_data[4] - in_a.vertex_data[7] * in_b.vertex_data[5];
+	out.vertex_data[3] = in_a.vertex_data[0] * in_b.vertex_data[3] + in_a.vertex_data[1] * in_b.vertex_data[2] - in_a.vertex_data[2] * in_b.vertex_data[1] + in_a.vertex_data[3] * in_b.vertex_data[0] + in_a.vertex_data[4] * in_b.vertex_data[7] - in_a.vertex_data[5] * in_b.vertex_data[6] + in_a.vertex_data[6] * in_b.vertex_data[5] - in_a.vertex_data[7] * in_b.vertex_data[4];
+	out.vertex_data[4] = in_a.vertex_data[0] * in_b.vertex_data[4] - in_a.vertex_data[1] * in_b.vertex_data[5] - in_a.vertex_data[2] * in_b.vertex_data[6] - in_a.vertex_data[3] * in_b.vertex_data[7] + in_a.vertex_data[4] * in_b.vertex_data[0] + in_a.vertex_data[5] * in_b.vertex_data[1] + in_a.vertex_data[6] * in_b.vertex_data[2] + in_a.vertex_data[7] * in_b.vertex_data[3];
+	out.vertex_data[5] = in_a.vertex_data[0] * in_b.vertex_data[5] + in_a.vertex_data[1] * in_b.vertex_data[4] - in_a.vertex_data[2] * in_b.vertex_data[7] + in_a.vertex_data[3] * in_b.vertex_data[6] - in_a.vertex_data[4] * in_b.vertex_data[1] + in_a.vertex_data[5] * in_b.vertex_data[0] - in_a.vertex_data[6] * in_b.vertex_data[3] + in_a.vertex_data[7] * in_b.vertex_data[2];
+	out.vertex_data[6] = in_a.vertex_data[0] * in_b.vertex_data[6] + in_a.vertex_data[1] * in_b.vertex_data[7] + in_a.vertex_data[2] * in_b.vertex_data[4] - in_a.vertex_data[3] * in_b.vertex_data[5] - in_a.vertex_data[4] * in_b.vertex_data[2] + in_a.vertex_data[5] * in_b.vertex_data[3] + in_a.vertex_data[6] * in_b.vertex_data[0] - in_a.vertex_data[7] * in_b.vertex_data[1];
+	out.vertex_data[7] = in_a.vertex_data[0] * in_b.vertex_data[7] - in_a.vertex_data[1] * in_b.vertex_data[6] + in_a.vertex_data[2] * in_b.vertex_data[5] + in_a.vertex_data[3] * in_b.vertex_data[4] - in_a.vertex_data[4] * in_b.vertex_data[3] - in_a.vertex_data[5] * in_b.vertex_data[2] + in_a.vertex_data[6] * in_b.vertex_data[1] + in_a.vertex_data[7] * in_b.vertex_data[0];
 
 	return out;
 }
@@ -205,7 +203,7 @@ template<class T, size_t N>
 vertex<T, N> mul(const vertex<T, N>& in_a, const vertex<T, N>& in_b)
 {
 	// A*B == exp(ln(A) + ln(B))
-	return exp<T, N>(ln<T, N>(in_a) + ln<T, N>(in_b));
+	return exp(ln(in_a) + ln(in_b));
 }
 
 int main(void)
@@ -347,43 +345,42 @@ int main(void)
 
 	// Test octonion multiplication where A != B
 
-	//vertex<float, 8> a;
+	vertex<float, 8> a;
+	a.vertex_data[0] = 0.1f;
+	a.vertex_data[1] = 0.2f;
+	a.vertex_data[2] = 0.3f;
+	a.vertex_data[3] = 0.4f;
+	a.vertex_data[4] = 0.5f;
+	a.vertex_data[5] = 0.6f;
+	a.vertex_data[6] = 0.7f;
+	a.vertex_data[7] = 0.8f;
 
-	//a.vertex_data[0] = 0.1f;
-	//a.vertex_data[1] = 0.2f;
-	//a.vertex_data[2] = 0.3f;
-	//a.vertex_data[3] = 0.4f;
-	//a.vertex_data[4] = 0.5f;
-	//a.vertex_data[5] = 0.6f;
-	//a.vertex_data[6] = 0.7f;
-	//a.vertex_data[7] = 0.8f;
+	vertex<float, 8> b;
+	b.vertex_data[0] = 10.0f;
+	b.vertex_data[1] = 9.0f;
+	b.vertex_data[2] = 8.0f;
+	b.vertex_data[3] = 7.0f;
+	b.vertex_data[4] = 6.0f;
+	b.vertex_data[5] = 5.0f;
+	b.vertex_data[6] = 4.0f;
+	b.vertex_data[7] = 3.0f;
 
-	//vertex<float, 8> b;
-	//b.vertex_data[0] = 10.0f;
-	//b.vertex_data[1] = 9.0f;
-	//b.vertex_data[2] = 8.0f;
-	//b.vertex_data[3] = 7.0f;
-	//b.vertex_data[4] = 6.0f;
-	//b.vertex_data[5] = 5.0f;
-	//b.vertex_data[6] = 4.0f;
-	//b.vertex_data[7] = 3.0f;
+	vertex<float, 8> P = traditional_mul(a, b);
+	vertex<float, 8> P2 = mul(a, b);
 
-	//vertex<float, 8> P = traditional_mul(a, b);
-	//vertex<float, 8> P2 = mul(a, b);
+	for (size_t i = 0; i < 8; i++)
+		cout << P.vertex_data[i] << " ";
 
-	//for (size_t i = 0; i < 8; i++)
-	//	cout << P.vertex_data[i] << " ";
+	cout << endl;
 
-	//cout << endl;
+	for (size_t i = 0; i < 8; i++)
+		cout << P2.vertex_data[i] << " ";
 
-	//for (size_t i = 0; i < 8; i++)
-	//	cout << P2.vertex_data[i] << " ";
+	cout << endl;
 
-	//cout << endl;
+	cout << P.magnitude() << " " << P2.magnitude() << endl;
 
-	//cout << P.magnitude() << " " << P2.magnitude() << endl;
-
-	//return 0;
+	return 0;
 
 
 
