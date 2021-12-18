@@ -10,7 +10,7 @@ class vertex
 public:
 	vertex(void)
 	{
-
+		vertex_data.resize(N);
 	}
 
 	bool operator==(const vertex& rhs)
@@ -67,7 +67,7 @@ public:
 		}
 	}
 
-	float vertex_data[N];
+	vector<float> vertex_data;
 };
 
 
