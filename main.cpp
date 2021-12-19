@@ -16,7 +16,7 @@ public:
 		vertex_data.resize(N, 0);
 	}
 
-	bool operator==(const vertex& rhs)
+	bool operator==(const vertex& rhs) const
 	{
 		bool all_equal = true;
 
@@ -34,7 +34,7 @@ public:
 		return all_equal;
 	}
 
-	bool operator!=(const vertex& rhs)
+	bool operator!=(const vertex& rhs) const
 	{
 		return !(*this == rhs);
 	}
@@ -49,7 +49,7 @@ public:
 		return out;
 	}
 
-	T magnitude(void)
+	T magnitude(void) const
 	{
 		T all_self_dot = 0;
 
