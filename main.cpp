@@ -152,7 +152,7 @@ vertex<T, N> exp(const vertex<T, N>& in)
 }
 
 template<class T, size_t N>
-vertex<T, N> ln(const vertex<T, N>& in)
+vertex<T, N> log(const vertex<T, N>& in)
 {
 	T all_self_dot = 0;
 	T imag_self_dot = 0;
@@ -192,7 +192,7 @@ vertex<T, N> ln(const vertex<T, N>& in)
 template<class T, size_t N>
 vertex<T, N> mul(const vertex<T, N>& in_a, const vertex<T, N>& in_b)
 {
-	return exp(ln(in_a) + ln(in_b));
+	return exp(log(in_a) + log(in_b));
 }
 
 int main(void)
