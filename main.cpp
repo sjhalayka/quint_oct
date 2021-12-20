@@ -9,7 +9,7 @@ template<class T, size_t N>
 class vertex
 {
 public:
-	vector<float> vertex_data;
+	vector<T> vertex_data;
 
 	vertex(void)
 	{
