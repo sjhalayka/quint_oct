@@ -68,11 +68,10 @@ vertex<T, N> pow(const vertex<T, N>& in, T beta)
 	T imag_self_dot = 0;
 	vertex<T, N> out;
 
-	for (size_t i = 0; i < N; i++)
-		all_self_dot += (in.vertex_data[i] * in.vertex_data[i]);
-
 	for (size_t i = 1; i < N; i++)
 		imag_self_dot += (in.vertex_data[i] * in.vertex_data[i]);
+
+	all_self_dot = imag_self_dot + (in.vertex_data[0] * in.vertex_data[0]);
 
 	if (all_self_dot == 0)
 	{
@@ -127,11 +126,10 @@ vertex<T, N> exp(const vertex<T, N>& in)
 	T imag_self_dot = 0;
 	vertex<T, N> out;
 
-	for (size_t i = 0; i < N; i++)
-		all_self_dot += (in.vertex_data[i] * in.vertex_data[i]);
-
 	for (size_t i = 1; i < N; i++)
 		imag_self_dot += (in.vertex_data[i] * in.vertex_data[i]);
+
+	all_self_dot = imag_self_dot + (in.vertex_data[0] * in.vertex_data[0]);
 
 	if (all_self_dot == 0)
 	{
@@ -166,11 +164,10 @@ vertex<T, N> log(const vertex<T, N>& in)
 	T imag_self_dot = 0;
 	vertex<T, N> out;
 
-	for (size_t i = 0; i < N; i++)
-		all_self_dot += (in.vertex_data[i] * in.vertex_data[i]);
-
 	for (size_t i = 1; i < N; i++)
 		imag_self_dot += (in.vertex_data[i] * in.vertex_data[i]);
+
+	all_self_dot = imag_self_dot + (in.vertex_data[0] * in.vertex_data[0]);
 
 	if (all_self_dot == 0)
 	{
