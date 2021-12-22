@@ -180,7 +180,7 @@ vertex<T, N> log(const vertex<T, N>& in)
 	const T l_d = sqrt(all_self_dot);
 	const T l_e = sqrt(imag_self_dot);
 
-	if (in.vertex_data[0] != 0)
+	if (l_d != 0)
 	{
 		out.vertex_data[0] = log(l_d);
 	}
