@@ -1,28 +1,25 @@
 #include <cmath>
 #include <vector>
-#include <iostream>	
+#include <iostream>
+
 using namespace std;
 
-
-
-template<class T, size_t N>
-class vertex
+class quintonion
 {
 public:
-	vector<T> vertex_data;
 
-	vertex(void)
+	quintonion(void)
 	{
-		vertex_data.resize(N, 0);
+		vertex_data.resize(vertex_length, 0);
 	}
 
-	bool operator==(const vertex& rhs) const
+	bool operator==(const quintonion& rhs)
 	{
 		bool all_equal = true;
 
-		for (size_t i = 0; i < N; i++)
+		for (size_t i = 0; i < vertex_length; i++)
 		{
-			T f = fabs(vertex_data[i] - rhs.vertex_data[i]);
+			float f = fabsf(vertex_data[i] - rhs.vertex_data[i]);
 
 			if (f > 0.0001)
 			{
@@ -34,63 +31,88 @@ public:
 		return all_equal;
 	}
 
-	bool operator!=(const vertex& rhs) const
+	bool operator!=(const quintonion& rhs)
 	{
 		return !(*this == rhs);
 	}
 
-	vertex operator+(const vertex& rhs) const
+	float magnitude(void)
 	{
-		vertex out;
+		float all_self_dot = 0;
 
-		for (size_t i = 0; i < N; i++)
-			out.vertex_data[i] = vertex_data[i] + rhs.vertex_data[i];
+		for (size_t i = 0; i < vertex_length; i++)
+			all_self_dot += (vertex_data[i] * vertex_data[i]);
+
+		return sqrtf(all_self_dot);
+	}
+
+	quintonion operator+(const quintonion& right) const
+	{
+		quintonion out;
+
+		for (size_t i = 0; i < right.vertex_length; i++)
+			out.vertex_data[i] = vertex_data[i] + right.vertex_data[i];
 
 		return out;
 	}
 
-	T magnitude(void) const
+	quintonion operator/(const float& right) const
 	{
-		T all_self_dot = 0;
+		quintonion out;
 
-		for (size_t i = 0; i < N; i++)
-			all_self_dot += (vertex_data[i] * vertex_data[i]);
+		for (size_t i = 0; i < vertex_length; i++)
+			out.vertex_data[i] = vertex_data[i] / right;
 
-		return sqrt(all_self_dot);
+		return out;
 	}
+
+	size_t vertex_length = 5;
+	vector<float> vertex_data;
 };
 
-
-template<class T, size_t N>
-vertex<T, N> pow(const vertex<T, N>& in, T beta)
+quintonion conj_number_type(quintonion& in)
 {
-	T all_self_dot = 0;
-	T imag_self_dot = 0;
-	vertex<T, N> out;
+	quintonion out;
 
-	for (size_t i = 0; i < N; i++)
+	out.vertex_data[0] = in.vertex_data[0];
+
+	for (size_t i = 1; i < in.vertex_length; i++)
+		out.vertex_data[i] = -in.vertex_data[i];
+
+	return out;
+}
+
+quintonion pow_number_type(quintonion& in, float exponent)
+{
+	const float beta = exponent;
+
+	float all_self_dot = 0;
+	float imag_self_dot = 0;
+	quintonion out;
+
+	for (size_t i = 0; i < in.vertex_length; i++)
 		all_self_dot += (in.vertex_data[i] * in.vertex_data[i]);
 
-	for (size_t i = 1; i < N; i++)
+	for (size_t i = 1; i < in.vertex_length; i++)
 		imag_self_dot += (in.vertex_data[i] * in.vertex_data[i]);
 
 	if (all_self_dot == 0)
 	{
-		for (size_t i = 0; i < N; i++)
+		for (size_t i = 0; i < out.vertex_length; i++)
 			out.vertex_data[i] = 0;
 
 		return out;
 	}
 
-	const T all_len = sqrt(all_self_dot);
-	const T imag_len = sqrt(imag_self_dot);
-	const T self_dot_beta = pow(all_self_dot, beta / 2.0f);
+	const float all_len = sqrtf(all_self_dot);
+	const float imag_len = sqrtf(imag_self_dot);
+	const float self_dot_beta = powf(all_self_dot, beta / 2.0f);
 
-	out.vertex_data[0] = self_dot_beta * cos(beta * acos(in.vertex_data[0] / all_len));
+	out.vertex_data[0] = self_dot_beta * std::cos(beta * std::acos(in.vertex_data[0] / all_len));
 
 	if (imag_len != 0)
 	{
-		for (size_t i = 1; i < N; i++)
+		for (size_t i = 1; i < out.vertex_length; i++)
 			out.vertex_data[i] = in.vertex_data[i] * self_dot_beta * sin(beta * acos(in.vertex_data[0] / all_len)) / imag_len;
 	}
 
@@ -98,82 +120,62 @@ vertex<T, N> pow(const vertex<T, N>& in, T beta)
 }
 
 
-template<class T, size_t N = 8>
-vertex<T, 8> traditional_mul(const vertex<T, 8>& in_a, const vertex<T, 8>& in_b)
+quintonion exp(const quintonion& in)
 {
-	vertex<T, 8> out;
+	float all_self_dot = 0;
+	float imag_self_dot = 0;
+	quintonion out;
 
-	out.vertex_data[0] = in_a.vertex_data[0] * in_b.vertex_data[0] - in_a.vertex_data[1] * in_b.vertex_data[1] - in_a.vertex_data[2] * in_b.vertex_data[2] - in_a.vertex_data[3] * in_b.vertex_data[3] - in_a.vertex_data[4] * in_b.vertex_data[4] - in_a.vertex_data[5] * in_b.vertex_data[5] - in_a.vertex_data[6] * in_b.vertex_data[6] - in_a.vertex_data[7] * in_b.vertex_data[7];
-	out.vertex_data[1] = in_a.vertex_data[0] * in_b.vertex_data[1] + in_a.vertex_data[1] * in_b.vertex_data[0] + in_a.vertex_data[2] * in_b.vertex_data[3] - in_a.vertex_data[3] * in_b.vertex_data[2] + in_a.vertex_data[4] * in_b.vertex_data[5] - in_a.vertex_data[5] * in_b.vertex_data[4] - in_a.vertex_data[6] * in_b.vertex_data[7] + in_a.vertex_data[7] * in_b.vertex_data[6];
-	out.vertex_data[2] = in_a.vertex_data[0] * in_b.vertex_data[2] - in_a.vertex_data[1] * in_b.vertex_data[3] + in_a.vertex_data[2] * in_b.vertex_data[0] + in_a.vertex_data[3] * in_b.vertex_data[1] + in_a.vertex_data[4] * in_b.vertex_data[6] + in_a.vertex_data[5] * in_b.vertex_data[7] - in_a.vertex_data[6] * in_b.vertex_data[4] - in_a.vertex_data[7] * in_b.vertex_data[5];
-	out.vertex_data[3] = in_a.vertex_data[0] * in_b.vertex_data[3] + in_a.vertex_data[1] * in_b.vertex_data[2] - in_a.vertex_data[2] * in_b.vertex_data[1] + in_a.vertex_data[3] * in_b.vertex_data[0] + in_a.vertex_data[4] * in_b.vertex_data[7] - in_a.vertex_data[5] * in_b.vertex_data[6] + in_a.vertex_data[6] * in_b.vertex_data[5] - in_a.vertex_data[7] * in_b.vertex_data[4];
-	out.vertex_data[4] = in_a.vertex_data[0] * in_b.vertex_data[4] - in_a.vertex_data[1] * in_b.vertex_data[5] - in_a.vertex_data[2] * in_b.vertex_data[6] - in_a.vertex_data[3] * in_b.vertex_data[7] + in_a.vertex_data[4] * in_b.vertex_data[0] + in_a.vertex_data[5] * in_b.vertex_data[1] + in_a.vertex_data[6] * in_b.vertex_data[2] + in_a.vertex_data[7] * in_b.vertex_data[3];
-	out.vertex_data[5] = in_a.vertex_data[0] * in_b.vertex_data[5] + in_a.vertex_data[1] * in_b.vertex_data[4] - in_a.vertex_data[2] * in_b.vertex_data[7] + in_a.vertex_data[3] * in_b.vertex_data[6] - in_a.vertex_data[4] * in_b.vertex_data[1] + in_a.vertex_data[5] * in_b.vertex_data[0] - in_a.vertex_data[6] * in_b.vertex_data[3] + in_a.vertex_data[7] * in_b.vertex_data[2];
-	out.vertex_data[6] = in_a.vertex_data[0] * in_b.vertex_data[6] + in_a.vertex_data[1] * in_b.vertex_data[7] + in_a.vertex_data[2] * in_b.vertex_data[4] - in_a.vertex_data[3] * in_b.vertex_data[5] - in_a.vertex_data[4] * in_b.vertex_data[2] + in_a.vertex_data[5] * in_b.vertex_data[3] + in_a.vertex_data[6] * in_b.vertex_data[0] - in_a.vertex_data[7] * in_b.vertex_data[1];
-	out.vertex_data[7] = in_a.vertex_data[0] * in_b.vertex_data[7] - in_a.vertex_data[1] * in_b.vertex_data[6] + in_a.vertex_data[2] * in_b.vertex_data[5] + in_a.vertex_data[3] * in_b.vertex_data[4] - in_a.vertex_data[4] * in_b.vertex_data[3] - in_a.vertex_data[5] * in_b.vertex_data[2] + in_a.vertex_data[6] * in_b.vertex_data[1] + in_a.vertex_data[7] * in_b.vertex_data[0];
-
-	return out;
-}
-
-
-template<class T, size_t N>
-vertex<T, N> exp(const vertex<T, N>& in)
-{
-	T all_self_dot = 0;
-	T imag_self_dot = 0;
-	vertex<T, N> out;
-
-	for (size_t i = 0; i < N; i++)
+	for (size_t i = 0; i < in.vertex_length; i++)
 		all_self_dot += (in.vertex_data[i] * in.vertex_data[i]);
 
-	for (size_t i = 1; i < N; i++)
+	for (size_t i = 1; i < in.vertex_length; i++)
 		imag_self_dot += (in.vertex_data[i] * in.vertex_data[i]);
 
 	if (all_self_dot == 0)
 	{
-		for (size_t i = 0; i < N; i++)
+		for (size_t i = 0; i < out.vertex_length; i++)
 			out.vertex_data[i] = 0;
 
 		return out;
 	}
 
-//	const T l_d = sqrt(all_self_dot);
-	const T l_e = sqrt(imag_self_dot);
+	const float l_d = sqrtf(all_self_dot);
+	const float l_e = sqrtf(imag_self_dot);
 
-	out.vertex_data[0] = exp(in.vertex_data[0]) * cos(l_e);
+	out.vertex_data[0] = std::exp(in.vertex_data[0]) * cos(l_e);
 
 	if (l_e != 0)
 	{
-		for (size_t i = 1; i < N; i++)
-			out.vertex_data[i] = in.vertex_data[i] / l_e * exp(in.vertex_data[0]) * sin(l_e);
+		for (size_t i = 1; i < out.vertex_length; i++)
+			out.vertex_data[i] = in.vertex_data[i] / l_e * std::exp(in.vertex_data[0]) * std::sin(l_e);
 	}
 
 	return out;
 }
 
-template<class T, size_t N>
-vertex<T, N> log(const vertex<T, N>& in)
+quintonion ln(const quintonion& in)
 {
-	T all_self_dot = 0;
-	T imag_self_dot = 0;
-	vertex<T, N> out;
+	float all_self_dot = 0;
+	float imag_self_dot = 0;
+	quintonion out;
 
-	for (size_t i = 0; i < N; i++)
+	for (size_t i = 0; i < in.vertex_length; i++)
 		all_self_dot += (in.vertex_data[i] * in.vertex_data[i]);
 
-	for (size_t i = 1; i < N; i++)
+	for (size_t i = 1; i < in.vertex_length; i++)
 		imag_self_dot += (in.vertex_data[i] * in.vertex_data[i]);
 
 	if (all_self_dot == 0)
 	{
-		for (size_t i = 0; i < N; i++)
+		for (size_t i = 0; i < out.vertex_length; i++)
 			out.vertex_data[i] = 0;
 
 		return out;
 	}
 
-	const T l_d = sqrt(all_self_dot);
-	const T l_e = sqrt(imag_self_dot);
+	const float l_d = sqrtf(all_self_dot);
+	const float l_e = sqrtf(imag_self_dot);
 
 	if (in.vertex_data[0] != 0)
 	{
@@ -182,24 +184,259 @@ vertex<T, N> log(const vertex<T, N>& in)
 
 	if (l_e != 0)
 	{
-		for (size_t i = 1; i < N; i++)
+		for (size_t i = 1; i < out.vertex_length; i++)
 			out.vertex_data[i] = in.vertex_data[i] / l_e * acos(in.vertex_data[0] / l_d);
 	}
 
 	return out;
 }
 
-template<class T, size_t N>
-vertex<T, N> mul(const vertex<T, N>& in_a, const vertex<T, N>& in_b)
+quintonion mul(const quintonion& in_a, const quintonion& in_b)
 {
-	return exp(log(in_a) + log(in_b));
+	// A*B == exp(ln(A) + ln(B))
+	return exp(ln(in_a) + ln(in_b));
 }
+
+class octonion
+{
+public:
+	inline octonion(void)
+	{
+		vertex_data.resize(vertex_length, 0);
+	}
+
+	bool operator==(const octonion& rhs)
+	{
+		bool all_equal = true;
+
+		for (size_t i = 0; i < vertex_length; i++)
+		{
+			float f = fabsf(vertex_data[i] - rhs.vertex_data[i]);
+
+			if (f > 0.0001)
+			{
+				all_equal = false;
+				break;
+			}
+		}
+
+		return all_equal;
+	}
+
+	bool operator!=(const octonion& rhs)
+	{
+		return !(*this == rhs);
+	}
+
+	float magnitude(void)
+	{
+		float all_self_dot = 0;
+
+		for (size_t i = 0; i < vertex_length; i++)
+			all_self_dot += (vertex_data[i] * vertex_data[i]);
+
+		return sqrtf(all_self_dot);
+	}
+
+	octonion operator+(const octonion& rhs)
+	{
+		octonion result;
+
+		for (size_t i = 0; i < vertex_length; i++)
+			result.vertex_data[i] = vertex_data[i] + rhs.vertex_data[i];
+
+		return result;
+	}
+
+	inline octonion(
+		float src_r,
+		float src_i,
+		float src_j,
+		float src_k,
+		float src_u1,
+		float src_i1,
+		float src_j1,
+		float src_k1)
+	{
+		vertex_data.resize(vertex_length, 0);
+
+		vertex_data[0] = src_r;
+		vertex_data[1] = src_i;
+		vertex_data[2] = src_j;
+		vertex_data[3] = src_k;
+		vertex_data[4] = src_u1;
+		vertex_data[5] = src_i1;
+		vertex_data[6] = src_j1;
+		vertex_data[7] = src_k1;
+	}
+	
+	void normalize(void)
+	{
+		float mag = magnitude();
+
+		if (mag != 0)
+		{
+			for (size_t i = 0; i < vertex_length; i++)
+				vertex_data[i] = vertex_data[i] / mag;
+		}
+	}
+
+
+	size_t vertex_length = 8;
+	vector<float> vertex_data;
+};
+
+
+
+octonion pow_number_type(octonion& in, float exponent)
+{
+	const float beta = exponent;
+
+	float all_self_dot = 0;
+	float imag_self_dot = 0;
+	octonion out;
+
+	for (size_t i = 0; i < in.vertex_length; i++)
+		all_self_dot += (in.vertex_data[i] * in.vertex_data[i]);
+
+	for (size_t i = 1; i < in.vertex_length; i++)
+		imag_self_dot += (in.vertex_data[i] * in.vertex_data[i]);
+
+	if (all_self_dot == 0)
+	{
+		for (size_t i = 0; i < out.vertex_length; i++)
+			out.vertex_data[i] = 0;
+
+		return out;
+	}
+
+	const float all_len = sqrtf(all_self_dot);
+	const float imag_len = sqrtf(imag_self_dot);
+	const float self_dot_beta = powf(all_self_dot, beta / 2.0f);
+
+	out.vertex_data[0] = self_dot_beta * std::cos(beta * std::acos(in.vertex_data[0] / all_len));
+
+	if (imag_len != 0)
+	{
+		for (size_t i = 1; i < out.vertex_length; i++)
+			out.vertex_data[i] = in.vertex_data[i] * self_dot_beta * sin(beta * acos(in.vertex_data[0] / all_len)) / imag_len;
+	}
+
+	return out;
+}
+
+
+
+octonion traditional_mul(const octonion& qA, const octonion& qB)
+{
+	octonion out;
+
+	out.vertex_data[0] = qA.vertex_data[0] * qB.vertex_data[0] - qA.vertex_data[1] * qB.vertex_data[1] - qA.vertex_data[2] * qB.vertex_data[2] - qA.vertex_data[3] * qB.vertex_data[3] - qA.vertex_data[4] * qB.vertex_data[4] - qA.vertex_data[5] * qB.vertex_data[5] - qA.vertex_data[6] * qB.vertex_data[6] - qA.vertex_data[7] * qB.vertex_data[7];
+	out.vertex_data[1] = qA.vertex_data[0] * qB.vertex_data[1] + qA.vertex_data[1] * qB.vertex_data[0] + qA.vertex_data[2] * qB.vertex_data[3] - qA.vertex_data[3] * qB.vertex_data[2] + qA.vertex_data[4] * qB.vertex_data[5] - qA.vertex_data[5] * qB.vertex_data[4] - qA.vertex_data[6] * qB.vertex_data[7] + qA.vertex_data[7] * qB.vertex_data[6];
+	out.vertex_data[2] = qA.vertex_data[0] * qB.vertex_data[2] - qA.vertex_data[1] * qB.vertex_data[3] + qA.vertex_data[2] * qB.vertex_data[0] + qA.vertex_data[3] * qB.vertex_data[1] + qA.vertex_data[4] * qB.vertex_data[6] + qA.vertex_data[5] * qB.vertex_data[7] - qA.vertex_data[6] * qB.vertex_data[4] - qA.vertex_data[7] * qB.vertex_data[5];
+	out.vertex_data[3] = qA.vertex_data[0] * qB.vertex_data[3] + qA.vertex_data[1] * qB.vertex_data[2] - qA.vertex_data[2] * qB.vertex_data[1] + qA.vertex_data[3] * qB.vertex_data[0] + qA.vertex_data[4] * qB.vertex_data[7] - qA.vertex_data[5] * qB.vertex_data[6] + qA.vertex_data[6] * qB.vertex_data[5] - qA.vertex_data[7] * qB.vertex_data[4];
+	out.vertex_data[4] = qA.vertex_data[0] * qB.vertex_data[4] - qA.vertex_data[1] * qB.vertex_data[5] - qA.vertex_data[2] * qB.vertex_data[6] - qA.vertex_data[3] * qB.vertex_data[7] + qA.vertex_data[4] * qB.vertex_data[0] + qA.vertex_data[5] * qB.vertex_data[1] + qA.vertex_data[6] * qB.vertex_data[2] + qA.vertex_data[7] * qB.vertex_data[3];
+	out.vertex_data[5] = qA.vertex_data[0] * qB.vertex_data[5] + qA.vertex_data[1] * qB.vertex_data[4] - qA.vertex_data[2] * qB.vertex_data[7] + qA.vertex_data[3] * qB.vertex_data[6] - qA.vertex_data[4] * qB.vertex_data[1] + qA.vertex_data[5] * qB.vertex_data[0] - qA.vertex_data[6] * qB.vertex_data[3] + qA.vertex_data[7] * qB.vertex_data[2];
+	out.vertex_data[6] = qA.vertex_data[0] * qB.vertex_data[6] + qA.vertex_data[1] * qB.vertex_data[7] + qA.vertex_data[2] * qB.vertex_data[4] - qA.vertex_data[3] * qB.vertex_data[5] - qA.vertex_data[4] * qB.vertex_data[2] + qA.vertex_data[5] * qB.vertex_data[3] + qA.vertex_data[6] * qB.vertex_data[0] - qA.vertex_data[7] * qB.vertex_data[1];
+	out.vertex_data[7] = qA.vertex_data[0] * qB.vertex_data[7] - qA.vertex_data[1] * qB.vertex_data[6] + qA.vertex_data[2] * qB.vertex_data[5] + qA.vertex_data[3] * qB.vertex_data[4] - qA.vertex_data[4] * qB.vertex_data[3] - qA.vertex_data[5] * qB.vertex_data[2] + qA.vertex_data[6] * qB.vertex_data[1] + qA.vertex_data[7] * qB.vertex_data[0];
+
+	return out;
+}
+
+
+octonion exp(const octonion& in)
+{
+	float all_self_dot = 0;
+	float imag_self_dot = 0;
+	octonion out;
+
+	for (size_t i = 0; i < in.vertex_length; i++)
+		all_self_dot += (in.vertex_data[i] * in.vertex_data[i]);
+
+	for (size_t i = 1; i < in.vertex_length; i++)
+		imag_self_dot += (in.vertex_data[i] * in.vertex_data[i]);
+
+	if (all_self_dot == 0)
+	{
+		for (size_t i = 0; i < out.vertex_length; i++)
+			out.vertex_data[i] = 0;
+
+		return out;
+	}
+
+	const float l_d = sqrtf(all_self_dot);
+	const float l_e = sqrtf(imag_self_dot);
+
+	out.vertex_data[0] = std::exp(in.vertex_data[0]) * cos(l_e);
+
+	if (l_e != 0)
+	{
+		for (size_t i = 1; i < out.vertex_length; i++)
+			out.vertex_data[i] = in.vertex_data[i] / l_e * std::exp(in.vertex_data[0]) * std::sin(l_e);
+	}
+
+	return out;
+}
+
+octonion ln(const octonion& in)
+{
+	float all_self_dot = 0;
+	float imag_self_dot = 0;
+	octonion out;
+
+	for (size_t i = 0; i < in.vertex_length; i++)
+		all_self_dot += (in.vertex_data[i] * in.vertex_data[i]);
+
+	for (size_t i = 1; i < in.vertex_length; i++)
+		imag_self_dot += (in.vertex_data[i] * in.vertex_data[i]);
+
+	if (all_self_dot == 0)
+	{
+		for (size_t i = 0; i < out.vertex_length; i++)
+			out.vertex_data[i] = 0;
+
+		return out;
+	}
+
+	const float l_d = sqrtf(all_self_dot);
+	const float l_e = sqrtf(imag_self_dot);
+
+	if (in.vertex_data[0] != 0)
+	{
+		out.vertex_data[0] = log(l_d);
+	}
+
+	if (l_e != 0)
+	{
+		for (size_t i = 1; i < out.vertex_length; i++)
+			out.vertex_data[i] = in.vertex_data[i] / l_e * acos(in.vertex_data[0] / l_d);
+	}
+
+	return out;
+}
+
+octonion mul(const octonion& in_a, const octonion& in_b)
+{
+	// A*B == exp(ln(A) + ln(B))
+	return exp(ln(in_a) + ln(in_b));
+}
+
+float dot(const octonion& in_a, const octonion& in_b)
+{
+	float all_dot = 0;
+
+	for (size_t i = 0; i < in_a.vertex_length; i++)
+		all_dot += (in_a.vertex_data[i] * in_b.vertex_data[i]);
+
+	return all_dot;
+}
+
 
 int main(void)
 {
-	// Compare quintonion pow to mul
+	// Compare pow to mul
 
-	//vertex<float, 5> a;
+	//quintonion a;
 
 	//a.vertex_data[0] = 0.1f;
 	//a.vertex_data[1] = 0.2f;
@@ -207,9 +444,9 @@ int main(void)
 	//a.vertex_data[3] = 0.4f;
 	//a.vertex_data[4] = 0.5f;
 
-	//vertex<float, 5> x = pow(a, 2.0f);
+	//quintonion x = pow_number_type(a, 2.0f);
 
-	//vertex<float, 5> y = mul(a, a);
+	//quintonion y = mul(a, a);
 
 	//cout << x.vertex_data[0] << " " << x.vertex_data[1] << " " << x.vertex_data[2] << " " << x.vertex_data[3] << " " << x.vertex_data[4] << endl;
 	//cout << y.vertex_data[0] << " " << y.vertex_data[1] << " " << y.vertex_data[2] << " " << y.vertex_data[3] << " " << y.vertex_data[4] << endl;
@@ -218,31 +455,35 @@ int main(void)
 
 
 
-	// Test quintonions for various attributes
 
-	//vertex<float, 5> a;
+
+
+
+	// Test for various attributes
+
+	//quintonion a;
 	//a.vertex_data[0] = 0.1f;
 	//a.vertex_data[1] = 0.2f;
 	//a.vertex_data[2] = 0.3f;
 	//a.vertex_data[3] = 0.4f;
 	//a.vertex_data[4] = 0.5f;
 
-	//vertex<float, 5> b;
+	//quintonion b;
 	//b.vertex_data[0] = 1.0f;
 	//b.vertex_data[1] = 0.9f;
 	//b.vertex_data[2] = 0.8f;
 	//b.vertex_data[3] = 0.7f;
 	//b.vertex_data[4] = 0.6f;
 
-	//vertex<float, 5> c;
+	//quintonion c;
 	//c.vertex_data[0] = 10.0f;
 	//c.vertex_data[1] = 9.0f;
 	//c.vertex_data[2] = 8.0f;
 	//c.vertex_data[3] = 7.0f;
 	//c.vertex_data[4] = 6.0f;
 
-	//vertex<float, 5> x = mul(a, b);
-	//vertex<float, 5> y = mul(b, a);
+	//quintonion x = mul(a, b);
+	//quintonion y = mul(b, a);
 
 	//if (x != y)
 	//{		
@@ -276,11 +517,15 @@ int main(void)
 
 	//return 0;
 
+	
+
+
+
 
 
 	// Test octonion for various attributes
 
-	//vertex<float, 8> a;
+	//octonion a;
 	//a.vertex_data[0] = 0.1f;
 	//a.vertex_data[1] = 0.2f;
 	//a.vertex_data[2] = 0.3f;
@@ -290,7 +535,7 @@ int main(void)
 	//a.vertex_data[6] = 0.7f;
 	//a.vertex_data[7] = 0.8f;
 
-	//vertex<float, 8> b;
+	//octonion b;
 	//b.vertex_data[0] = 1.0f;
 	//b.vertex_data[1] = 0.9f;
 	//b.vertex_data[2] = 0.8f;
@@ -300,7 +545,7 @@ int main(void)
 	//b.vertex_data[6] = 0.4f;
 	//b.vertex_data[7] = 0.3f;
 
-	//vertex<float, 8> c;
+	//octonion c;
 	//c.vertex_data[0] = 10.0f;
 	//c.vertex_data[1] = 9.0f;
 	//c.vertex_data[2] = 8.0f;
@@ -310,8 +555,8 @@ int main(void)
 	//c.vertex_data[6] = 4.0f;
 	//c.vertex_data[7] = 3.0f;
 
-	//vertex<float, 8> x = mul(a, b);
-	//vertex<float, 8> y = mul(b, a);
+	//octonion x = mul(a, b);
+	//octonion y = mul(b, a);
 
 	//if (x != y)
 	//	cout << "commutativity failure" << endl;
@@ -333,36 +578,18 @@ int main(void)
 
 
 	// Test octonion multiplication where A != B
+	octonion A(0.1f, 0.2f, 0.3f, 0.4f, 0.5f, 0.6f, 0.7f, 0.8f);
+	octonion B(10.0f, 9.0f, 8.0f, 7.0f, 6.0f, 0.5f, 0.4f, 0.3f);
 
-	vertex<float, 8> a;
-	a.vertex_data[0] = 0.1f;
-	a.vertex_data[1] = 0.2f;
-	a.vertex_data[2] = 0.3f;
-	a.vertex_data[3] = 0.4f;
-	a.vertex_data[4] = 0.5f;
-	a.vertex_data[5] = 0.6f;
-	a.vertex_data[6] = 0.7f;
-	a.vertex_data[7] = 0.8f;
+	octonion P = traditional_mul(A, B);
+	octonion P2 = mul(A, B);
 
-	vertex<float, 8> b;
-	b.vertex_data[0] = 10.0f;
-	b.vertex_data[1] = 9.0f;
-	b.vertex_data[2] = 8.0f;
-	b.vertex_data[3] = 7.0f;
-	b.vertex_data[4] = 6.0f;
-	b.vertex_data[5] = 5.0f;
-	b.vertex_data[6] = 4.0f;
-	b.vertex_data[7] = 3.0f;
-
-	vertex<float, 8> P = traditional_mul(a, b);
-	vertex<float, 8> P2 = mul(a, b);
-
-	for (size_t i = 0; i < 8; i++)
+	for (size_t i = 0; i < P.vertex_length; i++)
 		cout << P.vertex_data[i] << " ";
 
 	cout << endl;
 
-	for (size_t i = 0; i < 8; i++)
+	for (size_t i = 0; i < P2.vertex_length; i++)
 		cout << P2.vertex_data[i] << " ";
 
 	cout << endl;
@@ -370,59 +597,54 @@ int main(void)
 	cout << P.magnitude() << " " << P2.magnitude() << endl;
 
 	return 0;
+	
+
+
 
 
 
 	// Test for subalgebra	
-
+	//
 	//srand(time(0));
 
 	//for (size_t num_tries = 0; num_tries < 10000; num_tries++)
 	//{
-	//	float a0 = (rand() % RAND_MAX) / static_cast<float>(RAND_MAX - 1);
+	//	float a0 = (rand() % RAND_MAX);
 
 	//	if (rand() % 2)
 	//		a0 = -a0;
 
-	//	float a1 = (rand() % RAND_MAX) / static_cast<float>(RAND_MAX - 1);
+	//	float a1 = (rand() % RAND_MAX);
 
 	//	if (rand() % 2)
 	//		a1 = -a1;
 
-	//	float a2 = (rand() % RAND_MAX) / static_cast<float>(RAND_MAX - 1);
+	//	float a2 = (rand() % RAND_MAX);
 
 	//	if (rand() % 2)
 	//		a2 = -a2;
 
-	//	float a3 = (rand() % RAND_MAX) / static_cast<float>(RAND_MAX - 1);
+	//	float a3 = (rand() % RAND_MAX);
 
 	//	if (rand() % 2)
 	//		a3 = -a3;
 
-	//	float a4 = (rand() % RAND_MAX) / static_cast<float>(RAND_MAX - 1);
+	//	float a4 = (rand() % RAND_MAX);
 
 	//	if (rand() % 2)
 	//		a4 = -a4;
 
-	//	vertex<float, 8> a;
-	//	a.vertex_data[0] = a0;
-	//	a.vertex_data[1] = a1;
-	//	a.vertex_data[2] = a2;
-	//	a.vertex_data[3] = a3;
-	//	a.vertex_data[4] = a4;
-	//	a.vertex_data[5] = 0;
-	//	a.vertex_data[6] = 0;
-	//	a.vertex_data[7] = 0;
+	//	octonion A(a0, a1, a2, a3, a4, 0, 0, 0);
+	//	octonion B = A;
 
-	//	vertex<float, 8> b = a;
-
-	//	vertex<float, 8> P = traditional_mul(a, b);
+	//	octonion P = traditional_mul(A, B);
 
 	//	if (P.vertex_data[5] || P.vertex_data[6] || P.vertex_data[7])
 	//	{
 	//		cout << "Error: non-zero components!" << endl;
 	//	}
 	//}
+
 
 	return 0;
 }
