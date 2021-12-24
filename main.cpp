@@ -204,26 +204,28 @@ vertex<T, N> mul(const vertex<T, N>& in_a, const vertex<T, N>& in_b)
 	return exp(log(in_a) + log(in_b));
 }
 
+
+
 int main(void)
 {
 	// Compare quintonion pow to mul
 
-	vertex<float, 5> a;
+	//vertex<float, 5> a;
 
-	a.vertex_data[0] = 0.1f;
-	a.vertex_data[1] = 0.2f;
-	a.vertex_data[2] = 0.3f;
-	a.vertex_data[3] = 0.4f;
-	a.vertex_data[4] = 0.5f;
+	//a.vertex_data[0] = 0.1f;
+	//a.vertex_data[1] = 0.2f;
+	//a.vertex_data[2] = 0.3f;
+	//a.vertex_data[3] = 0.4f;
+	//a.vertex_data[4] = 0.5f;
 
-	vertex<float, 5> x = pow(a, 2.0f);
+	//vertex<float, 5> x = pow(a, 2.0f);
 
-	vertex<float, 5> y = mul(a, a);
+	//vertex<float, 5> y = mul(a, a);
 
-	cout << x.vertex_data[0] << " " << x.vertex_data[1] << " " << x.vertex_data[2] << " " << x.vertex_data[3] << " " << x.vertex_data[4] << endl;
-	cout << y.vertex_data[0] << " " << y.vertex_data[1] << " " << y.vertex_data[2] << " " << y.vertex_data[3] << " " << y.vertex_data[4] << endl;
+	//cout << x.vertex_data[0] << " " << x.vertex_data[1] << " " << x.vertex_data[2] << " " << x.vertex_data[3] << " " << x.vertex_data[4] << endl;
+	//cout << y.vertex_data[0] << " " << y.vertex_data[1] << " " << y.vertex_data[2] << " " << y.vertex_data[3] << " " << y.vertex_data[4] << endl;
 
-	return 0;
+	//return 0;
 
 
 
@@ -343,42 +345,42 @@ int main(void)
 
 	// Test octonion multiplication where A != B
 
-	//vertex<float, 8> a;
-	//a.vertex_data[0] = 0.1f;
-	//a.vertex_data[1] = 0.2f;
-	//a.vertex_data[2] = 0.3f;
-	//a.vertex_data[3] = 0.4f;
-	//a.vertex_data[4] = 0.5f;
-	//a.vertex_data[5] = 0.6f;
-	//a.vertex_data[6] = 0.7f;
-	//a.vertex_data[7] = 0.8f;
+	vertex<float, 8> a;
+	a.vertex_data[0] = 0.1f;
+	a.vertex_data[1] = 0.2f;
+	a.vertex_data[2] = 0.3f;
+	a.vertex_data[3] = 0.4f;
+	a.vertex_data[4] = 0.5f;
+	a.vertex_data[5] = 0.6f;
+	a.vertex_data[6] = 0.7f;
+	a.vertex_data[7] = 0.8f;
 
-	//vertex<float, 8> b;
-	//b.vertex_data[0] = 10.0f;
-	//b.vertex_data[1] = 9.0f;
-	//b.vertex_data[2] = 8.0f;
-	//b.vertex_data[3] = 7.0f;
-	//b.vertex_data[4] = 6.0f;
-	//b.vertex_data[5] = 5.0f;
-	//b.vertex_data[6] = 4.0f;
-	//b.vertex_data[7] = 3.0f;
+	vertex<float, 8> b;
+	b.vertex_data[0] = 10.0f;
+	b.vertex_data[1] = 9.0f;
+	b.vertex_data[2] = 8.0f;
+	b.vertex_data[3] = 7.0f;
+	b.vertex_data[4] = 6.0f;
+	b.vertex_data[5] = 5.0f;
+	b.vertex_data[6] = 4.0f;
+	b.vertex_data[7] = 3.0f;
 
-	//vertex<float, 8> P = traditional_mul(a, b);
-	//vertex<float, 8> P2 = mul(a, b);
+	vertex<float, 8> P = traditional_mul(a, b);
+	vertex<float, 8> P2 = mul(a, b);
 
-	//for (size_t i = 0; i < 8; i++)
-	//	cout << P.vertex_data[i] << " ";
+	for (size_t i = 0; i < 8; i++)
+		cout << P.vertex_data[i] << " ";
 
-	//cout << endl;
+	cout << endl;
 
-	//for (size_t i = 0; i < 8; i++)
-	//	cout << P2.vertex_data[i] << " ";
+	for (size_t i = 0; i < 8; i++)
+		cout << P2.vertex_data[i] << " ";
 
-	//cout << endl;
+	cout << endl;
 
-	//cout << P.magnitude() << " " << P2.magnitude() << endl;
+	cout << P.magnitude() << " " << P2.magnitude() << endl;
 
-	//return 0;
+	return 0;
 
 
 
