@@ -1,6 +1,7 @@
 #include <cmath>
 #include <vector>
-#include <iostream>	
+#include <iostream>
+#include <complex>
 using namespace std;
 
 
@@ -51,12 +52,27 @@ public:
 
 	T magnitude(void) const
 	{
+		return sqrt(all_dot(*this));
+	}
+
+	T all_dot(const vertex& rhs) const
+	{
 		T all_self_dot = 0;
 
 		for (size_t i = 0; i < N; i++)
-			all_self_dot += (vertex_data[i] * vertex_data[i]);
+			all_self_dot += (vertex_data[i] * rhs.vertex_data[i]);
 
-		return sqrt(all_self_dot);
+		return all_self_dot;
+	}
+
+	T imag_dot(const vertex& rhs)
+	{
+		T imag_self_dot = 0;
+
+		for (size_t i = 1; i < N; i++)
+			imag_self_dot += (vertex_data[i] * rhs.vertex_data[i]);
+
+		return imag_self_dot;
 	}
 };
 
@@ -100,6 +116,16 @@ vertex<T, N> pow(const vertex<T, N>& in, T beta)
 	return out;
 }
 
+template<class T, size_t N = 2>
+vertex<T, 2> traditional_mul(const vertex<T, 2>& in_a, const vertex<T, 2>& in_b)
+{
+	vertex<T, 2> out;
+
+	out.vertex_data[0] = in_a.vertex_data[0] * in_b.vertex_data[0] - in_a.vertex_data[1] * in_b.vertex_data[1];
+	out.vertex_data[1] = in_a.vertex_data[0] * in_b.vertex_data[1] + in_a.vertex_data[1] * in_b.vertex_data[0];
+
+	return out;
+}
 
 template<class T, size_t N = 8>
 vertex<T, 8> traditional_mul(const vertex<T, 8>& in_a, const vertex<T, 8>& in_b)
@@ -208,6 +234,33 @@ vertex<T, N> mul(const vertex<T, N>& in_a, const vertex<T, N>& in_b)
 
 int main(void)
 {
+	// Compare complex numbers 
+
+	//vertex<float, 2> a;
+	//a.vertex_data[0] = 0.1f;
+	//a.vertex_data[1] = 0.2f;
+
+	//vertex<float, 2> b;
+	//b.vertex_data[0] = 1.0f;
+	//b.vertex_data[1] = 0.9f;
+
+	//vertex<float, 2> x = mul(a, b);
+	//vertex<float, 2> y = traditional_mul(a, b);
+
+	//cout << x.vertex_data[0] << " " << x.vertex_data[1] << endl;
+	//cout << y.vertex_data[0] << " " << y.vertex_data[1] << endl;
+
+	//complex<float> cf_a(a.vertex_data[0], a.vertex_data[1]);
+	//complex<float> cf_b(b.vertex_data[0], b.vertex_data[1]);
+
+	//complex<float> cf_x = cf_a * cf_b;
+
+	//cout << cf_x.real() << " " << cf_x.imag() << endl;
+
+	//return 0;
+
+
+
 	// Compare quintonion pow to mul
 
 	//vertex<float, 5> a;
@@ -345,42 +398,42 @@ int main(void)
 
 	// Test octonion multiplication where A != B
 
-	vertex<float, 8> a;
-	a.vertex_data[0] = 0.1f;
-	a.vertex_data[1] = 0.2f;
-	a.vertex_data[2] = 0.3f;
-	a.vertex_data[3] = 0.4f;
-	a.vertex_data[4] = 0.5f;
-	a.vertex_data[5] = 0.6f;
-	a.vertex_data[6] = 0.7f;
-	a.vertex_data[7] = 0.8f;
+	//vertex<float, 8> a;
+	//a.vertex_data[0] = 0.1f;
+	//a.vertex_data[1] = 0.2f;
+	//a.vertex_data[2] = 0.3f;
+	//a.vertex_data[3] = 0.4f;
+	//a.vertex_data[4] = 0.5f;
+	//a.vertex_data[5] = 0.6f;
+	//a.vertex_data[6] = 0.7f;
+	//a.vertex_data[7] = 0.8f;
 
-	vertex<float, 8> b;
-	b.vertex_data[0] = 10.0f;
-	b.vertex_data[1] = 9.0f;
-	b.vertex_data[2] = 8.0f;
-	b.vertex_data[3] = 7.0f;
-	b.vertex_data[4] = 6.0f;
-	b.vertex_data[5] = 5.0f;
-	b.vertex_data[6] = 4.0f;
-	b.vertex_data[7] = 3.0f;
+	//vertex<float, 8> b;
+	//b.vertex_data[0] = 10.0f;
+	//b.vertex_data[1] = 9.0f;
+	//b.vertex_data[2] = 8.0f;
+	//b.vertex_data[3] = 7.0f;
+	//b.vertex_data[4] = 6.0f;
+	//b.vertex_data[5] = 5.0f;
+	//b.vertex_data[6] = 4.0f;
+	//b.vertex_data[7] = 3.0f;
 
-	vertex<float, 8> P = traditional_mul(a, b);
-	vertex<float, 8> P2 = mul(a, b);
+	//vertex<float, 8> P = traditional_mul(a, b);
+	//vertex<float, 8> P2 = mul(a, b);
 
-	for (size_t i = 0; i < 8; i++)
-		cout << P.vertex_data[i] << " ";
+	//for (size_t i = 0; i < 8; i++)
+	//	cout << P.vertex_data[i] << " ";
 
-	cout << endl;
+	//cout << endl;
 
-	for (size_t i = 0; i < 8; i++)
-		cout << P2.vertex_data[i] << " ";
+	//for (size_t i = 0; i < 8; i++)
+	//	cout << P2.vertex_data[i] << " ";
 
-	cout << endl;
+	//cout << endl;
 
-	cout << P.magnitude() << " " << P2.magnitude() << endl;
+	//cout << P.magnitude() << " " << P2.magnitude() << endl;
 
-	return 0;
+	//return 0;
 
 
 
