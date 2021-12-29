@@ -236,28 +236,28 @@ int main(void)
 {
 	// Compare complex numbers 
 
-	//vertex<float, 2> a;
-	//a.vertex_data[0] = 0.1f;
-	//a.vertex_data[1] = 0.2f;
+	vertex<float, 2> a;
+	a.vertex_data[0] = 0.1f;
+	a.vertex_data[1] = 0.2f;
 
-	//vertex<float, 2> b;
-	//b.vertex_data[0] = 1.0f;
-	//b.vertex_data[1] = 0.9f;
+	vertex<float, 2> b;
+	b.vertex_data[0] = 1.0f;
+	b.vertex_data[1] = 0.9f;
 
-	//vertex<float, 2> x = mul(a, b);
-	//vertex<float, 2> y = traditional_mul(a, b);
+	vertex<float, 2> x = mul(a, b);
+	vertex<float, 2> y = traditional_mul(a, b);
 
-	//cout << x.vertex_data[0] << " " << x.vertex_data[1] << endl;
-	//cout << y.vertex_data[0] << " " << y.vertex_data[1] << endl;
+	cout << x.vertex_data[0] << " " << x.vertex_data[1] << endl;
+	cout << y.vertex_data[0] << " " << y.vertex_data[1] << endl;
 
-	//complex<float> cf_a(a.vertex_data[0], a.vertex_data[1]);
-	//complex<float> cf_b(b.vertex_data[0], b.vertex_data[1]);
+	complex<float> cf_a(a.vertex_data[0], a.vertex_data[1]);
+	complex<float> cf_b(b.vertex_data[0], b.vertex_data[1]);
 
-	//complex<float> cf_x = cf_a * cf_b;
+	complex<float> cf_x = cf_a * cf_b;
 
-	//cout << cf_x.real() << " " << cf_x.imag() << endl;
+	cout << cf_x.real() << " " << cf_x.imag() << endl;
 
-	//return 0;
+	return 0;
 
 
 
@@ -342,7 +342,7 @@ int main(void)
 
 
 
-	// Test octonion for various attributes
+	// Test octonion new multiplication for various attributes
 
 	//vertex<float, 8> a;
 	//a.vertex_data[0] = 0.1f;
@@ -388,6 +388,60 @@ int main(void)
 
 	//x = mul(a, b + c);
 	//y = mul(a, b) + mul(a, c);
+
+	//if (x != y)
+	//	cout << "distributive failure" << endl;
+
+	//return 0;
+
+
+
+	// Test octonion traditional multiplication for various attributes
+
+	//vertex<float, 8> a;
+	//a.vertex_data[0] = 0.1f;
+	//a.vertex_data[1] = 0.2f;
+	//a.vertex_data[2] = 0.3f;
+	//a.vertex_data[3] = 0.4f;
+	//a.vertex_data[4] = 0.5f;
+	//a.vertex_data[5] = 0.6f;
+	//a.vertex_data[6] = 0.7f;
+	//a.vertex_data[7] = 0.8f;
+
+	//vertex<float, 8> b;
+	//b.vertex_data[0] = 1.0f;
+	//b.vertex_data[1] = 0.9f;
+	//b.vertex_data[2] = 0.8f;
+	//b.vertex_data[3] = 0.7f;
+	//b.vertex_data[4] = 0.6f;
+	//b.vertex_data[5] = 0.5f;
+	//b.vertex_data[6] = 0.4f;
+	//b.vertex_data[7] = 0.3f;
+
+	//vertex<float, 8> c;
+	//c.vertex_data[0] = 10.0f;
+	//c.vertex_data[1] = 9.0f;
+	//c.vertex_data[2] = 8.0f;
+	//c.vertex_data[3] = 7.0f;
+	//c.vertex_data[4] = 6.0f;
+	//c.vertex_data[5] = 5.0f;
+	//c.vertex_data[6] = 4.0f;
+	//c.vertex_data[7] = 3.0f;
+
+	//vertex<float, 8> x = traditional_mul(a, b);
+	//vertex<float, 8> y = traditional_mul(b, a);
+
+	//if (x != y)
+	//	cout << "commutativity failure" << endl;
+
+	//x = traditional_mul(traditional_mul(a, b), c);
+	//y = traditional_mul(a, traditional_mul(b, c));
+
+	//if (x != y)
+	//	cout << "associativity failure" << endl;
+
+	//x = traditional_mul(a, b + c);
+	//y = traditional_mul(a, b) + traditional_mul(a, c);
 
 	//if (x != y)
 	//	cout << "distributive failure" << endl;
