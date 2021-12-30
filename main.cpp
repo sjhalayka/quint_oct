@@ -166,6 +166,33 @@ vertex<T, 8> traditional_mul(const vertex<T, 8>& in_a, const vertex<T, 8>& in_b)
 	return out;
 }
 
+template<class T, size_t N = 16>
+vertex<T, 16> traditional_mul(const vertex<T, 16>& in_a, const vertex<T, 16>& in_b)
+{
+	vertex<T, 16> out;
+
+	out.vd[0] = in_a.vd[0] * in_b.vd[0] - in_a.vd[1] * in_b.vd[1] - in_a.vd[2] * in_b.vd[2] - in_a.vd[3] * in_b.vd[3] - in_a.vd[4] * in_b.vd[4] - in_a.vd[5] * in_b.vd[5] - in_a.vd[6] * in_b.vd[6] - in_a.vd[7] * in_b.vd[7] - in_a.vd[8] * in_b.vd[8] - in_a.vd[9] * in_b.vd[9] - in_a.vd[10] * in_b.vd[10] - in_a.vd[11] * in_b.vd[11] - in_a.vd[12] * in_b.vd[12] - in_a.vd[13] * in_b.vd[13] - in_a.vd[14] * in_b.vd[14] - in_a.vd[15] * in_b.vd[15];
+	out.vd[1] = in_a.vd[0] * in_b.vd[1] + in_a.vd[1] * in_b.vd[0] + in_a.vd[2] * in_b.vd[3] - in_a.vd[3] * in_b.vd[2] + in_a.vd[4] * in_b.vd[5] - in_a.vd[5] * in_b.vd[4] - in_a.vd[6] * in_b.vd[7] + in_a.vd[7] * in_b.vd[6] + in_a.vd[8] * in_b.vd[9] - in_a.vd[9] * in_b.vd[8] - in_a.vd[10] * in_b.vd[11] + in_a.vd[11] * in_b.vd[10] - in_a.vd[12] * in_b.vd[13] + in_a.vd[13] * in_b.vd[12] + in_a.vd[14] * in_b.vd[15] - in_a.vd[15] * in_b.vd[14];
+	out.vd[2] = in_a.vd[0] * in_b.vd[2] - in_a.vd[1] * in_b.vd[3] + in_a.vd[2] * in_b.vd[0] + in_a.vd[3] * in_b.vd[1] + in_a.vd[4] * in_b.vd[6] + in_a.vd[5] * in_b.vd[7] - in_a.vd[6] * in_b.vd[4] - in_a.vd[7] * in_b.vd[5] + in_a.vd[8] * in_b.vd[10] + in_a.vd[9] * in_b.vd[11] - in_a.vd[10] * in_b.vd[8] - in_a.vd[11] * in_b.vd[9] - in_a.vd[12] * in_b.vd[14] - in_a.vd[13] * in_b.vd[15] + in_a.vd[14] * in_b.vd[12] + in_a.vd[15] * in_b.vd[13];
+	out.vd[3] = in_a.vd[0] * in_b.vd[3] + in_a.vd[1] * in_b.vd[2] - in_a.vd[2] * in_b.vd[1] + in_a.vd[3] * in_b.vd[0] + in_a.vd[4] * in_b.vd[7] - in_a.vd[5] * in_b.vd[6] + in_a.vd[6] * in_b.vd[5] - in_a.vd[7] * in_b.vd[4] + in_a.vd[8] * in_b.vd[11] - in_a.vd[9] * in_b.vd[10] + in_a.vd[10] * in_b.vd[9] - in_a.vd[11] * in_b.vd[8] - in_a.vd[12] * in_b.vd[15] + in_a.vd[13] * in_b.vd[14] - in_a.vd[14] * in_b.vd[13] + in_a.vd[15] * in_b.vd[12];
+	out.vd[4] = in_a.vd[0] * in_b.vd[4] - in_a.vd[1] * in_b.vd[5] - in_a.vd[2] * in_b.vd[6] - in_a.vd[3] * in_b.vd[7] + in_a.vd[4] * in_b.vd[0] + in_a.vd[5] * in_b.vd[1] + in_a.vd[6] * in_b.vd[2] + in_a.vd[7] * in_b.vd[3] + in_a.vd[8] * in_b.vd[12] + in_a.vd[9] * in_b.vd[13] + in_a.vd[10] * in_b.vd[14] + in_a.vd[11] * in_b.vd[15] - in_a.vd[12] * in_b.vd[8] - in_a.vd[13] * in_b.vd[9] - in_a.vd[14] * in_b.vd[10] - in_a.vd[15] * in_b.vd[11];
+	out.vd[5] = in_a.vd[0] * in_b.vd[5] + in_a.vd[1] * in_b.vd[4] - in_a.vd[2] * in_b.vd[7] + in_a.vd[3] * in_b.vd[6] - in_a.vd[4] * in_b.vd[1] + in_a.vd[5] * in_b.vd[0] - in_a.vd[6] * in_b.vd[3] + in_a.vd[7] * in_b.vd[2] + in_a.vd[8] * in_b.vd[13] - in_a.vd[9] * in_b.vd[12] + in_a.vd[10] * in_b.vd[15] - in_a.vd[11] * in_b.vd[14] + in_a.vd[12] * in_b.vd[9] - in_a.vd[13] * in_b.vd[8] + in_a.vd[14] * in_b.vd[11] - in_a.vd[15] * in_b.vd[10];
+	out.vd[6] = in_a.vd[0] * in_b.vd[6] + in_a.vd[1] * in_b.vd[7] + in_a.vd[2] * in_b.vd[4] - in_a.vd[3] * in_b.vd[5] - in_a.vd[4] * in_b.vd[2] + in_a.vd[5] * in_b.vd[3] + in_a.vd[6] * in_b.vd[0] - in_a.vd[7] * in_b.vd[1] + in_a.vd[8] * in_b.vd[14] - in_a.vd[9] * in_b.vd[15] - in_a.vd[10] * in_b.vd[12] + in_a.vd[11] * in_b.vd[13] + in_a.vd[12] * in_b.vd[10] - in_a.vd[13] * in_b.vd[11] - in_a.vd[14] * in_b.vd[8] + in_a.vd[15] * in_b.vd[9];
+	out.vd[7] = in_a.vd[0] * in_b.vd[7] - in_a.vd[1] * in_b.vd[6] + in_a.vd[2] * in_b.vd[5] + in_a.vd[3] * in_b.vd[4] - in_a.vd[4] * in_b.vd[3] - in_a.vd[5] * in_b.vd[2] + in_a.vd[6] * in_b.vd[1] + in_a.vd[7] * in_b.vd[0] + in_a.vd[8] * in_b.vd[15] + in_a.vd[9] * in_b.vd[14] - in_a.vd[10] * in_b.vd[13] - in_a.vd[11] * in_b.vd[12] + in_a.vd[12] * in_b.vd[11] + in_a.vd[13] * in_b.vd[10] - in_a.vd[14] * in_b.vd[9] - in_a.vd[15] * in_b.vd[8];
+	out.vd[8] = in_a.vd[0] * in_b.vd[8] - in_a.vd[1] * in_b.vd[9] - in_a.vd[2] * in_b.vd[10] - in_a.vd[3] * in_b.vd[11] - in_a.vd[4] * in_b.vd[12] - in_a.vd[5] * in_b.vd[13] - in_a.vd[6] * in_b.vd[14] - in_a.vd[7] * in_b.vd[15] + in_a.vd[8] * in_b.vd[0] + in_a.vd[9] * in_b.vd[1] + in_a.vd[10] * in_b.vd[2] + in_a.vd[11] * in_b.vd[3] + in_a.vd[12] * in_b.vd[4] + in_a.vd[13] * in_b.vd[5] + in_a.vd[14] * in_b.vd[6] + in_a.vd[15] * in_b.vd[7];
+	out.vd[9] = in_a.vd[0] * in_b.vd[9] + in_a.vd[1] * in_b.vd[8] - in_a.vd[2] * in_b.vd[11] + in_a.vd[3] * in_b.vd[10] - in_a.vd[4] * in_b.vd[13] + in_a.vd[5] * in_b.vd[12] + in_a.vd[6] * in_b.vd[15] - in_a.vd[7] * in_b.vd[14] - in_a.vd[8] * in_b.vd[1] + in_a.vd[9] * in_b.vd[0] - in_a.vd[10] * in_b.vd[3] + in_a.vd[11] * in_b.vd[2] - in_a.vd[12] * in_b.vd[5] + in_a.vd[13] * in_b.vd[4] + in_a.vd[14] * in_b.vd[7] - in_a.vd[15] * in_b.vd[6];
+	out.vd[10] = in_a.vd[0] * in_b.vd[10] + in_a.vd[1] * in_b.vd[11] + in_a.vd[2] * in_b.vd[8] - in_a.vd[3] * in_b.vd[9] - in_a.vd[4] * in_b.vd[14] - in_a.vd[5] * in_b.vd[15] + in_a.vd[6] * in_b.vd[12] + in_a.vd[7] * in_b.vd[13] - in_a.vd[8] * in_b.vd[2] + in_a.vd[9] * in_b.vd[3] + in_a.vd[10] * in_b.vd[0] - in_a.vd[11] * in_b.vd[1] - in_a.vd[12] * in_b.vd[6] - in_a.vd[13] * in_b.vd[7] + in_a.vd[14] * in_b.vd[4] + in_a.vd[15] * in_b.vd[5];
+	out.vd[11] = in_a.vd[0] * in_b.vd[11] - in_a.vd[1] * in_b.vd[10] + in_a.vd[2] * in_b.vd[9] + in_a.vd[3] * in_b.vd[8] - in_a.vd[4] * in_b.vd[15] + in_a.vd[5] * in_b.vd[14] - in_a.vd[6] * in_b.vd[13] + in_a.vd[7] * in_b.vd[12] - in_a.vd[8] * in_b.vd[3] - in_a.vd[9] * in_b.vd[2] + in_a.vd[10] * in_b.vd[1] + in_a.vd[11] * in_b.vd[0] - in_a.vd[12] * in_b.vd[7] + in_a.vd[13] * in_b.vd[6] - in_a.vd[14] * in_b.vd[5] + in_a.vd[15] * in_b.vd[4];
+	out.vd[12] = in_a.vd[0] * in_b.vd[12] + in_a.vd[1] * in_b.vd[13] + in_a.vd[2] * in_b.vd[14] + in_a.vd[3] * in_b.vd[15] + in_a.vd[4] * in_b.vd[8] - in_a.vd[5] * in_b.vd[9] - in_a.vd[6] * in_b.vd[10] - in_a.vd[7] * in_b.vd[11] - in_a.vd[8] * in_b.vd[4] + in_a.vd[9] * in_b.vd[5] + in_a.vd[10] * in_b.vd[6] + in_a.vd[11] * in_b.vd[7] + in_a.vd[12] * in_b.vd[0] - in_a.vd[13] * in_b.vd[1] - in_a.vd[14] * in_b.vd[2] - in_a.vd[15] * in_b.vd[3];
+	out.vd[13] = in_a.vd[0] * in_b.vd[13] - in_a.vd[1] * in_b.vd[12] + in_a.vd[2] * in_b.vd[15] - in_a.vd[3] * in_b.vd[14] + in_a.vd[4] * in_b.vd[9] + in_a.vd[5] * in_b.vd[8] + in_a.vd[6] * in_b.vd[11] - in_a.vd[7] * in_b.vd[10] - in_a.vd[8] * in_b.vd[5] - in_a.vd[9] * in_b.vd[4] + in_a.vd[10] * in_b.vd[7] - in_a.vd[11] * in_b.vd[6] + in_a.vd[12] * in_b.vd[1] + in_a.vd[13] * in_b.vd[0] + in_a.vd[14] * in_b.vd[3] - in_a.vd[15] * in_b.vd[2];
+	out.vd[14] = in_a.vd[0] * in_b.vd[14] - in_a.vd[1] * in_b.vd[15] - in_a.vd[2] * in_b.vd[12] + in_a.vd[3] * in_b.vd[13] + in_a.vd[4] * in_b.vd[10] - in_a.vd[5] * in_b.vd[11] + in_a.vd[6] * in_b.vd[8] + in_a.vd[7] * in_b.vd[9] - in_a.vd[8] * in_b.vd[6] - in_a.vd[9] * in_b.vd[7] - in_a.vd[10] * in_b.vd[4] + in_a.vd[11] * in_b.vd[5] + in_a.vd[12] * in_b.vd[2] - in_a.vd[13] * in_b.vd[3] + in_a.vd[14] * in_b.vd[0] + in_a.vd[15] * in_b.vd[1];
+	out.vd[15] = in_a.vd[0] * in_b.vd[15] + in_a.vd[1] * in_b.vd[14] - in_a.vd[2] * in_b.vd[13] - in_a.vd[3] * in_b.vd[12] + in_a.vd[4] * in_b.vd[11] + in_a.vd[5] * in_b.vd[10] - in_a.vd[6] * in_b.vd[9] + in_a.vd[7] * in_b.vd[8] - in_a.vd[8] * in_b.vd[7] + in_a.vd[9] * in_b.vd[6] - in_a.vd[10] * in_b.vd[5] - in_a.vd[11] * in_b.vd[4] + in_a.vd[12] * in_b.vd[3] + in_a.vd[13] * in_b.vd[2] - in_a.vd[14] * in_b.vd[1] + in_a.vd[15] * in_b.vd[0];
+
+	return out;
+}
+
+
+
 template<class T, size_t N>
 vertex<T, N> exp(const vertex<T, N>& in)
 {
@@ -257,19 +284,19 @@ int main(void)
 {
 	// Compare real numbers 
 
-	vertex<float, 1> a;
-	a.vd[0] = 0.1234f;
+	//vertex<float, 1> a;
+	//a.vd[0] = 0.1234f;
 
-	vertex<float, 1> b;
-	b.vd[0] = 4.567f;
+	//vertex<float, 1> b;
+	//b.vd[0] = 4.567f;
 
-	vertex<float, 1> x = mul(a, b);
-	vertex<float, 1> y = traditional_mul(a, b);
+	//vertex<float, 1> x = mul(a, b);
+	//vertex<float, 1> y = traditional_mul(a, b);
 
-	cout << x.vd[0] << endl;
-	cout << y.vd[0] << endl;
+	//cout << x.vd[0] << endl;
+	//cout << y.vd[0] << endl;
 
-	return 0;
+	//return 0;
 
 
 
@@ -556,7 +583,7 @@ int main(void)
 
 
 
-	// Test for subalgebra	
+	// Test for 5D subalgebra	
 
 	//srand(time(0));
 
@@ -607,5 +634,61 @@ int main(void)
 	//	}
 	//}
 
+
+
+	// Test sedonion numbers
+
+	vertex<float, 16> a;
+	a.vd[0] = 0.1f;
+	a.vd[1] = 0.2f;
+	a.vd[2] = 0.3f;
+	a.vd[3] = 0.4f;
+	a.vd[4] = 0.5f;
+	a.vd[5] = 0.6f;
+	a.vd[6] = 0.7f;
+	a.vd[7] = 0.8f;
+	a.vd[8] = 0.9f;
+	a.vd[9] = 1.0f;
+	a.vd[10] = 1.1f;
+	a.vd[11] = 1.2f;
+	a.vd[12] = 1.3f;
+	a.vd[13] = 1.4f;
+	a.vd[14] = 1.5f;
+	a.vd[15] = 1.6f;
+
+	vertex<float, 16> b;
+	b.vd[0] = 10.0f;
+	b.vd[1] = 9.0f;
+	b.vd[2] = 8.0f;
+	b.vd[3] = 7.0f;
+	b.vd[4] = 6.0f;
+	b.vd[5] = 5.0f;
+	b.vd[6] = 4.0f;
+	b.vd[7] = 3.0f;
+	b.vd[8] = 2.0f;
+	b.vd[9] = 1.0f;
+	b.vd[10] = 0.0f;
+	b.vd[11] = -1.0f;
+	b.vd[12] = -2.0f;
+	b.vd[13] = -3.0f;
+	b.vd[14] = -4.0f;
+	b.vd[15] = -5.0f;
+	
+	vertex<float, 16> P = traditional_mul(a, b);
+	vertex<float, 16> P2 = mul(a, b);
+
+	for (size_t i = 0; i < 16; i++)
+		cout << P.vd[i] << " ";
+
+	cout << endl;
+
+	for (size_t i = 0; i < 16; i++)
+		cout << P2.vd[i] << " ";
+
+	cout << endl;
+
+	cout << P.magnitude() << " " << P2.magnitude() << endl;
+
 	return 0;
+
 }
