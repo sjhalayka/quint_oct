@@ -255,21 +255,21 @@ vertex<T, N> mul(const vertex<T, N>& in_a, const vertex<T, N>& in_b)
 
 int main(void)
 {
-	// Compare complex numbers 
+	// Compare real numbers 
 
-	//vertex<float, 1> a;
-	//a.vd[0] = 0.1234f;
+	vertex<float, 1> a;
+	a.vd[0] = 0.1234f;
 
-	//vertex<float, 1> b;
-	//b.vd[0] = 4.567f;
+	vertex<float, 1> b;
+	b.vd[0] = 4.567f;
 
-	//vertex<float, 1> x = mul(a, b);
-	//vertex<float, 1> y = traditional_mul(a, b);
+	vertex<float, 1> x = mul(a, b);
+	vertex<float, 1> y = traditional_mul(a, b);
 
-	//cout << x.vd[0] << endl;
-	//cout << y.vd[0] << endl;
+	cout << x.vd[0] << endl;
+	cout << y.vd[0] << endl;
 
-	//return 0;
+	return 0;
 
 
 
@@ -517,42 +517,42 @@ int main(void)
 
 	// Test octonion multiplication where A != B
 
-	vertex<float, 8> a;
-	a.vd[0] = 0.1f;
-	a.vd[1] = 0.2f;
-	a.vd[2] = 0.3f;
-	a.vd[3] = 0.4f;
-	a.vd[4] = 0.5f;
-	a.vd[5] = 0.6f;
-	a.vd[6] = 0.7f;
-	a.vd[7] = 0.8f;
+	//vertex<float, 8> a;
+	//a.vd[0] = 0.1f;
+	//a.vd[1] = 0.2f;
+	//a.vd[2] = 0.3f;
+	//a.vd[3] = 0.4f;
+	//a.vd[4] = 0.5f;
+	//a.vd[5] = 0.6f;
+	//a.vd[6] = 0.7f;
+	//a.vd[7] = 0.8f;
 
-	vertex<float, 8> b;
-	b.vd[0] = 10.0f;
-	b.vd[1] = 9.0f;
-	b.vd[2] = 8.0f;
-	b.vd[3] = 7.0f;
-	b.vd[4] = 6.0f;
-	b.vd[5] = 5.0f;
-	b.vd[6] = 4.0f;
-	b.vd[7] = 3.0f;
+	//vertex<float, 8> b;
+	//b.vd[0] = 10.0f;
+	//b.vd[1] = 9.0f;
+	//b.vd[2] = 8.0f;
+	//b.vd[3] = 7.0f;
+	//b.vd[4] = 6.0f;
+	//b.vd[5] = 5.0f;
+	//b.vd[6] = 4.0f;
+	//b.vd[7] = 3.0f;
 
-	vertex<float, 8> P = traditional_mul(a, b);
-	vertex<float, 8> P2 = mul(a, b);
+	//vertex<float, 8> P = traditional_mul(a, b);
+	//vertex<float, 8> P2 = mul(a, b);
 
-	for (size_t i = 0; i < 8; i++)
-		cout << P.vd[i] << " ";
+	//for (size_t i = 0; i < 8; i++)
+	//	cout << P.vd[i] << " ";
 
-	cout << endl;
+	//cout << endl;
 
-	for (size_t i = 0; i < 8; i++)
-		cout << P2.vd[i] << " ";
+	//for (size_t i = 0; i < 8; i++)
+	//	cout << P2.vd[i] << " ";
 
-	cout << endl;
+	//cout << endl;
 
-	cout << P.magnitude() << " " << P2.magnitude() << endl;
+	//cout << P.magnitude() << " " << P2.magnitude() << endl;
 
-	return 0;
+	//return 0;
 
 
 
