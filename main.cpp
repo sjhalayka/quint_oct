@@ -10,11 +10,11 @@ template<class T, size_t N>
 class vertex
 {
 public:
-	vector<T> vertex_data;
+	vector<T> vd;
 
 	vertex(void)
 	{
-		vertex_data.resize(N, 0);
+		vd.resize(N, 0);
 	}
 
 	bool operator==(const vertex& rhs) const
@@ -23,7 +23,7 @@ public:
 
 		for (size_t i = 0; i < N; i++)
 		{
-			T f = fabs(vertex_data[i] - rhs.vertex_data[i]);
+			T f = fabs(vd[i] - rhs.vd[i]);
 
 			if (f > 0.0001)
 			{
@@ -45,7 +45,7 @@ public:
 		vertex out;
 
 		for (size_t i = 0; i < N; i++)
-			out.vertex_data[i] = vertex_data[i] + rhs.vertex_data[i];
+			out.vd[i] = vd[i] + rhs.vd[i];
 
 		return out;
 	}
@@ -60,7 +60,7 @@ public:
 		T all_self_dot = 0;
 
 		for (size_t i = 0; i < N; i++)
-			all_self_dot += (vertex_data[i] * rhs.vertex_data[i]);
+			all_self_dot += (vd[i] * rhs.vd[i]);
 
 		return all_self_dot;
 	}
@@ -70,12 +70,11 @@ public:
 		T imag_self_dot = 0;
 
 		for (size_t i = 1; i < N; i++)
-			imag_self_dot += (vertex_data[i] * rhs.vertex_data[i]);
+			imag_self_dot += (vd[i] * rhs.vd[i]);
 
 		return imag_self_dot;
 	}
 };
-
 
 template<class T, size_t N>
 vertex<T, N> pow(const vertex<T, N>& in, T beta)
@@ -85,14 +84,14 @@ vertex<T, N> pow(const vertex<T, N>& in, T beta)
 	vertex<T, N> out;
 
 	for (size_t i = 1; i < N; i++)
-		imag_self_dot += (in.vertex_data[i] * in.vertex_data[i]);
+		imag_self_dot += (in.vd[i] * in.vd[i]);
 
-	all_self_dot = imag_self_dot + (in.vertex_data[0] * in.vertex_data[0]);
+	all_self_dot = imag_self_dot + (in.vd[0] * in.vd[0]);
 
 	if (all_self_dot == 0)
 	{
 		for (size_t i = 0; i < N; i++)
-			out.vertex_data[i] = 0;
+			out.vd[i] = 0;
 
 		return out;
 	}
@@ -101,16 +100,16 @@ vertex<T, N> pow(const vertex<T, N>& in, T beta)
 	const T l_e = sqrt(imag_self_dot);
 	const T self_dot_beta = pow(all_self_dot, beta / 2.0f);
 
-	out.vertex_data[0] = self_dot_beta * cos(beta * acos(in.vertex_data[0] / l_d));
+	out.vd[0] = self_dot_beta * cos(beta * acos(in.vd[0] / l_d));
 
 	if (l_e != 0)
 	{
 		const T x = 1 / l_e;
-		const T y = self_dot_beta * sin(beta * acos(in.vertex_data[0] / l_d));
+		const T y = self_dot_beta * sin(beta * acos(in.vd[0] / l_d));
 		const T z = x * y;
 
 		for (size_t i = 1; i < N; i++)
-			out.vertex_data[i] = in.vertex_data[i] * z;
+			out.vd[i] = in.vd[i] * z;
 	}
 
 	return out;
@@ -121,8 +120,21 @@ vertex<T, 2> traditional_mul(const vertex<T, 2>& in_a, const vertex<T, 2>& in_b)
 {
 	vertex<T, 2> out;
 
-	out.vertex_data[0] = in_a.vertex_data[0] * in_b.vertex_data[0] - in_a.vertex_data[1] * in_b.vertex_data[1];
-	out.vertex_data[1] = in_a.vertex_data[0] * in_b.vertex_data[1] + in_a.vertex_data[1] * in_b.vertex_data[0];
+	out.vd[0] = in_a.vd[0] * in_b.vd[0] - in_a.vd[1] * in_b.vd[1];
+	out.vd[1] = in_a.vd[0] * in_b.vd[1] + in_a.vd[1] * in_b.vd[0];
+
+	return out;
+}
+
+template<class T, size_t N = 4>
+vertex<T, 4> traditional_mul(const vertex<T, 4>& in_a, const vertex<T, 4>& in_b)
+{
+	vertex<T, 4> out;
+
+	out.vd[0] = in_a.vd[0] * in_b.vd[0] - in_a.vd[1] * in_b.vd[1] - in_a.vd[2] * in_b.vd[2] - in_a.vd[3] * in_b.vd[3];
+	out.vd[1] = in_a.vd[0] * in_b.vd[1] + in_a.vd[1] * in_b.vd[0] + in_a.vd[2] * in_b.vd[3] - in_a.vd[3] * in_b.vd[2];
+	out.vd[2] = in_a.vd[0] * in_b.vd[2] - in_a.vd[1] * in_b.vd[3] + in_a.vd[2] * in_b.vd[0] + in_a.vd[3] * in_b.vd[1];
+	out.vd[3] = in_a.vd[0] * in_b.vd[3] + in_a.vd[1] * in_b.vd[2] - in_a.vd[2] * in_b.vd[1] + in_a.vd[3] * in_b.vd[0];
 
 	return out;
 }
@@ -132,18 +144,17 @@ vertex<T, 8> traditional_mul(const vertex<T, 8>& in_a, const vertex<T, 8>& in_b)
 {
 	vertex<T, 8> out;
 
-	out.vertex_data[0] = in_a.vertex_data[0] * in_b.vertex_data[0] - in_a.vertex_data[1] * in_b.vertex_data[1] - in_a.vertex_data[2] * in_b.vertex_data[2] - in_a.vertex_data[3] * in_b.vertex_data[3] - in_a.vertex_data[4] * in_b.vertex_data[4] - in_a.vertex_data[5] * in_b.vertex_data[5] - in_a.vertex_data[6] * in_b.vertex_data[6] - in_a.vertex_data[7] * in_b.vertex_data[7];
-	out.vertex_data[1] = in_a.vertex_data[0] * in_b.vertex_data[1] + in_a.vertex_data[1] * in_b.vertex_data[0] + in_a.vertex_data[2] * in_b.vertex_data[3] - in_a.vertex_data[3] * in_b.vertex_data[2] + in_a.vertex_data[4] * in_b.vertex_data[5] - in_a.vertex_data[5] * in_b.vertex_data[4] - in_a.vertex_data[6] * in_b.vertex_data[7] + in_a.vertex_data[7] * in_b.vertex_data[6];
-	out.vertex_data[2] = in_a.vertex_data[0] * in_b.vertex_data[2] - in_a.vertex_data[1] * in_b.vertex_data[3] + in_a.vertex_data[2] * in_b.vertex_data[0] + in_a.vertex_data[3] * in_b.vertex_data[1] + in_a.vertex_data[4] * in_b.vertex_data[6] + in_a.vertex_data[5] * in_b.vertex_data[7] - in_a.vertex_data[6] * in_b.vertex_data[4] - in_a.vertex_data[7] * in_b.vertex_data[5];
-	out.vertex_data[3] = in_a.vertex_data[0] * in_b.vertex_data[3] + in_a.vertex_data[1] * in_b.vertex_data[2] - in_a.vertex_data[2] * in_b.vertex_data[1] + in_a.vertex_data[3] * in_b.vertex_data[0] + in_a.vertex_data[4] * in_b.vertex_data[7] - in_a.vertex_data[5] * in_b.vertex_data[6] + in_a.vertex_data[6] * in_b.vertex_data[5] - in_a.vertex_data[7] * in_b.vertex_data[4];
-	out.vertex_data[4] = in_a.vertex_data[0] * in_b.vertex_data[4] - in_a.vertex_data[1] * in_b.vertex_data[5] - in_a.vertex_data[2] * in_b.vertex_data[6] - in_a.vertex_data[3] * in_b.vertex_data[7] + in_a.vertex_data[4] * in_b.vertex_data[0] + in_a.vertex_data[5] * in_b.vertex_data[1] + in_a.vertex_data[6] * in_b.vertex_data[2] + in_a.vertex_data[7] * in_b.vertex_data[3];
-	out.vertex_data[5] = in_a.vertex_data[0] * in_b.vertex_data[5] + in_a.vertex_data[1] * in_b.vertex_data[4] - in_a.vertex_data[2] * in_b.vertex_data[7] + in_a.vertex_data[3] * in_b.vertex_data[6] - in_a.vertex_data[4] * in_b.vertex_data[1] + in_a.vertex_data[5] * in_b.vertex_data[0] - in_a.vertex_data[6] * in_b.vertex_data[3] + in_a.vertex_data[7] * in_b.vertex_data[2];
-	out.vertex_data[6] = in_a.vertex_data[0] * in_b.vertex_data[6] + in_a.vertex_data[1] * in_b.vertex_data[7] + in_a.vertex_data[2] * in_b.vertex_data[4] - in_a.vertex_data[3] * in_b.vertex_data[5] - in_a.vertex_data[4] * in_b.vertex_data[2] + in_a.vertex_data[5] * in_b.vertex_data[3] + in_a.vertex_data[6] * in_b.vertex_data[0] - in_a.vertex_data[7] * in_b.vertex_data[1];
-	out.vertex_data[7] = in_a.vertex_data[0] * in_b.vertex_data[7] - in_a.vertex_data[1] * in_b.vertex_data[6] + in_a.vertex_data[2] * in_b.vertex_data[5] + in_a.vertex_data[3] * in_b.vertex_data[4] - in_a.vertex_data[4] * in_b.vertex_data[3] - in_a.vertex_data[5] * in_b.vertex_data[2] + in_a.vertex_data[6] * in_b.vertex_data[1] + in_a.vertex_data[7] * in_b.vertex_data[0];
+	out.vd[0] = in_a.vd[0] * in_b.vd[0] - in_a.vd[1] * in_b.vd[1] - in_a.vd[2] * in_b.vd[2] - in_a.vd[3] * in_b.vd[3] - in_a.vd[4] * in_b.vd[4] - in_a.vd[5] * in_b.vd[5] - in_a.vd[6] * in_b.vd[6] - in_a.vd[7] * in_b.vd[7];
+	out.vd[1] = in_a.vd[0] * in_b.vd[1] + in_a.vd[1] * in_b.vd[0] + in_a.vd[2] * in_b.vd[3] - in_a.vd[3] * in_b.vd[2] + in_a.vd[4] * in_b.vd[5] - in_a.vd[5] * in_b.vd[4] - in_a.vd[6] * in_b.vd[7] + in_a.vd[7] * in_b.vd[6];
+	out.vd[2] = in_a.vd[0] * in_b.vd[2] - in_a.vd[1] * in_b.vd[3] + in_a.vd[2] * in_b.vd[0] + in_a.vd[3] * in_b.vd[1] + in_a.vd[4] * in_b.vd[6] + in_a.vd[5] * in_b.vd[7] - in_a.vd[6] * in_b.vd[4] - in_a.vd[7] * in_b.vd[5];
+	out.vd[3] = in_a.vd[0] * in_b.vd[3] + in_a.vd[1] * in_b.vd[2] - in_a.vd[2] * in_b.vd[1] + in_a.vd[3] * in_b.vd[0] + in_a.vd[4] * in_b.vd[7] - in_a.vd[5] * in_b.vd[6] + in_a.vd[6] * in_b.vd[5] - in_a.vd[7] * in_b.vd[4];
+	out.vd[4] = in_a.vd[0] * in_b.vd[4] - in_a.vd[1] * in_b.vd[5] - in_a.vd[2] * in_b.vd[6] - in_a.vd[3] * in_b.vd[7] + in_a.vd[4] * in_b.vd[0] + in_a.vd[5] * in_b.vd[1] + in_a.vd[6] * in_b.vd[2] + in_a.vd[7] * in_b.vd[3];
+	out.vd[5] = in_a.vd[0] * in_b.vd[5] + in_a.vd[1] * in_b.vd[4] - in_a.vd[2] * in_b.vd[7] + in_a.vd[3] * in_b.vd[6] - in_a.vd[4] * in_b.vd[1] + in_a.vd[5] * in_b.vd[0] - in_a.vd[6] * in_b.vd[3] + in_a.vd[7] * in_b.vd[2];
+	out.vd[6] = in_a.vd[0] * in_b.vd[6] + in_a.vd[1] * in_b.vd[7] + in_a.vd[2] * in_b.vd[4] - in_a.vd[3] * in_b.vd[5] - in_a.vd[4] * in_b.vd[2] + in_a.vd[5] * in_b.vd[3] + in_a.vd[6] * in_b.vd[0] - in_a.vd[7] * in_b.vd[1];
+	out.vd[7] = in_a.vd[0] * in_b.vd[7] - in_a.vd[1] * in_b.vd[6] + in_a.vd[2] * in_b.vd[5] + in_a.vd[3] * in_b.vd[4] - in_a.vd[4] * in_b.vd[3] - in_a.vd[5] * in_b.vd[2] + in_a.vd[6] * in_b.vd[1] + in_a.vd[7] * in_b.vd[0];
 
 	return out;
 }
-
 
 template<class T, size_t N>
 vertex<T, N> exp(const vertex<T, N>& in)
@@ -153,14 +164,14 @@ vertex<T, N> exp(const vertex<T, N>& in)
 	vertex<T, N> out;
 
 	for (size_t i = 1; i < N; i++)
-		imag_self_dot += (in.vertex_data[i] * in.vertex_data[i]);
+		imag_self_dot += (in.vd[i] * in.vd[i]);
 
-	all_self_dot = imag_self_dot + (in.vertex_data[0] * in.vertex_data[0]);
+	all_self_dot = imag_self_dot + (in.vd[0] * in.vd[0]);
 
 	if (all_self_dot == 0)
 	{
 		for (size_t i = 0; i < N; i++)
-			out.vertex_data[i] = 0;
+			out.vd[i] = 0;
 
 		return out;
 	}
@@ -168,16 +179,16 @@ vertex<T, N> exp(const vertex<T, N>& in)
 //	const T l_d = sqrt(all_self_dot); // not needed
 	const T l_e = sqrt(imag_self_dot);
 
-	out.vertex_data[0] = exp(in.vertex_data[0]) * cos(l_e);
+	out.vd[0] = exp(in.vd[0]) * cos(l_e);
 
 	if (l_e != 0)
 	{
 		const T x = 1 / l_e;
-		const T y = exp(in.vertex_data[0]) * sin(l_e);
+		const T y = exp(in.vd[0]) * sin(l_e);
 		const T z = x * y;
 
 		for (size_t i = 1; i < N; i++)
-			out.vertex_data[i] = in.vertex_data[i] * z;
+			out.vd[i] = in.vd[i] * z;
 	}
 
 	return out;
@@ -191,14 +202,14 @@ vertex<T, N> log(const vertex<T, N>& in)
 	vertex<T, N> out;
 
 	for (size_t i = 1; i < N; i++)
-		imag_self_dot += (in.vertex_data[i] * in.vertex_data[i]);
+		imag_self_dot += (in.vd[i] * in.vd[i]);
 
-	all_self_dot = imag_self_dot + (in.vertex_data[0] * in.vertex_data[0]);
+	all_self_dot = imag_self_dot + (in.vd[0] * in.vd[0]);
 
 	if (all_self_dot == 0)
 	{
 		for (size_t i = 0; i < N; i++)
-			out.vertex_data[i] = 0;
+			out.vd[i] = 0;
 
 		return out;
 	}
@@ -208,17 +219,17 @@ vertex<T, N> log(const vertex<T, N>& in)
 
 	if (l_d != 0)
 	{
-		out.vertex_data[0] = log(l_d);
+		out.vd[0] = log(l_d);
 	}
 
 	if (l_e != 0)
 	{
 		const T x = 1 / l_e;
-		const T y = acos(in.vertex_data[0] / l_d);
+		const T y = acos(in.vd[0] / l_d);
 		const T z = x * y;
 
 		for (size_t i = 1; i < N; i++)
-			out.vertex_data[i] = in.vertex_data[i] * z;
+			out.vd[i] = in.vd[i] * z;
 	}
 
 	return out;
@@ -236,28 +247,54 @@ int main(void)
 {
 	// Compare complex numbers 
 
-	vertex<float, 2> a;
-	a.vertex_data[0] = 0.1f;
-	a.vertex_data[1] = 0.2f;
+	//vertex<float, 2> a;
+	//a.vd[0] = 0.1f;
+	//a.vd[1] = 0.2f;
 
-	vertex<float, 2> b;
-	b.vertex_data[0] = 1.0f;
-	b.vertex_data[1] = 0.9f;
+	//vertex<float, 2> b;
+	//b.vd[0] = 1.0f;
+	//b.vd[1] = 0.9f;
 
-	vertex<float, 2> x = mul(a, b);
-	vertex<float, 2> y = traditional_mul(a, b);
+	//vertex<float, 2> x = mul(a, b);
+	//vertex<float, 2> y = traditional_mul(a, b);
 
-	cout << x.vertex_data[0] << " " << x.vertex_data[1] << endl;
-	cout << y.vertex_data[0] << " " << y.vertex_data[1] << endl;
+	//cout << x.vd[0] << " " << x.vd[1] << endl;
+	//cout << y.vd[0] << " " << y.vd[1] << endl;
 
-	complex<float> cf_a(a.vertex_data[0], a.vertex_data[1]);
-	complex<float> cf_b(b.vertex_data[0], b.vertex_data[1]);
+	//complex<float> cf_a(a.vd[0], a.vd[1]);
+	//complex<float> cf_b(b.vd[0], b.vd[1]);
 
-	complex<float> cf_x = cf_a * cf_b;
+	//complex<float> cf_x = cf_a * cf_b;
 
-	cout << cf_x.real() << " " << cf_x.imag() << endl;
+	//cout << cf_x.real() << " " << cf_x.imag() << endl;
 
-	return 0;
+	//return 0;
+
+
+
+	// Compare quaternion numbers 
+
+	//vertex<float, 4> a;
+	//a.vd[0] = 0.1f;
+	//a.vd[1] = 0.2f;
+	//a.vd[2] = 0.3f;
+	//a.vd[3] = 0.4f;
+
+	//vertex<float, 4> b;
+	//b.vd[0] = 1.0f;
+	//b.vd[1] = 0.9f;
+	//b.vd[2] = 0.8f;
+	//b.vd[3] = 0.7f;
+
+	//vertex<float, 4> x = mul(a, b);
+	//vertex<float, 4> y = traditional_mul(a, b);
+
+	//cout << x.vd[0] << " " << x.vd[1] << " " << x.vd[2] << " " << x.vd[3] << endl;
+	//cout << y.vd[0] << " " << y.vd[1] << " " << y.vd[2] << " " << y.vd[3] << endl;
+	//
+	//cout << x.magnitude() << " " << y.magnitude() << endl;
+
+	//return 0;
 
 
 
@@ -265,18 +302,18 @@ int main(void)
 
 	//vertex<float, 5> a;
 
-	//a.vertex_data[0] = 0.1f;
-	//a.vertex_data[1] = 0.2f;
-	//a.vertex_data[2] = 0.3f;
-	//a.vertex_data[3] = 0.4f;
-	//a.vertex_data[4] = 0.5f;
+	//a.vd[0] = 0.1f;
+	//a.vd[1] = 0.2f;
+	//a.vd[2] = 0.3f;
+	//a.vd[3] = 0.4f;
+	//a.vd[4] = 0.5f;
 
 	//vertex<float, 5> x = pow(a, 2.0f);
 
 	//vertex<float, 5> y = mul(a, a);
 
-	//cout << x.vertex_data[0] << " " << x.vertex_data[1] << " " << x.vertex_data[2] << " " << x.vertex_data[3] << " " << x.vertex_data[4] << endl;
-	//cout << y.vertex_data[0] << " " << y.vertex_data[1] << " " << y.vertex_data[2] << " " << y.vertex_data[3] << " " << y.vertex_data[4] << endl;
+	//cout << x.vd[0] << " " << x.vd[1] << " " << x.vd[2] << " " << x.vd[3] << " " << x.vd[4] << endl;
+	//cout << y.vd[0] << " " << y.vd[1] << " " << y.vd[2] << " " << y.vd[3] << " " << y.vd[4] << endl;
 
 	//return 0;
 
@@ -285,25 +322,25 @@ int main(void)
 	// Test quintonions for various attributes
 
 	//vertex<float, 5> a;
-	//a.vertex_data[0] = 0.1f;
-	//a.vertex_data[1] = 0.2f;
-	//a.vertex_data[2] = 0.3f;
-	//a.vertex_data[3] = 0.4f;
-	//a.vertex_data[4] = 0.5f;
+	//a.vd[0] = 0.1f;
+	//a.vd[1] = 0.2f;
+	//a.vd[2] = 0.3f;
+	//a.vd[3] = 0.4f;
+	//a.vd[4] = 0.5f;
 
 	//vertex<float, 5> b;
-	//b.vertex_data[0] = 1.0f;
-	//b.vertex_data[1] = 0.9f;
-	//b.vertex_data[2] = 0.8f;
-	//b.vertex_data[3] = 0.7f;
-	//b.vertex_data[4] = 0.6f;
+	//b.vd[0] = 1.0f;
+	//b.vd[1] = 0.9f;
+	//b.vd[2] = 0.8f;
+	//b.vd[3] = 0.7f;
+	//b.vd[4] = 0.6f;
 
 	//vertex<float, 5> c;
-	//c.vertex_data[0] = 10.0f;
-	//c.vertex_data[1] = 9.0f;
-	//c.vertex_data[2] = 8.0f;
-	//c.vertex_data[3] = 7.0f;
-	//c.vertex_data[4] = 6.0f;
+	//c.vd[0] = 10.0f;
+	//c.vd[1] = 9.0f;
+	//c.vd[2] = 8.0f;
+	//c.vd[3] = 7.0f;
+	//c.vd[4] = 6.0f;
 
 	//vertex<float, 5> x = mul(a, b);
 	//vertex<float, 5> y = mul(b, a);
@@ -312,8 +349,8 @@ int main(void)
 	//{		
 	//	cout << "commutativity failure" << endl;
 
-	//	cout << x.vertex_data[0] << " " << x.vertex_data[1] << " " << x.vertex_data[2] << " " << x.vertex_data[3] << " " << x.vertex_data[4] << endl;
-	//	cout << y.vertex_data[0] << " " << y.vertex_data[1] << " " << y.vertex_data[2] << " " << y.vertex_data[3] << " " << y.vertex_data[4] << endl;
+	//	cout << x.vd[0] << " " << x.vd[1] << " " << x.vd[2] << " " << x.vd[3] << " " << x.vd[4] << endl;
+	//	cout << y.vd[0] << " " << y.vd[1] << " " << y.vd[2] << " " << y.vd[3] << " " << y.vd[4] << endl;
 	//}
 
 	//x = mul(mul(a, b), c);
@@ -323,8 +360,8 @@ int main(void)
 	//{
 	//	cout << "associativity failure" << endl;
 
-	//	cout << x.vertex_data[0] << " " << x.vertex_data[1] << " " << x.vertex_data[2] << " " << x.vertex_data[3] << " " << x.vertex_data[4] << endl;
-	//	cout << y.vertex_data[0] << " " << y.vertex_data[1] << " " << y.vertex_data[2] << " " << y.vertex_data[3] << " " << y.vertex_data[4] << endl;
+	//	cout << x.vd[0] << " " << x.vd[1] << " " << x.vd[2] << " " << x.vd[3] << " " << x.vd[4] << endl;
+	//	cout << y.vd[0] << " " << y.vd[1] << " " << y.vd[2] << " " << y.vd[3] << " " << y.vd[4] << endl;
 	//}
 
 	//x = mul(a, b + c);
@@ -334,8 +371,8 @@ int main(void)
 	//{
 	//	cout << "distributive failure" << endl;
 
-	//	cout << x.vertex_data[0] << " " << x.vertex_data[1] << " " << x.vertex_data[2] << " " << x.vertex_data[3] << " " << x.vertex_data[4] << endl;
-	//	cout << y.vertex_data[0] << " " << y.vertex_data[1] << " " << y.vertex_data[2] << " " << y.vertex_data[3] << " " << y.vertex_data[4] << endl;
+	//	cout << x.vd[0] << " " << x.vd[1] << " " << x.vd[2] << " " << x.vd[3] << " " << x.vd[4] << endl;
+	//	cout << y.vd[0] << " " << y.vd[1] << " " << y.vd[2] << " " << y.vd[3] << " " << y.vd[4] << endl;
 	//}
 
 	//return 0;
@@ -345,34 +382,34 @@ int main(void)
 	// Test octonion new multiplication for various attributes
 
 	//vertex<float, 8> a;
-	//a.vertex_data[0] = 0.1f;
-	//a.vertex_data[1] = 0.2f;
-	//a.vertex_data[2] = 0.3f;
-	//a.vertex_data[3] = 0.4f;
-	//a.vertex_data[4] = 0.5f;
-	//a.vertex_data[5] = 0.6f;
-	//a.vertex_data[6] = 0.7f;
-	//a.vertex_data[7] = 0.8f;
+	//a.vd[0] = 0.1f;
+	//a.vd[1] = 0.2f;
+	//a.vd[2] = 0.3f;
+	//a.vd[3] = 0.4f;
+	//a.vd[4] = 0.5f;
+	//a.vd[5] = 0.6f;
+	//a.vd[6] = 0.7f;
+	//a.vd[7] = 0.8f;
 
 	//vertex<float, 8> b;
-	//b.vertex_data[0] = 1.0f;
-	//b.vertex_data[1] = 0.9f;
-	//b.vertex_data[2] = 0.8f;
-	//b.vertex_data[3] = 0.7f;
-	//b.vertex_data[4] = 0.6f;
-	//b.vertex_data[5] = 0.5f;
-	//b.vertex_data[6] = 0.4f;
-	//b.vertex_data[7] = 0.3f;
+	//b.vd[0] = 1.0f;
+	//b.vd[1] = 0.9f;
+	//b.vd[2] = 0.8f;
+	//b.vd[3] = 0.7f;
+	//b.vd[4] = 0.6f;
+	//b.vd[5] = 0.5f;
+	//b.vd[6] = 0.4f;
+	//b.vd[7] = 0.3f;
 
 	//vertex<float, 8> c;
-	//c.vertex_data[0] = 10.0f;
-	//c.vertex_data[1] = 9.0f;
-	//c.vertex_data[2] = 8.0f;
-	//c.vertex_data[3] = 7.0f;
-	//c.vertex_data[4] = 6.0f;
-	//c.vertex_data[5] = 5.0f;
-	//c.vertex_data[6] = 4.0f;
-	//c.vertex_data[7] = 3.0f;
+	//c.vd[0] = 10.0f;
+	//c.vd[1] = 9.0f;
+	//c.vd[2] = 8.0f;
+	//c.vd[3] = 7.0f;
+	//c.vd[4] = 6.0f;
+	//c.vd[5] = 5.0f;
+	//c.vd[6] = 4.0f;
+	//c.vd[7] = 3.0f;
 
 	//vertex<float, 8> x = mul(a, b);
 	//vertex<float, 8> y = mul(b, a);
@@ -399,34 +436,34 @@ int main(void)
 	// Test octonion traditional multiplication for various attributes
 
 	//vertex<float, 8> a;
-	//a.vertex_data[0] = 0.1f;
-	//a.vertex_data[1] = 0.2f;
-	//a.vertex_data[2] = 0.3f;
-	//a.vertex_data[3] = 0.4f;
-	//a.vertex_data[4] = 0.5f;
-	//a.vertex_data[5] = 0.6f;
-	//a.vertex_data[6] = 0.7f;
-	//a.vertex_data[7] = 0.8f;
+	//a.vd[0] = 0.1f;
+	//a.vd[1] = 0.2f;
+	//a.vd[2] = 0.3f;
+	//a.vd[3] = 0.4f;
+	//a.vd[4] = 0.5f;
+	//a.vd[5] = 0.6f;
+	//a.vd[6] = 0.7f;
+	//a.vd[7] = 0.8f;
 
 	//vertex<float, 8> b;
-	//b.vertex_data[0] = 1.0f;
-	//b.vertex_data[1] = 0.9f;
-	//b.vertex_data[2] = 0.8f;
-	//b.vertex_data[3] = 0.7f;
-	//b.vertex_data[4] = 0.6f;
-	//b.vertex_data[5] = 0.5f;
-	//b.vertex_data[6] = 0.4f;
-	//b.vertex_data[7] = 0.3f;
+	//b.vd[0] = 1.0f;
+	//b.vd[1] = 0.9f;
+	//b.vd[2] = 0.8f;
+	//b.vd[3] = 0.7f;
+	//b.vd[4] = 0.6f;
+	//b.vd[5] = 0.5f;
+	//b.vd[6] = 0.4f;
+	//b.vd[7] = 0.3f;
 
 	//vertex<float, 8> c;
-	//c.vertex_data[0] = 10.0f;
-	//c.vertex_data[1] = 9.0f;
-	//c.vertex_data[2] = 8.0f;
-	//c.vertex_data[3] = 7.0f;
-	//c.vertex_data[4] = 6.0f;
-	//c.vertex_data[5] = 5.0f;
-	//c.vertex_data[6] = 4.0f;
-	//c.vertex_data[7] = 3.0f;
+	//c.vd[0] = 10.0f;
+	//c.vd[1] = 9.0f;
+	//c.vd[2] = 8.0f;
+	//c.vd[3] = 7.0f;
+	//c.vd[4] = 6.0f;
+	//c.vd[5] = 5.0f;
+	//c.vd[6] = 4.0f;
+	//c.vd[7] = 3.0f;
 
 	//vertex<float, 8> x = traditional_mul(a, b);
 	//vertex<float, 8> y = traditional_mul(b, a);
@@ -453,35 +490,35 @@ int main(void)
 	// Test octonion multiplication where A != B
 
 	//vertex<float, 8> a;
-	//a.vertex_data[0] = 0.1f;
-	//a.vertex_data[1] = 0.2f;
-	//a.vertex_data[2] = 0.3f;
-	//a.vertex_data[3] = 0.4f;
-	//a.vertex_data[4] = 0.5f;
-	//a.vertex_data[5] = 0.6f;
-	//a.vertex_data[6] = 0.7f;
-	//a.vertex_data[7] = 0.8f;
+	//a.vd[0] = 0.1f;
+	//a.vd[1] = 0.2f;
+	//a.vd[2] = 0.3f;
+	//a.vd[3] = 0.4f;
+	//a.vd[4] = 0.5f;
+	//a.vd[5] = 0.6f;
+	//a.vd[6] = 0.7f;
+	//a.vd[7] = 0.8f;
 
 	//vertex<float, 8> b;
-	//b.vertex_data[0] = 10.0f;
-	//b.vertex_data[1] = 9.0f;
-	//b.vertex_data[2] = 8.0f;
-	//b.vertex_data[3] = 7.0f;
-	//b.vertex_data[4] = 6.0f;
-	//b.vertex_data[5] = 5.0f;
-	//b.vertex_data[6] = 4.0f;
-	//b.vertex_data[7] = 3.0f;
+	//b.vd[0] = 10.0f;
+	//b.vd[1] = 9.0f;
+	//b.vd[2] = 8.0f;
+	//b.vd[3] = 7.0f;
+	//b.vd[4] = 6.0f;
+	//b.vd[5] = 5.0f;
+	//b.vd[6] = 4.0f;
+	//b.vd[7] = 3.0f;
 
 	//vertex<float, 8> P = traditional_mul(a, b);
 	//vertex<float, 8> P2 = mul(a, b);
 
 	//for (size_t i = 0; i < 8; i++)
-	//	cout << P.vertex_data[i] << " ";
+	//	cout << P.vd[i] << " ";
 
 	//cout << endl;
 
 	//for (size_t i = 0; i < 8; i++)
-	//	cout << P2.vertex_data[i] << " ";
+	//	cout << P2.vd[i] << " ";
 
 	//cout << endl;
 
@@ -523,20 +560,20 @@ int main(void)
 	//		a4 = -a4;
 
 	//	vertex<float, 8> a;
-	//	a.vertex_data[0] = a0;
-	//	a.vertex_data[1] = a1;
-	//	a.vertex_data[2] = a2;
-	//	a.vertex_data[3] = a3;
-	//	a.vertex_data[4] = a4;
-	//	a.vertex_data[5] = 0;
-	//	a.vertex_data[6] = 0;
-	//	a.vertex_data[7] = 0;
+	//	a.vd[0] = a0;
+	//	a.vd[1] = a1;
+	//	a.vd[2] = a2;
+	//	a.vd[3] = a3;
+	//	a.vd[4] = a4;
+	//	a.vd[5] = 0;
+	//	a.vd[6] = 0;
+	//	a.vd[7] = 0;
 
 	//	vertex<float, 8> b = a;
 
 	//	vertex<float, 8> P = traditional_mul(a, b);
 
-	//	if (P.vertex_data[5] || P.vertex_data[6] || P.vertex_data[7])
+	//	if (P.vd[5] || P.vd[6] || P.vd[7])
 	//	{
 	//		cout << "Error: non-zero components!" << endl;
 	//	}
