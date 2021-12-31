@@ -1,6 +1,7 @@
 #include "main.h"
 
 
+
 void compare_real_numbers(void);
 void compare_complex_numbers(void);
 void compare_quaternion_numbers(void);
@@ -11,6 +12,8 @@ void test_octonion_traditional_multiplication(void);
 void test_octonion_multiplication(void);
 void test_for_5D_subalgebra(void);
 void test_sedonion_multiplication(void);
+void test_sedonion_traditional_multiplication(void);
+
 
 
 int main(void)
@@ -24,10 +27,12 @@ int main(void)
 	//test_octonion_traditional_multiplication();
 	//test_octonion_multiplication();
 	//test_for_5D_subalgebra();
-	test_sedonion_multiplication();
+	//test_sedonion_multiplication();
+	test_sedonion_traditional_multiplication();
 
 	return 0;
 }
+
 
 
 void compare_real_numbers(void)
@@ -411,4 +416,80 @@ void test_sedonion_multiplication(void)
 	cout << endl;
 
 	cout << P.magnitude() << " " << P2.magnitude() << endl;
+}
+
+void test_sedonion_traditional_multiplication(void)
+{
+	vertex<float, 16> a;
+	a.vd[0] = 0.1f;
+	a.vd[1] = 0.2f;
+	a.vd[2] = 0.3f;
+	a.vd[3] = 0.4f;
+	a.vd[4] = 0.5f;
+	a.vd[5] = 0.6f;
+	a.vd[6] = 0.7f;
+	a.vd[7] = 0.8f;
+	a.vd[8] = 0.9f;
+	a.vd[9] = 1.0f;
+	a.vd[10] = 1.1f;
+	a.vd[11] = 1.2f;
+	a.vd[12] = 1.3f;
+	a.vd[13] = 1.4f;
+	a.vd[14] = 1.5f;
+	a.vd[15] = 1.6f;
+
+	vertex<float, 16> b;
+	b.vd[0] = 10.0f;
+	b.vd[1] = 9.0f;
+	b.vd[2] = 8.0f;
+	b.vd[3] = 7.0f;
+	b.vd[4] = 6.0f;
+	b.vd[5] = 5.0f;
+	b.vd[6] = 4.0f;
+	b.vd[7] = 3.0f;
+	b.vd[8] = 2.0f;
+	b.vd[9] = 1.0f;
+	b.vd[10] = 0.0f;
+	b.vd[11] = -1.0f;
+	b.vd[12] = -2.0f;
+	b.vd[13] = -3.0f;
+	b.vd[14] = -4.0f;
+	b.vd[15] = -5.0f;
+
+	vertex<float, 16> c;
+	c.vd[0] = 1.0f;
+	c.vd[1] = 2.0f;
+	c.vd[2] = 3.0f;
+	c.vd[3] = 4.0f;
+	c.vd[4] = 5.0f;
+	c.vd[5] = 6.0f;
+	c.vd[6] = 7.0f;
+	c.vd[7] = 8.0f;
+	c.vd[8] = 9.0f;
+	c.vd[9] = 10.0f;
+	c.vd[10] = 11.0f;
+	c.vd[11] = 12.0f;
+	c.vd[12] = 13.0f;
+	c.vd[13] = 14.0f;
+	c.vd[14] = 15.0f;
+	c.vd[15] = 16.0f;
+
+
+	vertex<float, 16> x = traditional_mul(a, b);
+	vertex<float, 16> y = traditional_mul(b, a);
+
+	if (x != y)
+		cout << "commutativity failure" << endl;
+
+	x = traditional_mul(traditional_mul(a, b), c);
+	y = traditional_mul(a, traditional_mul(b, c));
+
+	if (x != y)
+		cout << "associativity failure" << endl;
+
+	x = traditional_mul(a, b + c);
+	y = traditional_mul(a, b) + traditional_mul(a, c);
+
+	if (x != y)
+		cout << "distributive failure" << endl;
 }
