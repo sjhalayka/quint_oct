@@ -76,7 +76,7 @@ public:
 	}
 };
 
-// Pow function
+// Pow function for variable T and N
 template<class T, size_t N>
 vertex<T, N> pow(const vertex<T, N>& in, T beta)
 {
@@ -116,7 +116,7 @@ vertex<T, N> pow(const vertex<T, N>& in, T beta)
 	return out;
 }
 
-// Traditional multiplication for n = 1 (e.g. real numbers)
+// Traditional multiplication for n = 1 (e.g. real numbers) for variable T
 template<class T, size_t N = 1>
 vertex<T, 1> traditional_mul(const vertex<T, 1>& in_a, const vertex<T, 1>& in_b)
 {
@@ -127,7 +127,7 @@ vertex<T, 1> traditional_mul(const vertex<T, 1>& in_a, const vertex<T, 1>& in_b)
 	return out;
 }
 
-// Traditional multiplication for n = 2 (e.g. complex numbers)
+// Traditional multiplication for n = 2 (e.g. complex numbers) for variable T
 template<class T, size_t N = 2>
 vertex<T, 2> traditional_mul(const vertex<T, 2>& in_a, const vertex<T, 2>& in_b)
 {
@@ -139,7 +139,7 @@ vertex<T, 2> traditional_mul(const vertex<T, 2>& in_a, const vertex<T, 2>& in_b)
 	return out;
 }
 
-// Traditional multiplication for n = 4 (e.g. quaternions)
+// Traditional multiplication for n = 4 (e.g. quaternions) for variable T
 template<class T, size_t N = 4>
 vertex<T, 4> traditional_mul(const vertex<T, 4>& in_a, const vertex<T, 4>& in_b)
 {
@@ -153,7 +153,7 @@ vertex<T, 4> traditional_mul(const vertex<T, 4>& in_a, const vertex<T, 4>& in_b)
 	return out;
 }
 
-// Traditional multiplication for n = 8 (e.g. octonions)
+// Traditional multiplication for n = 8 (e.g. octonions) for variable T
 template<class T, size_t N = 8>
 vertex<T, 8> traditional_mul(const vertex<T, 8>& in_a, const vertex<T, 8>& in_b)
 {
@@ -171,7 +171,7 @@ vertex<T, 8> traditional_mul(const vertex<T, 8>& in_a, const vertex<T, 8>& in_b)
 	return out;
 }
 
-// Traditional multiplication for n = 16 (e.g. sedenions)
+// Traditional multiplication for n = 16 (e.g. sedenions) for variable T
 template<class T, size_t N = 16>
 vertex<T, 16> traditional_mul(const vertex<T, 16>& in_a, const vertex<T, 16>& in_b)
 {
@@ -197,7 +197,7 @@ vertex<T, 16> traditional_mul(const vertex<T, 16>& in_a, const vertex<T, 16>& in
 	return out;
 }
 
-// Exponential function (base = e)
+// Exponential function (base = e) for variable T and N
 template<class T, size_t N>
 vertex<T, N> exp(const vertex<T, N>& in)
 {
@@ -236,7 +236,7 @@ vertex<T, N> exp(const vertex<T, N>& in)
 	return out;
 }
 
-// Log function (base e)
+// Log function (base e) for variable T and N
 template<class T, size_t N>
 vertex<T, N> log(const vertex<T, N>& in)
 {
@@ -278,7 +278,7 @@ vertex<T, N> log(const vertex<T, N>& in)
 	return out;
 }
 
-// New multiplication function
+// New multiplication function for variable T and N
 template<class T, size_t N>
 vertex<T, N> mul(const vertex<T, N>& in_a, const vertex<T, N>& in_b)
 {
