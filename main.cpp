@@ -1,7 +1,7 @@
 #include "main.h"
 
 
-
+// Function declarations (see definitions below main())
 void compare_real_numbers(void);
 void compare_complex_numbers(void);
 void compare_quaternion_numbers(void);
@@ -18,7 +18,8 @@ void test_sedonion_traditional_multiplication(void);
 
 int main(void)
 {
-	//compare_real_numbers();
+	// Peform tests
+
 	//compare_complex_numbers();
 	//compare_quaternion_numbers();
 	//compare_quintonion_pow_to_mul();

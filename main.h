@@ -5,7 +5,7 @@
 using namespace std;
 
 
-
+// Vertex class, using a type (e.g. float) and a vertex component count (e.g. 8 for octonions)
 template<class T, size_t N>
 class vertex
 {
@@ -76,6 +76,7 @@ public:
 	}
 };
 
+// Pow function
 template<class T, size_t N>
 vertex<T, N> pow(const vertex<T, N>& in, T beta)
 {
@@ -115,6 +116,7 @@ vertex<T, N> pow(const vertex<T, N>& in, T beta)
 	return out;
 }
 
+// Traditional multiplication for n = 1 (e.g. real numbers)
 template<class T, size_t N = 1>
 vertex<T, 1> traditional_mul(const vertex<T, 1>& in_a, const vertex<T, 1>& in_b)
 {
@@ -125,6 +127,7 @@ vertex<T, 1> traditional_mul(const vertex<T, 1>& in_a, const vertex<T, 1>& in_b)
 	return out;
 }
 
+// Traditional multiplication for n = 2 (e.g. complex numbers)
 template<class T, size_t N = 2>
 vertex<T, 2> traditional_mul(const vertex<T, 2>& in_a, const vertex<T, 2>& in_b)
 {
@@ -136,6 +139,7 @@ vertex<T, 2> traditional_mul(const vertex<T, 2>& in_a, const vertex<T, 2>& in_b)
 	return out;
 }
 
+// Traditional multiplication for n = 4 (e.g. quaternions)
 template<class T, size_t N = 4>
 vertex<T, 4> traditional_mul(const vertex<T, 4>& in_a, const vertex<T, 4>& in_b)
 {
@@ -149,6 +153,7 @@ vertex<T, 4> traditional_mul(const vertex<T, 4>& in_a, const vertex<T, 4>& in_b)
 	return out;
 }
 
+// Traditional multiplication for n = 8 (e.g. octonions)
 template<class T, size_t N = 8>
 vertex<T, 8> traditional_mul(const vertex<T, 8>& in_a, const vertex<T, 8>& in_b)
 {
@@ -166,6 +171,7 @@ vertex<T, 8> traditional_mul(const vertex<T, 8>& in_a, const vertex<T, 8>& in_b)
 	return out;
 }
 
+// Traditional multiplication for n = 16 (e.g. sedenions)
 template<class T, size_t N = 16>
 vertex<T, 16> traditional_mul(const vertex<T, 16>& in_a, const vertex<T, 16>& in_b)
 {
@@ -191,6 +197,7 @@ vertex<T, 16> traditional_mul(const vertex<T, 16>& in_a, const vertex<T, 16>& in
 	return out;
 }
 
+// Exponential function (base = e)
 template<class T, size_t N>
 vertex<T, N> exp(const vertex<T, N>& in)
 {
@@ -229,6 +236,7 @@ vertex<T, N> exp(const vertex<T, N>& in)
 	return out;
 }
 
+// Log function (base e)
 template<class T, size_t N>
 vertex<T, N> log(const vertex<T, N>& in)
 {
@@ -270,6 +278,7 @@ vertex<T, N> log(const vertex<T, N>& in)
 	return out;
 }
 
+// New multiplication function
 template<class T, size_t N>
 vertex<T, N> mul(const vertex<T, N>& in_a, const vertex<T, N>& in_b)
 {
