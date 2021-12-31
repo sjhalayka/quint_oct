@@ -474,7 +474,6 @@ void test_sedonion_traditional_multiplication(void)
 	c.vd[14] = 15.0f;
 	c.vd[15] = 16.0f;
 
-
 	vertex<float, 16> x = traditional_mul(a, b);
 	vertex<float, 16> y = traditional_mul(b, a);
 
