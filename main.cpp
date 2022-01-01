@@ -1,6 +1,7 @@
 #include "main.h"
 
 
+
 // Function declarations (see definitions below main())
 void compare_real_numbers(void);
 void compare_complex_numbers(void);
@@ -18,7 +19,7 @@ void test_sedonion_traditional_multiplication(void);
 
 int main(void)
 {
-	// Peform tests
+	// Perform tests
 
 	//compare_complex_numbers();
 	//compare_quaternion_numbers();
@@ -28,8 +29,8 @@ int main(void)
 	//test_octonion_traditional_multiplication();
 	//test_octonion_multiplication();
 	//test_for_5D_subalgebra();
-	//test_sedonion_multiplication();
-	test_sedonion_traditional_multiplication();
+	test_sedonion_multiplication();
+	//test_sedonion_traditional_multiplication();
 
 	return 0;
 }
@@ -109,7 +110,6 @@ void compare_quintonion_pow_to_mul(void)
 	a.vd[4] = 0.5f;
 
 	vertex<float, 5> x = pow(a, 2.0f);
-
 	vertex<float, 5> y = mul(a, a);
 
 	cout << x.vd[0] << " " << x.vd[1] << " " << x.vd[2] << " " << x.vd[3] << " " << x.vd[4] << endl;
@@ -493,3 +493,5 @@ void test_sedonion_traditional_multiplication(void)
 	if (x != y)
 		cout << "distributive failure" << endl;
 }
+
+
