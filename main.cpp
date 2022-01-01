@@ -21,6 +21,7 @@ int main(void)
 {
 	// Perform tests
 
+	//compare_real_numbers();
 	//compare_complex_numbers();
 	//compare_quaternion_numbers();
 	//compare_quintonion_pow_to_mul();
