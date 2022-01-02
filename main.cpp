@@ -12,8 +12,15 @@ void test_octonion_new_multiplication(void);
 void test_octonion_traditional_multiplication(void);
 void test_octonion_multiplication(void);
 void test_for_5D_subalgebra(void);
+void test_octonion_multiplication_speed(void);
 void test_sedonion_multiplication(void);
 void test_sedonion_traditional_multiplication(void);
+void test_sedenion_multiplication_speed(void);
+void test_trigintaduonion_multiplication_speed(void);
+
+
+
+// https://ece.uwaterloo.ca/~dwharder/C++/CQOST/src/
 
 
 
@@ -21,17 +28,22 @@ int main(void)
 {
 	// Perform tests
 
-	compare_real_numbers();
-	compare_complex_numbers();
-	compare_quaternion_numbers();
-	compare_quintonion_pow_to_mul();
-	test_quintonions();
-	test_octonion_new_multiplication();
-	test_octonion_traditional_multiplication();
-	test_octonion_multiplication();
-	test_for_5D_subalgebra();
-	test_sedonion_multiplication();
-	test_sedonion_traditional_multiplication();
+	//compare_real_numbers();
+	//compare_complex_numbers();
+	//compare_quaternion_numbers();
+	//compare_quintonion_pow_to_mul();
+	//test_quintonions();
+	//test_octonion_new_multiplication();
+	//test_octonion_traditional_multiplication();
+	//test_octonion_multiplication();
+	//test_for_5D_subalgebra();
+	test_octonion_multiplication_speed();
+	//test_sedonion_multiplication();
+	//test_sedonion_traditional_multiplication();
+	test_sedenion_multiplication_speed();
+
+	test_trigintaduonion_multiplication_speed();
+
 
 	return 0;
 }
@@ -408,6 +420,82 @@ void test_for_5D_subalgebra(void)
 	cout << endl;
 }
 
+void test_octonion_multiplication_speed(void)
+{
+	std::chrono::high_resolution_clock::time_point start_time, end_time;
+	std::chrono::duration<float, std::milli> elapsed;
+
+	start_time = std::chrono::high_resolution_clock::now();
+
+	const size_t num_iterations = 100000;
+
+	for (size_t i = 0; i < num_iterations; i++)
+	{
+		vertex<float, 8> a;
+		a.vd[0] = 0.1f;
+		a.vd[1] = 0.2f;
+		a.vd[2] = 0.3f;
+		a.vd[3] = 0.4f;
+		a.vd[4] = 0.5f;
+		a.vd[5] = 0.6f;
+		a.vd[6] = 0.7f;
+		a.vd[7] = 0.8f;
+
+		vertex<float, 8> b;
+		b.vd[0] = 10.0f;
+		b.vd[1] = 9.0f;
+		b.vd[2] = 8.0f;
+		b.vd[3] = 7.0f;
+		b.vd[4] = 6.0f;
+		b.vd[5] = 5.0f;
+		b.vd[6] = 4.0f;
+		b.vd[7] = 3.0f;
+
+		vertex<float, 8> x = traditional_mul(a, b);
+	}
+
+
+	end_time = std::chrono::high_resolution_clock::now();
+
+	elapsed = end_time - start_time;
+
+	cout << "Duration: " << elapsed.count() / 1000.0f << " seconds" << endl;
+
+
+	start_time = std::chrono::high_resolution_clock::now();
+
+	for (size_t i = 0; i < num_iterations; i++)
+	{
+		vertex<float, 8> a;
+		a.vd[0] = 0.1f;
+		a.vd[1] = 0.2f;
+		a.vd[2] = 0.3f;
+		a.vd[3] = 0.4f;
+		a.vd[4] = 0.5f;
+		a.vd[5] = 0.6f;
+		a.vd[6] = 0.7f;
+		a.vd[7] = 0.8f;
+
+		vertex<float, 8> b;
+		b.vd[0] = 10.0f;
+		b.vd[1] = 9.0f;
+		b.vd[2] = 8.0f;
+		b.vd[3] = 7.0f;
+		b.vd[4] = 6.0f;
+		b.vd[5] = 5.0f;
+		b.vd[6] = 4.0f;
+		b.vd[7] = 3.0f;
+
+		vertex<float, 8> x = mul(a, b);
+	}
+
+	end_time = std::chrono::high_resolution_clock::now();
+
+	elapsed = end_time - start_time;
+
+	cout << "Duration: " << elapsed.count() / 1000.0f << " seconds" << endl;
+}
+
 void test_sedonion_multiplication(void)
 {
 	cout << "Test sedonion multiplications:" << endl;
@@ -553,4 +641,167 @@ void test_sedonion_traditional_multiplication(void)
 	cout << endl;
 }
 
+void test_sedenion_multiplication_speed(void)
+{
+	std::chrono::high_resolution_clock::time_point start_time, end_time;
+	std::chrono::duration<float, std::milli> elapsed;
+
+	start_time = std::chrono::high_resolution_clock::now();
+
+	const size_t num_iterations = 100000;
+
+	for (size_t i = 0; i < num_iterations; i++)
+	{
+		vertex<float, 16> a;
+		a.vd[0] = 0.1f;
+		a.vd[1] = 0.2f;
+		a.vd[2] = 0.3f;
+		a.vd[3] = 0.4f;
+		a.vd[4] = 0.5f;
+		a.vd[5] = 0.6f;
+		a.vd[6] = 0.7f;
+		a.vd[7] = 0.8f;
+		a.vd[8] = 0.9f;
+		a.vd[9] = 1.0f;
+		a.vd[10] = 1.1f;
+		a.vd[11] = 1.2f;
+		a.vd[12] = 1.3f;
+		a.vd[13] = 1.4f;
+		a.vd[14] = 1.5f;
+		a.vd[15] = 1.6f;
+
+		vertex<float, 16> b;
+		b.vd[0] = 10.0f;
+		b.vd[1] = 9.0f;
+		b.vd[2] = 8.0f;
+		b.vd[3] = 7.0f;
+		b.vd[4] = 6.0f;
+		b.vd[5] = 5.0f;
+		b.vd[6] = 4.0f;
+		b.vd[7] = 3.0f;
+		b.vd[8] = 2.0f;
+		b.vd[9] = 1.0f;
+		b.vd[10] = 0.0f;
+		b.vd[11] = -1.0f;
+		b.vd[12] = -2.0f;
+		b.vd[13] = -3.0f;
+		b.vd[14] = -4.0f;
+		b.vd[15] = -5.0f;
+
+		vertex<float, 16> x = traditional_mul(a, b);
+	}
+
+
+	end_time = std::chrono::high_resolution_clock::now();
+
+	elapsed = end_time - start_time;
+
+	cout << "Duration: " << elapsed.count() / 1000.0f << " seconds" << endl;
+
+
+	start_time = std::chrono::high_resolution_clock::now();
+
+	for (size_t i = 0; i < num_iterations; i++)
+	{
+		vertex<float, 16> a;
+		a.vd[0] = 0.1f;
+		a.vd[1] = 0.2f;
+		a.vd[2] = 0.3f;
+		a.vd[3] = 0.4f;
+		a.vd[4] = 0.5f;
+		a.vd[5] = 0.6f;
+		a.vd[6] = 0.7f;
+		a.vd[7] = 0.8f;
+		a.vd[8] = 0.9f;
+		a.vd[9] = 1.0f;
+		a.vd[10] = 1.1f;
+		a.vd[11] = 1.2f;
+		a.vd[12] = 1.3f;
+		a.vd[13] = 1.4f;
+		a.vd[14] = 1.5f;
+		a.vd[15] = 1.6f;
+
+		vertex<float, 16> b;
+		b.vd[0] = 10.0f;
+		b.vd[1] = 9.0f;
+		b.vd[2] = 8.0f;
+		b.vd[3] = 7.0f;
+		b.vd[4] = 6.0f;
+		b.vd[5] = 5.0f;
+		b.vd[6] = 4.0f;
+		b.vd[7] = 3.0f;
+		b.vd[8] = 2.0f;
+		b.vd[9] = 1.0f;
+		b.vd[10] = 0.0f;
+		b.vd[11] = -1.0f;
+		b.vd[12] = -2.0f;
+		b.vd[13] = -3.0f;
+		b.vd[14] = -4.0f;
+		b.vd[15] = -5.0f;
+
+		vertex<float, 16> x = mul(a, b);
+	}
+
+	end_time = std::chrono::high_resolution_clock::now();
+
+	elapsed = end_time - start_time;
+
+	cout << "Duration: " << elapsed.count() / 1000.0f << " seconds" << endl;
+}
+
+void test_trigintaduonion_multiplication_speed(void)
+{
+	std::chrono::high_resolution_clock::time_point start_time, end_time;
+	std::chrono::duration<float, std::milli> elapsed;
+
+	start_time = std::chrono::high_resolution_clock::now();
+
+	const size_t num_iterations = 100000;
+
+	for (size_t i = 0; i < num_iterations; i++)
+	{
+		vertex<float, 32> a;
+
+		for (size_t i = 0; i < 32; i++)
+			a.vd[i] = 0.1f * (i + 1);
+
+		vertex<float, 32> b;
+
+		for (size_t i = 0; i < 32; i++)
+			b.vd[i] = -1.0f * (i + 1);
+
+		vertex<float, 32> x = traditional_mul(a, b);
+	}
+
+
+	end_time = std::chrono::high_resolution_clock::now();
+
+	elapsed = end_time - start_time;
+
+	cout << "Duration: " << elapsed.count() / 1000.0f << " seconds" << endl;
+
+
+	start_time = std::chrono::high_resolution_clock::now();
+
+	for (size_t i = 0; i < num_iterations; i++)
+	{
+		vertex<float, 32> a;
+
+		for (size_t i = 0; i < 32; i++)
+			a.vd[i] = 0.1f * (i + 1);
+
+		vertex<float, 32> b;
+
+		for (size_t i = 0; i < 32; i++)
+			b.vd[i] = -1.0f * (i + 1);
+
+		vertex<float, 32> x = mul(a, b);
+	}
+
+	end_time = std::chrono::high_resolution_clock::now();
+
+	elapsed = end_time - start_time;
+
+	cout << "Duration: " << elapsed.count() / 1000.0f << " seconds" << endl;
+}
 
