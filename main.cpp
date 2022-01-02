@@ -459,7 +459,7 @@ void test_octonion_multiplication_speed(void)
 
 	elapsed = end_time - start_time;
 
-	cout << "Duration: " << elapsed.count() / 1000.0f << " seconds" << endl;
+	cout << "Octonion O(n^2) duration: " << elapsed.count() / 1000.0f << " seconds" << endl;
 
 
 	start_time = std::chrono::high_resolution_clock::now();
@@ -493,7 +493,7 @@ void test_octonion_multiplication_speed(void)
 
 	elapsed = end_time - start_time;
 
-	cout << "Duration: " << elapsed.count() / 1000.0f << " seconds" << endl;
+	cout << "Octonion O(n) duration: " << elapsed.count() / 1000.0f << " seconds" << endl;
 }
 
 void test_sedonion_multiplication(void)
@@ -696,7 +696,7 @@ void test_sedenion_multiplication_speed(void)
 
 	elapsed = end_time - start_time;
 
-	cout << "Duration: " << elapsed.count() / 1000.0f << " seconds" << endl;
+	cout << "Sedenion O(n^2) duration: " << elapsed.count() / 1000.0f << " seconds" << endl;
 
 
 	start_time = std::chrono::high_resolution_clock::now();
@@ -746,7 +746,7 @@ void test_sedenion_multiplication_speed(void)
 
 	elapsed = end_time - start_time;
 
-	cout << "Duration: " << elapsed.count() / 1000.0f << " seconds" << endl;
+	cout << "Sedenion O(n) duration: " << elapsed.count() / 1000.0f << " seconds" << endl;
 }
 
 void test_trigintaduonion_multiplication_speed(void)
@@ -778,7 +778,7 @@ void test_trigintaduonion_multiplication_speed(void)
 
 	elapsed = end_time - start_time;
 
-	cout << "Duration: " << elapsed.count() / 1000.0f << " seconds" << endl;
+	cout << "Trigintaduonion O(n^2) duration: " << elapsed.count() / 1000.0f << " seconds" << endl;
 
 
 	start_time = std::chrono::high_resolution_clock::now();
@@ -802,6 +802,6 @@ void test_trigintaduonion_multiplication_speed(void)
 
 	elapsed = end_time - start_time;
 
-	cout << "Duration: " << elapsed.count() / 1000.0f << " seconds" << endl;
+	cout << "Trigintaduonion O(n) duration: " << elapsed.count() / 1000.0f << " seconds" << endl;
 }
 
