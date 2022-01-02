@@ -21,17 +21,17 @@ int main(void)
 {
 	// Perform tests
 
-	//compare_real_numbers();
-	//compare_complex_numbers();
-	//compare_quaternion_numbers();
-	//compare_quintonion_pow_to_mul();
-	//test_quintonions();
-	//test_octonion_new_multiplication();
-	//test_octonion_traditional_multiplication();
-	//test_octonion_multiplication();
-	//test_for_5D_subalgebra();
+	compare_real_numbers();
+	compare_complex_numbers();
+	compare_quaternion_numbers();
+	compare_quintonion_pow_to_mul();
+	test_quintonions();
+	test_octonion_new_multiplication();
+	test_octonion_traditional_multiplication();
+	test_octonion_multiplication();
+	test_for_5D_subalgebra();
 	test_sedonion_multiplication();
-	//test_sedonion_traditional_multiplication();
+	test_sedonion_traditional_multiplication();
 
 	return 0;
 }
@@ -40,6 +40,8 @@ int main(void)
 
 void compare_real_numbers(void)
 {
+	cout << "Comparing real numbers" << endl;
+
 	vertex<float, 1> a;
 	a.vd[0] = 0.1234f;
 
@@ -51,10 +53,14 @@ void compare_real_numbers(void)
 
 	cout << x.vd[0] << endl;
 	cout << y.vd[0] << endl;
+
+	cout << endl;
 }
 
 void compare_complex_numbers(void)
 {
+	cout << "Comparing complex numbers" << endl;
+
 	vertex<float, 2> a;
 	a.vd[0] = 0.1f;
 	a.vd[1] = 0.2f;
@@ -75,10 +81,14 @@ void compare_complex_numbers(void)
 	complex<float> cf_x = cf_a * cf_b;
 
 	cout << cf_x.real() << " " << cf_x.imag() << endl;
+
+	cout << endl;
 }
 
 void compare_quaternion_numbers(void)
 {
+	cout << "Comparing quaternion numbers" << endl;
+
 	vertex<float, 4> a;
 	a.vd[0] = 0.1f;
 	a.vd[1] = 0.2f;
@@ -97,11 +107,16 @@ void compare_quaternion_numbers(void)
 	cout << x.vd[0] << " " << x.vd[1] << " " << x.vd[2] << " " << x.vd[3] << endl;
 	cout << y.vd[0] << " " << y.vd[1] << " " << y.vd[2] << " " << y.vd[3] << endl;
 
+	cout << "Magnitudes:" << endl;
 	cout << x.magnitude() << " " << y.magnitude() << endl;
+
+	cout << endl;
 }
 
 void compare_quintonion_pow_to_mul(void)
 {
+	cout << "Comparing quintonion pow to new multiplication" << endl;
+
 	vertex<float, 5> a;
 
 	a.vd[0] = 0.1f;
@@ -115,10 +130,14 @@ void compare_quintonion_pow_to_mul(void)
 
 	cout << x.vd[0] << " " << x.vd[1] << " " << x.vd[2] << " " << x.vd[3] << " " << x.vd[4] << endl;
 	cout << y.vd[0] << " " << y.vd[1] << " " << y.vd[2] << " " << y.vd[3] << " " << y.vd[4] << endl;
+
+	cout << endl;
 }
 
 void test_quintonions(void)
 {
+	cout << "Test quintonion attributes:" << endl;
+
 	vertex<float, 5> a;
 	a.vd[0] = 0.1f;
 	a.vd[1] = 0.2f;
@@ -144,38 +163,33 @@ void test_quintonions(void)
 	vertex<float, 5> y = mul(b, a);
 
 	if (x != y)
-	{
 		cout << "commutativity failure" << endl;
-
-		cout << x.vd[0] << " " << x.vd[1] << " " << x.vd[2] << " " << x.vd[3] << " " << x.vd[4] << endl;
-		cout << y.vd[0] << " " << y.vd[1] << " " << y.vd[2] << " " << y.vd[3] << " " << y.vd[4] << endl;
-	}
+	else
+		cout << "commutativity OK" << endl;
 
 	x = mul(mul(a, b), c);
 	y = mul(a, mul(b, c));
 
 	if (x != y)
-	{
 		cout << "associativity failure" << endl;
-
-		cout << x.vd[0] << " " << x.vd[1] << " " << x.vd[2] << " " << x.vd[3] << " " << x.vd[4] << endl;
-		cout << y.vd[0] << " " << y.vd[1] << " " << y.vd[2] << " " << y.vd[3] << " " << y.vd[4] << endl;
-	}
+	else
+		cout << "associativity OK" << endl;
 
 	x = mul(a, b + c);
 	y = mul(a, b) + mul(a, c);
 
 	if (x != y)
-	{
-		cout << "distributive failure" << endl;
+		cout << "distributativity failure" << endl;
+	else
+		cout << "distributativity OK" << endl;
 
-		cout << x.vd[0] << " " << x.vd[1] << " " << x.vd[2] << " " << x.vd[3] << " " << x.vd[4] << endl;
-		cout << y.vd[0] << " " << y.vd[1] << " " << y.vd[2] << " " << y.vd[3] << " " << y.vd[4] << endl;
-	}
+	cout << endl;
 }
 
 void test_octonion_new_multiplication(void)
 {
+	cout << "Test octonion new multiplication attributes:" << endl;
+
 	vertex<float, 8> a;
 	a.vd[0] = 0.1f;
 	a.vd[1] = 0.2f;
@@ -211,22 +225,32 @@ void test_octonion_new_multiplication(void)
 
 	if (x != y)
 		cout << "commutativity failure" << endl;
+	else
+		cout << "commutativity OK" << endl;
 
 	x = mul(mul(a, b), c);
 	y = mul(a, mul(b, c));
 
 	if (x != y)
 		cout << "associativity failure" << endl;
+	else
+		cout << "associativity OK" << endl;
 
 	x = mul(a, b + c);
 	y = mul(a, b) + mul(a, c);
 
 	if (x != y)
-		cout << "distributive failure" << endl;
+		cout << "distributativity failure" << endl;
+	else
+		cout << "distributativity OK" << endl;
+
+	cout << endl;
 }
 
 void test_octonion_traditional_multiplication(void)
 {
+	cout << "Test octonion traditional multiplication attributes:" << endl;
+
 	vertex<float, 8> a;
 	a.vd[0] = 0.1f;
 	a.vd[1] = 0.2f;
@@ -262,22 +286,32 @@ void test_octonion_traditional_multiplication(void)
 
 	if (x != y)
 		cout << "commutativity failure" << endl;
+	else
+		cout << "commutativity OK" << endl;
 
 	x = traditional_mul(traditional_mul(a, b), c);
 	y = traditional_mul(a, traditional_mul(b, c));
 
 	if (x != y)
 		cout << "associativity failure" << endl;
+	else
+		cout << "associativity OK" << endl;
 
 	x = traditional_mul(a, b + c);
 	y = traditional_mul(a, b) + traditional_mul(a, c);
 
 	if (x != y)
-		cout << "distributive failure" << endl;
+		cout << "distributativity failure" << endl;
+	else
+		cout << "distributativity OK" << endl;
+
+	cout << endl;
 }
 
 void test_octonion_multiplication(void)
 {
+	cout << "Test octonion multiplications:" << endl;
+
 	vertex<float, 8> a;
 	a.vd[0] = 0.1f;
 	a.vd[1] = 0.2f;
@@ -311,11 +345,17 @@ void test_octonion_multiplication(void)
 
 	cout << endl;
 
+	cout << "Magnitudes:" << endl;
+
 	cout << P.magnitude() << " " << P2.magnitude() << endl;
+
+	cout << endl;
 }
 
 void test_for_5D_subalgebra(void)
 {
+	cout << "Testing for 5D subalgebra" << endl;
+
 	srand(static_cast<unsigned int>(time(0)));
 
 	for (size_t num_tries = 0; num_tries < 10000; num_tries++)
@@ -364,10 +404,14 @@ void test_for_5D_subalgebra(void)
 			cout << "Error: non-zero components!" << endl;
 		}
 	}
+
+	cout << endl;
 }
 
 void test_sedonion_multiplication(void)
 {
+	cout << "Test sedonion multiplications:" << endl;
+
 	vertex<float, 16> a;
 	a.vd[0] = 0.1f;
 	a.vd[1] = 0.2f;
@@ -417,11 +461,17 @@ void test_sedonion_multiplication(void)
 
 	cout << endl;
 
+	cout << "Magnitudes:" << endl;
+
 	cout << P.magnitude() << " " << P2.magnitude() << endl;
+
+	cout << endl;
 }
 
 void test_sedonion_traditional_multiplication(void)
 {
+	cout << "Test sedenion traditional multiplication attributes:" << endl;
+
 	vertex<float, 16> a;
 	a.vd[0] = 0.1f;
 	a.vd[1] = 0.2f;
@@ -481,18 +531,26 @@ void test_sedonion_traditional_multiplication(void)
 
 	if (x != y)
 		cout << "commutativity failure" << endl;
+	else
+		cout << "commutativity OK" << endl;
 
 	x = traditional_mul(traditional_mul(a, b), c);
 	y = traditional_mul(a, traditional_mul(b, c));
 
 	if (x != y)
 		cout << "associativity failure" << endl;
+	else
+		cout << "associativity OK" << endl;
 
 	x = traditional_mul(a, b + c);
 	y = traditional_mul(a, b) + traditional_mul(a, c);
 
 	if (x != y)
-		cout << "distributive failure" << endl;
+		cout << "distributativity failure" << endl;
+	else
+		cout << "distributativity OK" << endl;
+
+	cout << endl;
 }
 
 
