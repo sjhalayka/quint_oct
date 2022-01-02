@@ -20,6 +20,7 @@ void test_trigintaduonion_multiplication_speed(void);
 
 
 
+// See:
 // https://ece.uwaterloo.ca/~dwharder/C++/CQOST/src/
 
 
@@ -41,9 +42,7 @@ int main(void)
 	//test_sedonion_multiplication();
 	//test_sedonion_traditional_multiplication();
 	test_sedenion_multiplication_speed();
-
 	test_trigintaduonion_multiplication_speed();
-
 
 	return 0;
 }
