@@ -199,6 +199,7 @@ vertex<T, 16> traditional_mul(const vertex<T, 16>& in_a, const vertex<T, 16>& in
 	return out;
 }
 
+// Traditional multiplication for n = 32 (e.g. trigintaduonion, pathions, etc) for variable T
 template<class T, size_t N = 32>
 vertex<T, 32> traditional_mul(const vertex<T, 32>& in_a, const vertex<T, 32>& in_b)
 {
