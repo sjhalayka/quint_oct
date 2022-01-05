@@ -21,7 +21,10 @@ void test_trigintaduonion_multiplication_speed(void);
 
 
 // See:
+// https://theworld.com/~sweetser/quaternions/intro/tools/tools.html
 // https://ece.uwaterloo.ca/~dwharder/C++/CQOST/src/
+// https://math.stackexchange.com/a/2554/745219
+// http://paulbourke.net/fractals/quatjulia/
 
 
 
