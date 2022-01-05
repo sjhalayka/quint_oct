@@ -37,18 +37,18 @@ int main(void)
 
 	//compare_real_numbers();
 	//compare_complex_numbers();
-	compare_quaternion_numbers();
+	//compare_quaternion_numbers();
 	//compare_quintonion_pow_to_mul();
 	//test_quintonions();
 	//test_octonion_new_multiplication();
 	//test_octonion_traditional_multiplication();
 	//test_octonion_multiplication();
 	//test_for_5D_subalgebra();
-	//test_octonion_multiplication_speed();
+	test_octonion_multiplication_speed();
 	//test_sedonion_multiplication();
 	//test_sedonion_traditional_multiplication();
-	//test_sedenion_multiplication_speed();
-	//test_trigintaduonion_multiplication_speed();
+	test_sedenion_multiplication_speed();
+	test_trigintaduonion_multiplication_speed();
 
 	return 0;
 }
