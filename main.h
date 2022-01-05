@@ -329,3 +329,5 @@ vertex<T, N> mul(const vertex<T, N>& in_a, const vertex<T, N>& in_b)
 	return exp(log(in_a) + log(in_b));
 }
 
+
+
