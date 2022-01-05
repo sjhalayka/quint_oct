@@ -100,6 +100,22 @@ void compare_complex_numbers(void)
 
 	cout << cf_x.real() << " " << cf_x.imag() << endl;
 
+	cout << "Comparing complex numbers exp()" << endl;
+
+	a = exp(a);
+	cf_a = exp(cf_a);
+
+	cout << a.vd[0] << " " << a.vd[1] << endl;
+	cout << cf_a.real() << " " << cf_a.imag() << endl;
+
+	cout << "Comparing complex numbers log()" << endl;
+
+	b = log(b);
+	cf_b = log(cf_b);
+
+	cout << b.vd[0] << " " << b.vd[1] << endl;
+	cout << cf_b.real() << " " << cf_b.imag() << endl;
+
 	cout << endl;
 }
 
