@@ -772,7 +772,6 @@ void test_trigintaduonion_multiplication_speed(void)
 		vertex<float, 32> x = traditional_mul(a, b);
 	}
 
-
 	end_time = std::chrono::high_resolution_clock::now();
 
 	elapsed = end_time - start_time;
