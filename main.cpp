@@ -28,6 +28,7 @@ void test_trigintaduonion_multiplication_speed(void);
 // https://math.stackexchange.com/a/1047246/745219
 // https://www.mathworks.com/help/nav/ref/quaternion.log.html
 // https://www.mathworks.com/help/nav/ref/quaternion.exp.html
+// https://www.mathworks.com/help/robotics/ref/quaternion.power.html
 
 
 
