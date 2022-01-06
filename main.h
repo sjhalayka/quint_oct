@@ -16,7 +16,7 @@ public:
 
 	vertex(void)
 	{
-		vd.resize(N, 0);
+		vd.resize(N, 0); // allocate the memory
 	}
 
 	bool operator==(const vertex& rhs) const
@@ -67,7 +67,7 @@ public:
 		return all_self_dot;
 	}
 
-	T imag_dot(const vertex& rhs)
+	T imag_dot(const vertex& rhs) const
 	{
 		T imag_self_dot = 0;
 
