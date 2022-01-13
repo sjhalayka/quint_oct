@@ -111,7 +111,7 @@ vertex<T, N> pow(const vertex<T, N>& in, T beta)
 		const T y = self_dot_beta * sin(beta * acos(in.vd[0] / l_d));
 		const T z = x * y;
 
-		for (size_t i = 1; i < N; i++)
+		for (size_t i = 1; i < N; i++)	
 			out.vd[i] = in.vd[i] * z;
 	}
 

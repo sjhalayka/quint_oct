@@ -58,7 +58,7 @@ int main(void)
 
 void compare_square_function(void)
 {
-	cout << "Comparing square and pow functions" << endl;
+	cout << "Comparing square function" << endl;
 
 	vertex<float, 5> x;
 	x.vd[0] = 1.0f;
@@ -67,7 +67,7 @@ void compare_square_function(void)
 	x.vd[3] = 4.0f;
 	x.vd[4] = 5.0f;
 
-	vertex<float, 5> y = pow(x, 2.0f);
+	vertex<float, 5> y = mul(x, x); // y = pow(x, 2.0f);
 	vertex<float, 5> z = square(x);
 
 	for (size_t i = 0; i < 5; i++)
