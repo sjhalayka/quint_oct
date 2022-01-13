@@ -3,6 +3,7 @@
 
 
 // Function declarations (see definitions below main())
+void compare_square_function(void);
 void compare_real_numbers(void);
 void compare_complex_numbers(void);
 void compare_quaternion_numbers(void);
@@ -36,6 +37,7 @@ int main(void)
 {
 	// Perform tests
 
+	compare_square_function();
 	//compare_real_numbers();
 	//compare_complex_numbers();
 	//compare_quaternion_numbers();
@@ -45,16 +47,39 @@ int main(void)
 	//test_octonion_traditional_multiplication();
 	//test_octonion_multiplication();
 	//test_for_5D_subalgebra();
-	test_octonion_multiplication_speed();
+	//test_octonion_multiplication_speed();
 	//test_sedonion_multiplication();
 	//test_sedonion_traditional_multiplication();
-	test_sedenion_multiplication_speed();
-	test_trigintaduonion_multiplication_speed();
+	//test_sedenion_multiplication_speed();
+	//test_trigintaduonion_multiplication_speed();
 
 	return 0;
 }
 
+void compare_square_function(void)
+{
+	cout << "Comparing square and pow functions" << endl;
 
+	vertex<float, 5> x;
+	x.vd[0] = 1.0f;
+	x.vd[1] = 2.0f;
+	x.vd[2] = 3.0f;
+	x.vd[3] = 4.0f;
+	x.vd[4] = 5.0f;
+
+	vertex<float, 5> y = pow(x, 2.0f);
+	vertex<float, 5> z = square(x);
+
+	for (size_t i = 0; i < 5; i++)
+		cout << y.vd[i] << " ";
+
+	cout << endl;
+
+	for (size_t i = 0; i < 5; i++)
+		cout << z.vd[i] << " ";
+
+	cout << endl;
+}
 
 void compare_real_numbers(void)
 {

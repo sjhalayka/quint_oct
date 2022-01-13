@@ -118,6 +118,22 @@ vertex<T, N> pow(const vertex<T, N>& in, T beta)
 	return out;
 }
 
+template<class T, size_t N>
+vertex<T, N> square(const vertex<T, N>& in)
+{
+	vertex<T, N> out;
+
+	out.vd[0] = in.vd[0] * in.vd[0];
+
+	for (size_t i = 1; i < N; i++)
+		out.vd[0] -= in.vd[i] * in.vd[i];
+
+	for (size_t i = 1; i < N; i++)
+		out.vd[i] = 2 * in.vd[0] * in.vd[i];
+
+	return out;
+}
+
 // Traditional multiplication for n = 1 (e.g. real numbers) for variable T
 template<class T, size_t N = 1>
 vertex<T, 1> traditional_mul(const vertex<T, 1>& in_a, const vertex<T, 1>& in_b)
@@ -280,7 +296,7 @@ vertex<T, N> exp(const vertex<T, N>& in)
 	return out;
 }
 
-// Log function (base e) for variable T and N
+// Log function (base = e) for variable T and N
 template<class T, size_t N>
 vertex<T, N> log(const vertex<T, N>& in)
 {
@@ -328,6 +344,7 @@ vertex<T, N> mul(const vertex<T, N>& in_a, const vertex<T, N>& in_b)
 {
 	return exp(log(in_a) + log(in_b));
 }
+
 
 
 
