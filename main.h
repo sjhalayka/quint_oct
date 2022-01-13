@@ -126,10 +126,10 @@ vertex<T, N> square(const vertex<T, N>& in)
 	out.vd[0] = in.vd[0] * in.vd[0];
 
 	for (size_t i = 1; i < N; i++)
+	{
 		out.vd[0] -= in.vd[i] * in.vd[i];
-
-	for (size_t i = 1; i < N; i++)
 		out.vd[i] = 2 * in.vd[0] * in.vd[i];
+	}
 
 	return out;
 }
