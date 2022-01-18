@@ -474,7 +474,7 @@ void test_octonion_multiplication_speed(void)
 
 	start_time = std::chrono::high_resolution_clock::now();
 
-	const size_t num_iterations = 100000;
+	const size_t num_iterations = 10000000;
 
 	for (size_t i = 0; i < num_iterations; i++)
 	{
@@ -695,7 +695,7 @@ void test_sedenion_multiplication_speed(void)
 
 	start_time = std::chrono::high_resolution_clock::now();
 
-	const size_t num_iterations = 100000;
+	const size_t num_iterations = 10000000;
 
 	for (size_t i = 0; i < num_iterations; i++)
 	{
@@ -803,7 +803,7 @@ void test_trigintaduonion_multiplication_speed(void)
 
 	start_time = std::chrono::high_resolution_clock::now();
 
-	const size_t num_iterations = 100000;
+	const size_t num_iterations = 10000000;
 
 	for (size_t i = 0; i < num_iterations; i++)
 	{
