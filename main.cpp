@@ -17,7 +17,7 @@ void test_octonion_multiplication_speed(void);
 void test_sedonion_multiplication(void);
 void test_sedonion_traditional_multiplication(void);
 void test_sedenion_multiplication_speed(void);
-void test_trigintaduonion_multiplication_speed(void); // AKA patheon
+void test_pathion_multiplication_speed(void);
 
 
 
@@ -51,7 +51,7 @@ int main(void)
 	//test_sedonion_multiplication();
 	//test_sedonion_traditional_multiplication();
 	test_sedenion_multiplication_speed();
-	test_trigintaduonion_multiplication_speed();
+	test_pathion_multiplication_speed();
 
 	return 0;
 }
@@ -724,7 +724,7 @@ void test_sedenion_multiplication_speed(void)
 	cout << "Sedenion O(n) duration: " << elapsed.count() / 1000.0f << " seconds" << endl;
 }
 
-void test_trigintaduonion_multiplication_speed(void)
+void test_pathion_multiplication_speed(void)
 {
 	std::chrono::high_resolution_clock::time_point start_time, end_time;
 	std::chrono::duration<float, std::milli> elapsed;
@@ -752,7 +752,7 @@ void test_trigintaduonion_multiplication_speed(void)
 
 	elapsed = end_time - start_time;
 
-	cout << "Trigintaduonion O(n^2) duration: " << elapsed.count() / 1000.0f << " seconds" << endl;
+	cout << "Pathion O(n^2) duration: " << elapsed.count() / 1000.0f << " seconds" << endl;
 
 
 	start_time = std::chrono::high_resolution_clock::now();
@@ -776,6 +776,6 @@ void test_trigintaduonion_multiplication_speed(void)
 
 	elapsed = end_time - start_time;
 
-	cout << "Trigintaduonion O(n) duration: " << elapsed.count() / 1000.0f << " seconds" << endl;
+	cout << "Pathion O(n) duration: " << elapsed.count() / 1000.0f << " seconds" << endl;
 }
 
