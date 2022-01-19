@@ -479,24 +479,14 @@ void test_octonion_multiplication_speed(void)
 	for (size_t i = 0; i < num_iterations; i++)
 	{
 		vertex<float, 8> a;
-		a.vd[0] = 0.1f;
-		a.vd[1] = 0.2f;
-		a.vd[2] = 0.3f;
-		a.vd[3] = 0.4f;
-		a.vd[4] = 0.5f;
-		a.vd[5] = 0.6f;
-		a.vd[6] = 0.7f;
-		a.vd[7] = 0.8f;
+
+		for (size_t i = 0; i < 8; i++)
+			a.vd[i] = 0.1f * (i + 1);
 
 		vertex<float, 8> b;
-		b.vd[0] = 10.0f;
-		b.vd[1] = 9.0f;
-		b.vd[2] = 8.0f;
-		b.vd[3] = 7.0f;
-		b.vd[4] = 6.0f;
-		b.vd[5] = 5.0f;
-		b.vd[6] = 4.0f;
-		b.vd[7] = 3.0f;
+
+		for (size_t i = 0; i < 8; i++)
+			b.vd[i] = -1.0f * (i + 1);
 
 		vertex<float, 8> x = traditional_mul(a, b);
 	}
@@ -514,24 +504,14 @@ void test_octonion_multiplication_speed(void)
 	for (size_t i = 0; i < num_iterations; i++)
 	{
 		vertex<float, 8> a;
-		a.vd[0] = 0.1f;
-		a.vd[1] = 0.2f;
-		a.vd[2] = 0.3f;
-		a.vd[3] = 0.4f;
-		a.vd[4] = 0.5f;
-		a.vd[5] = 0.6f;
-		a.vd[6] = 0.7f;
-		a.vd[7] = 0.8f;
+
+		for (size_t i = 0; i < 8; i++)
+			a.vd[i] = 0.1f * (i + 1);
 
 		vertex<float, 8> b;
-		b.vd[0] = 10.0f;
-		b.vd[1] = 9.0f;
-		b.vd[2] = 8.0f;
-		b.vd[3] = 7.0f;
-		b.vd[4] = 6.0f;
-		b.vd[5] = 5.0f;
-		b.vd[6] = 4.0f;
-		b.vd[7] = 3.0f;
+
+		for (size_t i = 0; i < 8; i++)
+			b.vd[i] = -1.0f * (i + 1);
 
 		vertex<float, 8> x = mul(a, b);
 	}
@@ -700,40 +680,14 @@ void test_sedenion_multiplication_speed(void)
 	for (size_t i = 0; i < num_iterations; i++)
 	{
 		vertex<float, 16> a;
-		a.vd[0] = 0.1f;
-		a.vd[1] = 0.2f;
-		a.vd[2] = 0.3f;
-		a.vd[3] = 0.4f;
-		a.vd[4] = 0.5f;
-		a.vd[5] = 0.6f;
-		a.vd[6] = 0.7f;
-		a.vd[7] = 0.8f;
-		a.vd[8] = 0.9f;
-		a.vd[9] = 1.0f;
-		a.vd[10] = 1.1f;
-		a.vd[11] = 1.2f;
-		a.vd[12] = 1.3f;
-		a.vd[13] = 1.4f;
-		a.vd[14] = 1.5f;
-		a.vd[15] = 1.6f;
+
+		for (size_t i = 0; i < 16; i++)
+			a.vd[i] = 0.1f * (i + 1);
 
 		vertex<float, 16> b;
-		b.vd[0] = 10.0f;
-		b.vd[1] = 9.0f;
-		b.vd[2] = 8.0f;
-		b.vd[3] = 7.0f;
-		b.vd[4] = 6.0f;
-		b.vd[5] = 5.0f;
-		b.vd[6] = 4.0f;
-		b.vd[7] = 3.0f;
-		b.vd[8] = 2.0f;
-		b.vd[9] = 1.0f;
-		b.vd[10] = 0.0f;
-		b.vd[11] = -1.0f;
-		b.vd[12] = -2.0f;
-		b.vd[13] = -3.0f;
-		b.vd[14] = -4.0f;
-		b.vd[15] = -5.0f;
+
+		for (size_t i = 0; i < 16; i++)
+			b.vd[i] = -1.0f * (i + 1);
 
 		vertex<float, 16> x = traditional_mul(a, b);
 	}
@@ -751,40 +705,14 @@ void test_sedenion_multiplication_speed(void)
 	for (size_t i = 0; i < num_iterations; i++)
 	{
 		vertex<float, 16> a;
-		a.vd[0] = 0.1f;
-		a.vd[1] = 0.2f;
-		a.vd[2] = 0.3f;
-		a.vd[3] = 0.4f;
-		a.vd[4] = 0.5f;
-		a.vd[5] = 0.6f;
-		a.vd[6] = 0.7f;
-		a.vd[7] = 0.8f;
-		a.vd[8] = 0.9f;
-		a.vd[9] = 1.0f;
-		a.vd[10] = 1.1f;
-		a.vd[11] = 1.2f;
-		a.vd[12] = 1.3f;
-		a.vd[13] = 1.4f;
-		a.vd[14] = 1.5f;
-		a.vd[15] = 1.6f;
+
+		for (size_t i = 0; i < 16; i++)
+			a.vd[i] = 0.1f * (i + 1);
 
 		vertex<float, 16> b;
-		b.vd[0] = 10.0f;
-		b.vd[1] = 9.0f;
-		b.vd[2] = 8.0f;
-		b.vd[3] = 7.0f;
-		b.vd[4] = 6.0f;
-		b.vd[5] = 5.0f;
-		b.vd[6] = 4.0f;
-		b.vd[7] = 3.0f;
-		b.vd[8] = 2.0f;
-		b.vd[9] = 1.0f;
-		b.vd[10] = 0.0f;
-		b.vd[11] = -1.0f;
-		b.vd[12] = -2.0f;
-		b.vd[13] = -3.0f;
-		b.vd[14] = -4.0f;
-		b.vd[15] = -5.0f;
+
+		for (size_t i = 0; i < 16; i++)
+			b.vd[i] = -1.0f * (i + 1);
 
 		vertex<float, 16> x = mul(a, b);
 	}
