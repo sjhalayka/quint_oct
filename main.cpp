@@ -19,6 +19,9 @@ void test_sedonion_traditional_multiplication(void);
 void test_sedenion_multiplication_speed(void);
 void test_pathion_multiplication_speed(void);
 
+void test_octonion_pow_speed(void);
+void test_sedenion_pow_speed(void);
+void test_pathion_pow_speed(void);
 
 
 // See:
@@ -41,17 +44,29 @@ int main(void)
 	//compare_real_numbers();
 	//compare_complex_numbers();
 	//compare_quaternion_numbers();
-	compare_quintonion_pow_to_mul();
+	//compare_quintonion_pow_to_mul();
+	
 	//test_quintonions();
+	
 	//test_octonion_new_multiplication();
+	
 	//test_octonion_traditional_multiplication();
+	
 	//test_octonion_multiplication();
 	//test_for_5D_subalgebra();
 	//test_octonion_multiplication_speed();
 	//test_sedonion_multiplication();
+	
 	//test_sedonion_traditional_multiplication();
+	
 	//test_sedenion_multiplication_speed();
 	//test_pathion_multiplication_speed();
+
+
+	test_octonion_pow_speed();
+	test_sedenion_pow_speed();
+	test_pathion_pow_speed();
+
 
 	return 0;
 }
@@ -324,7 +339,7 @@ void test_octonion_traditional_multiplication(void)
 	b.vd[0] = 1.0f;
 	b.vd[1] = 0.9f;
 	b.vd[2] = 0.8f;
-	b.vd[3] = 0.7f;
+	b.vd[3] = 0.7f;	
 	b.vd[4] = 0.6f;
 	b.vd[5] = 0.5f;
 	b.vd[6] = 0.4f;
@@ -779,3 +794,150 @@ void test_pathion_multiplication_speed(void)
 	cout << "Pathion O(n) duration: " << elapsed.count() / 1000.0f << " seconds" << endl;
 }
 
+
+void test_octonion_pow_speed(void)
+{
+	std::chrono::high_resolution_clock::time_point start_time, end_time;
+	std::chrono::duration<float, std::milli> elapsed;
+
+	start_time = std::chrono::high_resolution_clock::now();
+
+	const size_t num_iterations = 10000000;
+
+	for (size_t i = 0; i < num_iterations; i++)
+	{
+		vertex<float, 8> a;
+
+		for (size_t i = 0; i < 8; i++)
+			a.vd[i] = 0.1f * (i + 1);
+
+		vertex<float, 8> b = a;
+
+		vertex<float, 8> x = mul(a, b);
+	}
+
+	end_time = std::chrono::high_resolution_clock::now();
+
+	elapsed = end_time - start_time;
+
+	cout << "Octonion multiplication duration: " << elapsed.count() / 1000.0f << " seconds" << endl;
+
+
+	start_time = std::chrono::high_resolution_clock::now();
+
+	for (size_t i = 0; i < num_iterations; i++)
+	{
+		vertex<float, 8> a;
+
+		for (size_t i = 0; i < 8; i++)
+			a.vd[i] = 0.1f * (i + 1);
+
+		vertex<float, 8> b = a;
+
+		vertex<float, 8> x = pow(a, 2.0f);
+	}
+
+	end_time = std::chrono::high_resolution_clock::now();
+
+	elapsed = end_time - start_time;
+
+	cout << "Octonion pow duration: " << elapsed.count() / 1000.0f << " seconds" << endl;
+}
+
+void test_sedenion_pow_speed(void)
+{
+	std::chrono::high_resolution_clock::time_point start_time, end_time;
+	std::chrono::duration<float, std::milli> elapsed;
+
+	start_time = std::chrono::high_resolution_clock::now();
+
+	const size_t num_iterations = 10000000;
+
+	for (size_t i = 0; i < num_iterations; i++)
+	{
+		vertex<float, 16> a;
+
+		for (size_t i = 0; i < 16; i++)
+			a.vd[i] = 0.1f * (i + 1);
+
+		vertex<float, 16> b = a;
+
+		vertex<float, 16> x = mul(a, b);
+	}
+
+	end_time = std::chrono::high_resolution_clock::now();
+
+	elapsed = end_time - start_time;
+
+	cout << "Sedenion multiplication duration: " << elapsed.count() / 1000.0f << " seconds" << endl;
+
+
+	start_time = std::chrono::high_resolution_clock::now();
+
+	for (size_t i = 0; i < num_iterations; i++)
+	{
+		vertex<float, 16> a;
+
+		for (size_t i = 0; i < 16; i++)
+			a.vd[i] = 0.1f * (i + 1);
+
+		vertex<float, 16> b = a;
+
+		vertex<float, 16> x = pow(a, 2.0f);
+	}
+
+	end_time = std::chrono::high_resolution_clock::now();
+
+	elapsed = end_time - start_time;
+
+	cout << "Sedenion pow duration: " << elapsed.count() / 1000.0f << " seconds" << endl;
+}
+
+void test_pathion_pow_speed(void)
+{
+	std::chrono::high_resolution_clock::time_point start_time, end_time;
+	std::chrono::duration<float, std::milli> elapsed;
+
+	start_time = std::chrono::high_resolution_clock::now();
+
+	const size_t num_iterations = 10000000;
+
+	for (size_t i = 0; i < num_iterations; i++)
+	{
+		vertex<float, 32> a;
+
+		for (size_t i = 0; i < 32; i++)
+			a.vd[i] = 0.1f * (i + 1);
+
+		vertex<float, 32> b = a;
+
+		vertex<float, 32> x = mul(a, b);
+	}
+
+	end_time = std::chrono::high_resolution_clock::now();
+
+	elapsed = end_time - start_time;
+
+	cout << "Pathion multiplication duration: " << elapsed.count() / 1000.0f << " seconds" << endl;
+
+
+	start_time = std::chrono::high_resolution_clock::now();
+
+	for (size_t i = 0; i < num_iterations; i++)
+	{
+		vertex<float, 32> a;
+
+		for (size_t i = 0; i < 32; i++)
+			a.vd[i] = 0.1f * (i + 1);
+
+		vertex<float, 32> b = a;
+
+		vertex<float, 32> x = pow(a, 2.0f);
+	}
+
+	end_time = std::chrono::high_resolution_clock::now();
+
+	elapsed = end_time - start_time;
+
+	cout << "Pathion pow duration: " << elapsed.count() / 1000.0f << " seconds" << endl;
+}
