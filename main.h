@@ -62,8 +62,6 @@ public:
 		return out;
 	}
 
-
-
 	T magnitude(void) const
 	{
 		return sqrt(all_dot(*this));
@@ -94,43 +92,43 @@ public:
 template<class T, size_t N>
 vertex<T, N> pow(const vertex<T, N>& in, T beta)
 {
-	return exp(log(in) * beta);
+//	return exp(log(in) * beta);
 
 
-	//T all_self_dot = 0;
-	//T imag_self_dot = 0;
-	//vertex<T, N> out;
+	T all_self_dot = 0;
+	T imag_self_dot = 0;
+	vertex<T, N> out;
 
-	//for (size_t i = 1; i < N; i++)
-	//	imag_self_dot += (in.vd[i] * in.vd[i]);
+	for (size_t i = 1; i < N; i++)
+		imag_self_dot += (in.vd[i] * in.vd[i]);
 
-	//all_self_dot = imag_self_dot + (in.vd[0] * in.vd[0]);
+	all_self_dot = imag_self_dot + (in.vd[0] * in.vd[0]);
 
-	//if (all_self_dot == 0)
-	//{
-	//	for (size_t i = 0; i < N; i++)
-	//		out.vd[i] = 0;
+	if (all_self_dot == 0)
+	{
+		for (size_t i = 0; i < N; i++)
+			out.vd[i] = 0;
 
-	//	return out;
-	//}
+		return out;
+	}
 
-	//const T l_d = sqrt(all_self_dot);
-	//const T l_e = sqrt(imag_self_dot);
-	//const T self_dot_beta = pow(all_self_dot, beta / 2.0f);
+	const T l_d = sqrt(all_self_dot);
+	const T l_e = sqrt(imag_self_dot);
+	const T self_dot_beta = pow(all_self_dot, beta / 2.0f);
 
-	//out.vd[0] = self_dot_beta * cos(beta * acos(in.vd[0] / l_d));
+	out.vd[0] = self_dot_beta * cos(beta * acos(in.vd[0] / l_d));
 
-	//if (l_e != 0)
-	//{
-	//	const T x = 1 / l_e;
-	//	const T y = self_dot_beta * sin(beta * acos(in.vd[0] / l_d));
-	//	const T z = x * y;
+	if (l_e != 0)
+	{
+		const T x = 1 / l_e;
+		const T y = self_dot_beta * sin(beta * acos(in.vd[0] / l_d));
+		const T z = x * y;
 
-	//	for (size_t i = 1; i < N; i++)	
-	//		out.vd[i] = in.vd[i] * z;
-	//}
+		for (size_t i = 1; i < N; i++)	
+			out.vd[i] = in.vd[i] * z;
+	}
 
-	//return out;
+	return out;
 }
 
 template<class T, size_t N>
