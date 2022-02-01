@@ -114,7 +114,7 @@ vertex<T, N> pow(const vertex<T, N>& in, T beta)
 
 	const T l_d = sqrt(all_self_dot);
 	const T l_e = sqrt(imag_self_dot);
-	const T self_dot_beta = pow(all_self_dot, beta / 2.0f);
+	const T self_dot_beta = pow(l_d, beta);
 
 	out.vd[0] = self_dot_beta * cos(beta * acos(in.vd[0] / l_d));
 

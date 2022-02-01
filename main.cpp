@@ -23,6 +23,8 @@ void test_octonion_pow_speed(void);
 void test_sedenion_pow_speed(void);
 void test_pathion_pow_speed(void);
 
+void test_pathion_multiplication(void);
+
 
 // See:
 // https://theworld.com/~sweetser/quaternions/intro/tools/tools.html
@@ -40,12 +42,38 @@ int main(void)
 {
 	// Perform tests
 
+	compare_quaternion_numbers();
+
+	test_octonion_multiplication();
+
+	test_sedonion_multiplication();
+
+	test_pathion_multiplication();
+
+	return 0;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	// compare_square_function();
 	//compare_real_numbers();
 	//compare_complex_numbers();
 	
-	compare_quaternion_numbers();
-	test_octonion_multiplication();
+	//compare_quaternion_numbers();
+	//compare_quintonion_pow_to_mul();
+	
+	
+	//test_octonion_multiplication();
 
 	//compare_quintonion_pow_to_mul();
 	
@@ -59,7 +87,7 @@ int main(void)
 	//test_for_5D_subalgebra();
 	//test_octonion_multiplication_speed();
 	
-	test_sedonion_multiplication();
+	//test_sedonion_multiplication();
 	
 	//test_sedonion_traditional_multiplication();
 	
@@ -944,4 +972,39 @@ void test_pathion_pow_speed(void)
 	elapsed = end_time - start_time;
 
 	cout << "Pathion pow duration: " << elapsed.count() / 1000.0f << " seconds" << endl;
+}
+
+
+void test_pathion_multiplication(void)
+{
+	cout << "Test pathion multiplications:" << endl;
+
+	vertex<float, 32> a;
+
+	for (size_t i = 0; i < 32; i++)
+		a.vd[i] = 0.1f * (i + 1);
+
+	vertex<float, 32> b;
+
+	for (size_t i = 0; i < 32; i++)
+		b.vd[i] = -1.0f * (i + 1);
+
+	vertex<float, 32> P = traditional_mul(a, b);
+	vertex<float, 32> P2 = mul(a, b);
+
+	for (size_t i = 0; i < 32; i++)
+		cout << P.vd[i] << " ";
+
+	cout << endl;
+
+	for (size_t i = 0; i < 32; i++)
+		cout << P2.vd[i] << " ";
+
+	cout << endl;
+
+	cout << "Magnitudes:" << endl;
+
+	cout << P.magnitude() << " " << P2.magnitude() << endl;
+
+	cout << endl;
 }
