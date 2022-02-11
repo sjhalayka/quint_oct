@@ -40,8 +40,6 @@ void test_pathion_multiplication(void);
 
 int main(void)
 {
-	// Perform tests
-
 	compare_quaternion_numbers();
 
 	test_octonion_multiplication();
@@ -95,9 +93,6 @@ int main(void)
 	//test_pathion_multiplication_speed();
 
 
-	//test_octonion_pow_speed();
-	//test_sedenion_pow_speed();
-	//test_pathion_pow_speed();
 
 
 	return 0;
@@ -934,6 +929,8 @@ void test_pathion_pow_speed(void)
 
 	const size_t num_iterations = 10000000;
 
+	size_t exponent = 25;
+
 	for (size_t i = 0; i < num_iterations; i++)
 	{
 		vertex<float, 32> a;
@@ -943,8 +940,11 @@ void test_pathion_pow_speed(void)
 
 		vertex<float, 32> b = a;
 
-		vertex<float, 32> x = mul(a, b);
+		for(size_t i = 0; i < (exponent - 1); i++)
+			a = mul(a, b);
 	}
+
+
 
 	end_time = std::chrono::high_resolution_clock::now();
 
@@ -964,7 +964,7 @@ void test_pathion_pow_speed(void)
 
 		vertex<float, 32> b = a;
 
-		vertex<float, 32> x = pow(a, 2.0f);
+		vertex<float, 32> x = pow(a, static_cast<float>( exponent));
 	}
 
 	end_time = std::chrono::high_resolution_clock::now();
@@ -987,7 +987,7 @@ void test_pathion_multiplication(void)
 	vertex<float, 32> b;
 
 	for (size_t i = 0; i < 32; i++)
-		b.vd[i] = -1.0f * (i + 1);
+		b.vd[i] = -0.75f * (i + 1);
 
 	vertex<float, 32> P = traditional_mul(a, b);
 	vertex<float, 32> P2 = mul(a, b);
