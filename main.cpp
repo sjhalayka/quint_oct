@@ -1,6 +1,9 @@
 #include "main.h"
 
-
+float rand_num(void)
+{
+	return static_cast<float>(rand()) / static_cast<float>(RAND_MAX); // 1;
+}
 
 // Function declarations (see definitions below main())
 void compare_square_function(void);
@@ -40,15 +43,43 @@ void test_pathion_multiplication(void);
 
 int main(void)
 {
-	compare_quaternion_numbers();
+	srand(static_cast<unsigned>(time(0)));
 
-	test_octonion_multiplication();
+	cout << fixed << endl;
+	cout << setprecision(10) << endl;
+	 
 
-	test_sedonion_multiplication();
+	const size_t n = 32; // choose any n from 2, 4, 8, 16, 32
 
-	test_pathion_multiplication();
+	vertex<long double, n> a_base;
+
+	for (size_t i = 0; i < n; i++)
+		a_base.vd[i] = rand_num() * 10.0f * (i + 1);
+
+	vertex<long double, n> a = traditional_mul(a_base, a_base);
+
+	cout << get_traditional_commutator(a, a_base).magnitude() << endl;
 
 	return 0;
+
+
+
+
+
+
+	//compare_real_numbers();
+
+	//compare_complex_numbers();
+
+	//compare_quaternion_numbers();
+
+	//test_octonion_multiplication();
+
+	//test_sedonion_multiplication();
+
+	// test_pathion_multiplication();
+
+//	return 0;
 
 
 
@@ -69,8 +100,7 @@ int main(void)
 	
 	//compare_quaternion_numbers();
 	//compare_quintonion_pow_to_mul();
-	
-	
+
 	//test_octonion_multiplication();
 
 	//compare_quintonion_pow_to_mul();
@@ -82,7 +112,7 @@ int main(void)
 	//test_octonion_traditional_multiplication();
 	
 	//test_octonion_multiplication();
-	//test_for_5D_subalgebra();
+
 	//test_octonion_multiplication_speed();
 	
 	//test_sedonion_multiplication();
@@ -92,10 +122,7 @@ int main(void)
 	//test_sedenion_multiplication_speed();
 	//test_pathion_multiplication_speed();
 
-
-
-
-	return 0;
+//	return 0;
 }
 
 void compare_square_function(void)
@@ -128,16 +155,21 @@ void compare_real_numbers(void)
 	cout << "Comparing real numbers" << endl;
 
 	vertex<float, 1> a;
-	a.vd[0] = 0.1234f;
+	a.vd[0] = -rand_num() * 0.1234f;
 
-	vertex<float, 1> b;
-	b.vd[0] = 4.567f;
+	vertex<float, 1> b;// = a;
+	b.vd[0] = rand_num() * 0.1234f;
 
 	vertex<float, 1> x = mul(a, b);
 	vertex<float, 1> y = traditional_mul(a, b);
 
 	cout << x.vd[0] << endl;
 	cout << y.vd[0] << endl;
+
+	cout << x.magnitude() << " " << y.magnitude() << endl;
+
+
+	cout << x.magnitude() / y.magnitude() << endl;
 
 	cout << endl;
 }
@@ -147,12 +179,12 @@ void compare_complex_numbers(void)
 	cout << "Comparing complex numbers" << endl;
 
 	vertex<float, 2> a;
-	a.vd[0] = 0.1f;
-	a.vd[1] = 0.2f;
+	a.vd[0] = rand_num() * 0.1f;
+	a.vd[1] = -rand_num() * 0.2f;
 
-	vertex<float, 2> b;
-	b.vd[0] = 1.0f;
-	b.vd[1] = 0.9f;
+	vertex<float, 2> b = a;
+	b.vd[0] = -rand_num() * 1.0f;
+	b.vd[1] = rand_num() * 0.9f;
 
 	vertex<float, 2> x = mul(a, b);
 	vertex<float, 2> y = traditional_mul(a, b);
@@ -160,30 +192,40 @@ void compare_complex_numbers(void)
 	cout << x.vd[0] << " " << x.vd[1] << endl;
 	cout << y.vd[0] << " " << y.vd[1] << endl;
 
-	complex<float> cf_a(a.vd[0], a.vd[1]);
-	complex<float> cf_b(b.vd[0], b.vd[1]);
+	cout << x.magnitude() << " " << y.magnitude() << endl;
 
-	complex<float> cf_x = cf_a * cf_b;
-
-	cout << cf_x.real() << " " << cf_x.imag() << endl;
-
-	cout << "Comparing complex numbers exp()" << endl;
-
-	a = exp(a);
-	cf_a = exp(cf_a);
-
-	cout << a.vd[0] << " " << a.vd[1] << endl;
-	cout << cf_a.real() << " " << cf_a.imag() << endl;
-
-	cout << "Comparing complex numbers log()" << endl;
-
-	b = log(b);
-	cf_b = log(cf_b);
-
-	cout << b.vd[0] << " " << b.vd[1] << endl;
-	cout << cf_b.real() << " " << cf_b.imag() << endl;
+	cout << x.magnitude() / y.magnitude() << endl;
 
 	cout << endl;
+
+
+
+	//complex<float> cf_a(a.vd[0], a.vd[1]);
+	//complex<float> cf_b(b.vd[0], b.vd[1]);
+
+	//complex<float> cf_x = cf_a * cf_b;
+
+	//cout << cf_x.real() << " " << cf_x.imag() << endl;
+
+	//cout << "Comparing complex numbers exp()" << endl;
+
+	//a = exp(a);
+	//cf_a = exp(cf_a);
+
+	//cout << a.vd[0] << " " << a.vd[1] << endl;
+	//cout << cf_a.real() << " " << cf_a.imag() << endl;
+
+	//cout << "Comparing complex numbers log()" << endl;
+
+	//complex<float> cf_b(b.vd[0], b.vd[1]);
+
+	//b = log(b);
+	//cf_b = log(cf_b);
+
+	//cout << b.vd[0] << " " << b.vd[1] << endl;
+	//cout << cf_b.real() << " " << cf_b.imag() << endl;
+
+	//cout << endl;
 }
 
 void compare_quaternion_numbers(void)
@@ -191,16 +233,16 @@ void compare_quaternion_numbers(void)
 	cout << "Comparing quaternion numbers" << endl;
 
 	vertex<float, 4> a;
-	a.vd[0] = 0.1f;
-	a.vd[1] = 0.2f;
-	a.vd[2] = 0.3f;
-	a.vd[3] = 0.4f;
+	a.vd[0] = -rand_num() * 0.1f;
+	a.vd[1] = rand_num() * 0.2f;
+	a.vd[2] = rand_num() * 0.3f;
+	a.vd[3] = -rand_num() * 0.4f;
 
-	vertex<float, 4> b;
-	b.vd[0] = 1.0f;
-	b.vd[1] = 0.9f;
-	b.vd[2] = 0.8f;
-	b.vd[3] = 0.7f;
+	vertex<float, 4> b;// = a;
+	b.vd[0] = -rand_num() * 1.0f;
+	b.vd[1] = rand_num() * 0.9f;
+	b.vd[2] = -rand_num() * 0.8f;
+	b.vd[3] = rand_num() * 0.7f;
 
 	vertex<float, 4> x = mul(a, b);
 	vertex<float, 4> y = traditional_mul(a, b);
@@ -210,6 +252,9 @@ void compare_quaternion_numbers(void)
 
 	cout << "Magnitudes:" << endl;
 	cout << x.magnitude() << " " << y.magnitude() << endl;
+
+
+	cout << x.magnitude() / y.magnitude() << endl;
 
 	cout << endl;
 }
@@ -414,24 +459,24 @@ void test_octonion_multiplication(void)
 	cout << "Test octonion multiplications:" << endl;
 
 	vertex<float, 8> a;
-	a.vd[0] = 0.1f;
-	a.vd[1] = 0.2f;
-	a.vd[2] = 0.3f;
-	a.vd[3] = 0.4f;
-	a.vd[4] = 0.5f;
-	a.vd[5] = 0.6f;
-	a.vd[6] = 0.7f;
-	a.vd[7] = 0.8f;
+	a.vd[0] = rand_num() * 0.1f;
+	a.vd[1] = rand_num() * 0.2f;
+	a.vd[2] = rand_num() * 0.3f;
+	a.vd[3] = rand_num() * 0.4f;
+	a.vd[4] = rand_num() * 0.5f;
+	a.vd[5] = rand_num() * 0.6f;
+	a.vd[6] = rand_num() * 0.7f;
+	a.vd[7] = rand_num() * 0.8f;
 
-	vertex<float, 8> b;
-	b.vd[0] = 10.0f;
-	b.vd[1] = 9.0f;
-	b.vd[2] = 8.0f;
-	b.vd[3] = 7.0f;
-	b.vd[4] = 6.0f;
-	b.vd[5] = 5.0f;
-	b.vd[6] = 4.0f;
-	b.vd[7] = 3.0f;
+	vertex<float, 8> b;// = a;
+	b.vd[0] = rand_num() * 10.0f;
+	b.vd[1] = rand_num() * 9.0f;
+	b.vd[2] = rand_num() * 8.0f;
+	b.vd[3] = rand_num() * 7.0f;
+	b.vd[4] = rand_num() * 6.0f;
+	b.vd[5] = rand_num() * 5.0f;
+	b.vd[6] = rand_num() * 4.0f;
+	b.vd[7] = rand_num() * 3.0f;
 
 	vertex<float, 8> P = traditional_mul(a, b);
 	vertex<float, 8> P2 = mul(a, b);
@@ -450,64 +495,13 @@ void test_octonion_multiplication(void)
 
 	cout << P.magnitude() << " " << P2.magnitude() << endl;
 
-	cout << endl;
-}
 
-void test_for_5D_subalgebra(void)
-{
-	cout << "Testing for 5D subalgebra" << endl;
-
-	srand(static_cast<unsigned int>(time(0)));
-
-	for (size_t num_tries = 0; num_tries < 10000; num_tries++)
-	{
-		float a0 = (rand() % RAND_MAX) / static_cast<float>(RAND_MAX - 1);
-
-		if (rand() % 2)
-			a0 = -a0;
-
-		float a1 = (rand() % RAND_MAX) / static_cast<float>(RAND_MAX - 1);
-
-		if (rand() % 2)
-			a1 = -a1;
-
-		float a2 = (rand() % RAND_MAX) / static_cast<float>(RAND_MAX - 1);
-
-		if (rand() % 2)
-			a2 = -a2;
-
-		float a3 = (rand() % RAND_MAX) / static_cast<float>(RAND_MAX - 1);
-
-		if (rand() % 2)
-			a3 = -a3;
-
-		float a4 = (rand() % RAND_MAX) / static_cast<float>(RAND_MAX - 1);
-
-		if (rand() % 2)
-			a4 = -a4;
-
-		vertex<float, 8> a;
-		a.vd[0] = a0;
-		a.vd[1] = a1;
-		a.vd[2] = a2;
-		a.vd[3] = a3;
-		a.vd[4] = a4;
-		a.vd[5] = 0;
-		a.vd[6] = 0;
-		a.vd[7] = 0;
-
-		vertex<float, 8> b = a;
-
-		vertex<float, 8> P = traditional_mul(a, b);
-
-		if (P.vd[5] || P.vd[6] || P.vd[7])
-		{
-			cout << "Error: non-zero components!" << endl;
-		}
-	}
+	cout << P2.magnitude() / P.magnitude() << endl;
 
 	cout << endl;
 }
+
+
 
 void test_octonion_multiplication_speed(void)
 {
@@ -570,40 +564,40 @@ void test_sedonion_multiplication(void)
 	cout << "Test sedonion multiplications:" << endl;
 
 	vertex<float, 16> a;
-	a.vd[0] = 0.1f;
-	a.vd[1] = 0.2f;
-	a.vd[2] = 0.3f;
-	a.vd[3] = 0.4f;
-	a.vd[4] = 0.5f;
-	a.vd[5] = 0.6f;
-	a.vd[6] = 0.7f;
-	a.vd[7] = 0.8f;
-	a.vd[8] = 0.9f;
-	a.vd[9] = 1.0f;
-	a.vd[10] = 1.1f;
-	a.vd[11] = 1.2f;
-	a.vd[12] = 1.3f;
-	a.vd[13] = 1.4f;
-	a.vd[14] = 1.5f;
-	a.vd[15] = 1.6f;
+	a.vd[0] = rand_num() * 0.1f;
+	a.vd[1] = rand_num() * 0.2f;
+	a.vd[2] = rand_num() * 0.3f;
+	a.vd[3] = rand_num() * 0.4f;
+	a.vd[4] = rand_num() * 0.5f;
+	a.vd[5] = rand_num() * 0.6f;
+	a.vd[6] = rand_num() * 0.7f;
+	a.vd[7] = rand_num() * 0.8f;
+	a.vd[8] = rand_num() * 0.9f;
+	a.vd[9] = rand_num() * 1.0f;
+	a.vd[10] = rand_num() * 1.1f;
+	a.vd[11] = rand_num() * 1.2f;
+	a.vd[12] = rand_num() * 1.3f;
+	a.vd[13] = rand_num() * 1.4f;
+	a.vd[14] = rand_num() * 1.5f;
+	a.vd[15] = rand_num() * 1.6f;
 
-	vertex<float, 16> b;
-	b.vd[0] = 10.0f;
-	b.vd[1] = 9.0f;
-	b.vd[2] = 8.0f;
-	b.vd[3] = 7.0f;
-	b.vd[4] = 6.0f;
-	b.vd[5] = 5.0f;
-	b.vd[6] = 4.0f;
-	b.vd[7] = 3.0f;
-	b.vd[8] = 2.0f;
-	b.vd[9] = 1.0f;
-	b.vd[10] = 0.0f;
-	b.vd[11] = -1.0f;
-	b.vd[12] = -2.0f;
-	b.vd[13] = -3.0f;
-	b.vd[14] = -4.0f;
-	b.vd[15] = -5.0f;
+	vertex<float, 16> b;// = a;
+	b.vd[0] = rand_num() * 10.0f;
+	b.vd[1] = rand_num() * 9.0f;
+	b.vd[2] = rand_num() * 8.0f;
+	b.vd[3] = rand_num() * 7.0f;
+	b.vd[4] = rand_num() * 6.0f;
+	b.vd[5] = rand_num() * 5.0f;
+	b.vd[6] = rand_num() * 4.0f;
+	b.vd[7] = rand_num() * 3.0f;
+	b.vd[8] = rand_num() * 2.0f;
+	b.vd[9] = rand_num() * 1.0f;
+	b.vd[10] = rand_num() * 0.0f;
+	b.vd[11] = rand_num() * -1.0f;
+	b.vd[12] = rand_num() * -2.0f;
+	b.vd[13] = rand_num() * -3.0f;
+	b.vd[14] = rand_num() * -4.0f;
+	b.vd[15] = rand_num() * -5.0f;
 
 	vertex<float, 16> P = traditional_mul(a, b);
 	vertex<float, 16> P2 = mul(a, b);
@@ -621,6 +615,9 @@ void test_sedonion_multiplication(void)
 	cout << "Magnitudes:" << endl;
 
 	cout << P.magnitude() << " " << P2.magnitude() << endl;
+
+
+	cout << P2.magnitude() / P.magnitude() << endl;
 
 	cout << endl;
 }
@@ -982,12 +979,12 @@ void test_pathion_multiplication(void)
 	vertex<float, 32> a;
 
 	for (size_t i = 0; i < 32; i++)
-		a.vd[i] = 0.1f * (i + 1);
+		a.vd[i] = rand_num()/* / static_cast<float>(RAND_MAX)*/ * 0.1f * (i + 1);
 
-	vertex<float, 32> b;
+	vertex<float, 32> b;// = a;
 
 	for (size_t i = 0; i < 32; i++)
-		b.vd[i] = -0.75f * (i + 1);
+		b.vd[i] = rand_num()/* / static_cast<float>(RAND_MAX)*/ * 0.1f * (i + 1);
 
 	vertex<float, 32> P = traditional_mul(a, b);
 	vertex<float, 32> P2 = mul(a, b);
@@ -1005,6 +1002,8 @@ void test_pathion_multiplication(void)
 	cout << "Magnitudes:" << endl;
 
 	cout << P.magnitude() << " " << P2.magnitude() << endl;
+
+	cout << P2.magnitude() / P.magnitude() << endl;
 
 	cout << endl;
 }

@@ -3,6 +3,7 @@
 #include <iostream>
 #include <complex>
 #include <chrono>
+#include <iomanip>
 using namespace std;
 
 
@@ -92,8 +93,7 @@ public:
 template<class T, size_t N>
 vertex<T, N> pow(const vertex<T, N>& in, T beta)
 {
-//	return exp(log(in) * beta);
-
+//	return exp(log(in) * beta); // slower, but gets the point across
 
 	T all_self_dot = 0;
 	T imag_self_dot = 0;
@@ -360,4 +360,30 @@ vertex<T, N> mul(const vertex<T, N>& in_a, const vertex<T, N>& in_b)
 
 
 
+template<class T, size_t N>
+vertex<T, N> get_traditional_commutator(vertex<T, N> in_a, vertex<T, N> in_b)
+{
+	vertex<T, N> AB = traditional_mul(in_a, in_b);
+	vertex<T, N> BA = traditional_mul(in_b, in_a);
 
+	vertex<T, N> C;
+
+	for (size_t i = 0; i < N; i++)
+		C.vd[i] = AB.vd[i] - BA.vd[i];
+
+	return C;
+}
+
+template<class T, size_t N>
+vertex<T, N> get_new_commutator(vertex<T, N> in_a, vertex<T, N> in_b)
+{
+	vertex<T, N> AB = mul(in_a, in_b);
+	vertex<T, N> BA = mul(in_b, in_a);
+
+	vertex<T, N> C;
+
+	for (size_t i = 0; i < N; i++)
+		C.vd[i] = AB.vd[i] - BA.vd[i];
+
+	return C;
+}
