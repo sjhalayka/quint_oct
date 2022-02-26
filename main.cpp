@@ -49,6 +49,7 @@ int main(void)
 	cout << setprecision(10) << endl;
 	 
 
+	// Test power associativity for traditional multiplication
 	const size_t n = 32; // choose any n from 2, 4, 8, 16, 32
 
 	vertex<long double, n> a_base;
