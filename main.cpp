@@ -5,6 +5,11 @@ float rand_num(void)
 	return static_cast<float>(rand()) / static_cast<float>(RAND_MAX); // 1;
 }
 
+long double rand_num_ld(void)
+{
+	return static_cast<long double>(rand()) / static_cast<long double>(RAND_MAX); // 1;
+}
+
 // Function declarations (see definitions below main())
 void compare_square_function(void);
 void compare_real_numbers(void);
@@ -49,37 +54,41 @@ int main(void)
 	cout << fixed << endl;
 	cout << setprecision(10) << endl;
 	 
-
-	vertex<long double, 5> a;
-	a.vd[0] = 1;
-	a.vd[1] = 2;
-	a.vd[2] = 3;
-	a.vd[3] = 4;
-	a.vd[4] = 5;
-
-	vertex<long double, 5> b;
-	b.vd[0] = 11;
-	b.vd[1] = 21;
-	b.vd[2] = 31;
-	b.vd[3] = 41;
-	b.vd[4] = 51;
-
-	vertex<long double, 5> x = div(log(b), log(a));
-
-	for (size_t i = 0; i < x.vd.size(); i++)
-		cout << x.vd[i] << ' ';
-
-	cout << endl;
-
-	vertex<long double, 5> y = pow(a, x);
-
-	for (size_t i = 0; i < y.vd.size(); i++)
-		cout << y.vd[i] << ' ';
-
-	cout << endl;
-
+	test_power_associativity();
 
 	return 0;
+
+
+	//vertex<long double, 5> a;
+	//a.vd[0] = 1;
+	//a.vd[1] = 2;
+	//a.vd[2] = 3;
+	//a.vd[3] = 4;
+	//a.vd[4] = 5;
+
+	//vertex<long double, 5> b;
+	//b.vd[0] = 11;
+	//b.vd[1] = 21;
+	//b.vd[2] = 31;
+	//b.vd[3] = 41;
+	//b.vd[4] = 51;
+
+	//vertex<long double, 5> x = div(log(b), log(a));
+
+	//for (size_t i = 0; i < x.vd.size(); i++)
+	//	cout << x.vd[i] << ' ';
+
+	//cout << endl;
+
+	//vertex<long double, 5> y = pow(a, x);
+
+	//for (size_t i = 0; i < y.vd.size(); i++)
+	//	cout << y.vd[i] << ' ';
+
+	//cout << endl;
+
+
+	//return 0;
 
 
 
@@ -1035,7 +1044,7 @@ void test_power_associativity(void)
 	vertex<long double, n> a_base;
 
 	for (size_t i = 0; i < n; i++)
-		a_base.vd[i] = rand_num() * 10.0f * (i + 1);
+		a_base.vd[i] = rand_num_ld() * 10 * static_cast<long double>(i + 1);
 
 	vertex<long double, n> a = traditional_mul(a_base, a_base);
 
