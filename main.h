@@ -89,6 +89,18 @@ public:
 	}
 };
 
+template<class T, size_t N>
+vertex<T, N> pow(vertex<T, N>& in, vertex<T, N>& exponent)
+{
+	vertex<T, N> ln_a = log(log(in));
+	vertex<T, N> ln_b = log(exponent);
+
+	vertex<T, N> sum = ln_a + ln_b;
+	vertex<T, N> out = exp(sum);
+
+	return exp(out);
+}
+
 // Pow function for variable T and N
 template<class T, size_t N>
 vertex<T, N> pow(const vertex<T, N>& in, T beta)
@@ -386,4 +398,37 @@ vertex<T, N> get_new_commutator(vertex<T, N> in_a, vertex<T, N> in_b)
 		C.vd[i] = AB.vd[i] - BA.vd[i];
 
 	return C;
+}
+
+
+template<class T, size_t N>
+vertex<T, N> traditional_div(const vertex<T, N>& in_a, const vertex<T, N>& in_b)
+{
+	// c = a/b
+
+	// c = inv(b) * a
+	// inv(b) = conjugate(b) / norm(b)
+	// c = (conjugate(b) / norm(b)) * a
+
+	T b_norm = 0;
+
+	for (size_t i = 0; i < N; i++)
+		b_norm += (in_b.vd[i] * in_b.vd[i]);
+
+	vertex<T, N> temp_b;
+
+	temp_b.vd[0] = in_b.vd[0] / b_norm;
+
+	for (size_t i = 1; i < N; i++)
+		temp_b.vd[i] = -in_b.vd[i] / b_norm;
+
+	vertex<T, N> a = temp_b;
+	vertex<T, N> b = in_a;
+
+	vertex<T, N> ln_a = log(a);
+	vertex<T, N> ln_b = log(b);
+
+	vertex<T, N> out = ln_a + ln_b;
+	vertex<T, N> o = exp(out);
+	return o;
 }

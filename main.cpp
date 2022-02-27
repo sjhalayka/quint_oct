@@ -28,6 +28,7 @@ void test_pathion_pow_speed(void);
 
 void test_pathion_multiplication(void);
 
+void test_power_associativity(void);
 
 // See:
 // https://theworld.com/~sweetser/quaternions/intro/tools/tools.html
@@ -49,17 +50,34 @@ int main(void)
 	cout << setprecision(10) << endl;
 	 
 
-	// Test power associativity for traditional multiplication
-	const size_t n = 32; // choose any n from 2, 4, 8, 16, 32
+	vertex<long double, 5> a;
+	a.vd[0] = 1;
+	a.vd[1] = 2;
+	a.vd[2] = 3;
+	a.vd[3] = 4;
+	a.vd[4] = 5;
 
-	vertex<long double, n> a_base;
+	vertex<long double, 5> b;
+	b.vd[0] = 11;
+	b.vd[1] = 21;
+	b.vd[2] = 31;
+	b.vd[3] = 41;
+	b.vd[4] = 51;
 
-	for (size_t i = 0; i < n; i++)
-		a_base.vd[i] = rand_num() * 10.0f * (i + 1);
+	vertex<long double, 5> x = traditional_div(log(b), log(a));
 
-	vertex<long double, n> a = traditional_mul(a_base, a_base);
+	for (size_t i = 0; i < x.vd.size(); i++)
+		cout << x.vd[i] << ' ';
 
-	cout << get_traditional_commutator(a, a_base).magnitude() << endl;
+	cout << endl;
+
+	vertex<long double, 5> y = pow(a, x);
+
+	for (size_t i = 0; i < y.vd.size(); i++)
+		cout << y.vd[i] << ' ';
+
+	cout << endl;
+
 
 	return 0;
 
@@ -1007,4 +1025,19 @@ void test_pathion_multiplication(void)
 	cout << P2.magnitude() / P.magnitude() << endl;
 
 	cout << endl;
+}
+
+void test_power_associativity(void)
+{
+	// Test power associativity for traditional multiplication
+	const size_t n = 32; // choose any n from 2, 4, 8, 16, 32
+
+	vertex<long double, n> a_base;
+
+	for (size_t i = 0; i < n; i++)
+		a_base.vd[i] = rand_num() * 10.0f * (i + 1);
+
+	vertex<long double, n> a = traditional_mul(a_base, a_base);
+
+	cout << get_traditional_commutator(a, a_base).magnitude() << endl;
 }
