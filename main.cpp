@@ -64,7 +64,7 @@ int main(void)
 	b.vd[3] = 41;
 	b.vd[4] = 51;
 
-	vertex<long double, 5> x = traditional_div(log(b), log(a));
+	vertex<long double, 5> x = div(log(b), log(a));
 
 	for (size_t i = 0; i < x.vd.size(); i++)
 		cout << x.vd[i] << ' ';

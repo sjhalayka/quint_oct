@@ -402,7 +402,7 @@ vertex<T, N> get_new_commutator(vertex<T, N> in_a, vertex<T, N> in_b)
 
 
 template<class T, size_t N>
-vertex<T, N> traditional_div(const vertex<T, N>& in_a, const vertex<T, N>& in_b)
+vertex<T, N> div(const vertex<T, N>& in_a, const vertex<T, N>& in_b)
 {
 	// c = a/b
 
