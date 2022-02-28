@@ -61,6 +61,7 @@ int main(void)
 
 
 
+
 	//compare_real_numbers();
 
 	//compare_complex_numbers();
@@ -380,7 +381,7 @@ void test_octonion_traditional_multiplication(void)
 {
 	cout << "Test octonion traditional multiplication attributes:" << endl;
 
-	vertex<float, 8> a;
+	vertex<long double, 8> a;
 	a.vd[0] = 0.1f;
 	a.vd[1] = 0.2f;
 	a.vd[2] = 0.3f;
@@ -390,7 +391,7 @@ void test_octonion_traditional_multiplication(void)
 	a.vd[6] = 0.7f;
 	a.vd[7] = 0.8f;
 
-	vertex<float, 8> b;
+	vertex<long double, 8> b;
 	b.vd[0] = 1.0f;
 	b.vd[1] = 0.9f;
 	b.vd[2] = 0.8f;
@@ -400,7 +401,7 @@ void test_octonion_traditional_multiplication(void)
 	b.vd[6] = 0.4f;
 	b.vd[7] = 0.3f;
 
-	vertex<float, 8> c;
+	vertex<long double, 8> c;
 	c.vd[0] = 10.0f;
 	c.vd[1] = 9.0f;
 	c.vd[2] = 8.0f;
@@ -410,8 +411,8 @@ void test_octonion_traditional_multiplication(void)
 	c.vd[6] = 4.0f;
 	c.vd[7] = 3.0f;
 
-	vertex<float, 8> x = traditional_mul(a, b);
-	vertex<float, 8> y = traditional_mul(b, a);
+	vertex<long double, 8> x = traditional_mul(a, b);
+	vertex<long double, 8> y = traditional_mul(b, a);
 
 	if (x != y)
 		cout << "commutativity failure" << endl;
@@ -424,7 +425,19 @@ void test_octonion_traditional_multiplication(void)
 	if (x != y)
 		cout << "associativity failure" << endl;
 	else
+	{
+		for (size_t i = 0; i < x.vd.size(); i++)
+			cout << x.vd[i] << ' ';
+
+		cout << endl;
+
+		for (size_t i = 0; i < y.vd.size(); i++)
+			cout << y.vd[i] << ' ';
+
+		cout << endl;
+
 		cout << "associativity OK" << endl;
+	}
 
 	x = traditional_mul(a, b + c);
 	y = traditional_mul(a, b) + traditional_mul(a, c);
