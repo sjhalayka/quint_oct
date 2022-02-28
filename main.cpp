@@ -54,44 +54,10 @@ int main(void)
 	cout << fixed << endl;
 	cout << setprecision(10) << endl;
 	 
-	test_power_associativity();
+//	test_power_associativity();
+	test_octonion_traditional_multiplication();
 
 	return 0;
-
-
-	//vertex<long double, 5> a;
-	//a.vd[0] = 1;
-	//a.vd[1] = 2;
-	//a.vd[2] = 3;
-	//a.vd[3] = 4;
-	//a.vd[4] = 5;
-
-	//vertex<long double, 5> b;
-	//b.vd[0] = 11;
-	//b.vd[1] = 21;
-	//b.vd[2] = 31;
-	//b.vd[3] = 41;
-	//b.vd[4] = 51;
-
-	//vertex<long double, 5> x = div(log(b), log(a));
-
-	//for (size_t i = 0; i < x.vd.size(); i++)
-	//	cout << x.vd[i] << ' ';
-
-	//cout << endl;
-
-	//vertex<long double, 5> y = pow(a, x);
-
-	//for (size_t i = 0; i < y.vd.size(); i++)
-	//	cout << y.vd[i] << ' ';
-
-	//cout << endl;
-
-
-	//return 0;
-
-
-
 
 
 
@@ -108,17 +74,6 @@ int main(void)
 	// test_pathion_multiplication();
 
 //	return 0;
-
-
-
-
-
-
-
-
-
-
-
 
 
 

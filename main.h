@@ -370,8 +370,6 @@ vertex<T, N> mul(const vertex<T, N>& in_a, const vertex<T, N>& in_b)
 	return exp(log(in_a) + log(in_b));
 }
 
-
-
 template<class T, size_t N>
 vertex<T, N> get_traditional_commutator(vertex<T, N> in_a, vertex<T, N> in_b)
 {
@@ -399,7 +397,6 @@ vertex<T, N> get_new_commutator(vertex<T, N> in_a, vertex<T, N> in_b)
 
 	return C;
 }
-
 
 template<class T, size_t N>
 vertex<T, N> div(const vertex<T, N>& in_a, const vertex<T, N>& in_b)
