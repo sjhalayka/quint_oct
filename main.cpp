@@ -15,6 +15,7 @@ void compare_square_function(void);
 void compare_real_numbers(void);
 void compare_complex_numbers(void);
 void compare_quaternion_numbers(void);
+void test_quaternion_traditional_multiplication(void);
 void compare_quintonion_pow_to_mul(void);
 void test_quintonions(void);
 void test_octonion_new_multiplication(void);
@@ -53,14 +54,14 @@ int main(void)
 
 	cout << fixed << endl;
 	cout << setprecision(10) << endl;
-	 
-//	test_power_associativity();
+
+	test_quaternion_traditional_multiplication();
 	test_octonion_traditional_multiplication();
+	test_sedonion_traditional_multiplication();
 
 	return 0;
 
-
-
+	//	test_power_associativity();
 
 	//compare_real_numbers();
 
@@ -210,6 +211,55 @@ void compare_complex_numbers(void)
 	//cout << cf_b.real() << " " << cf_b.imag() << endl;
 
 	//cout << endl;
+}
+
+void test_quaternion_traditional_multiplication(void)
+{
+	cout << "Test quaternion traditional multiplication attributes:" << endl;
+
+	vertex<long double, 4> a;
+	a.vd[0] = 0.1f;
+	a.vd[1] = 0.2f;
+	a.vd[2] = 0.3f;
+	a.vd[3] = 0.4f;
+
+	vertex<long double, 4> b;
+	b.vd[0] = 1.0f;
+	b.vd[1] = 0.9f;
+	b.vd[2] = 0.8f;
+	b.vd[3] = 0.7f;
+
+	vertex<long double, 4> c;
+	c.vd[0] = 10.0f;
+	c.vd[1] = 9.0f;
+	c.vd[2] = 8.0f;
+	c.vd[3] = 7.0f;
+
+	vertex<long double, 4> x = traditional_mul(a, b);
+	vertex<long double, 4> y = traditional_mul(b, a);
+
+	if (x != y)
+		cout << "commutativity failure" << endl;
+	else
+		cout << "commutativity OK" << endl;
+
+	x = traditional_mul(traditional_mul(a, b), c);
+	y = traditional_mul(a, traditional_mul(b, c));
+
+	if (x != y)
+		cout << "associativity failure" << endl;
+	else
+		cout << "associativity OK" << endl;
+
+	x = traditional_mul(a, b + c);
+	y = traditional_mul(a, b) + traditional_mul(a, c);
+
+	if (x != y)
+		cout << "distributativity failure" << endl;
+	else
+		cout << "distributativity OK" << endl;
+
+	cout << endl;
 }
 
 void compare_quaternion_numbers(void)
