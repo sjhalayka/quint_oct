@@ -425,19 +425,7 @@ void test_octonion_traditional_multiplication(void)
 	if (x != y)
 		cout << "associativity failure" << endl;
 	else
-	{
-		for (size_t i = 0; i < x.vd.size(); i++)
-			cout << x.vd[i] << ' ';
-
-		cout << endl;
-
-		for (size_t i = 0; i < y.vd.size(); i++)
-			cout << y.vd[i] << ' ';
-
-		cout << endl;
-
 		cout << "associativity OK" << endl;
-	}
 
 	x = traditional_mul(a, b + c);
 	y = traditional_mul(a, b) + traditional_mul(a, c);
